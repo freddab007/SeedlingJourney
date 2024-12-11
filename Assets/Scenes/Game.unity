@@ -1421,6 +1421,7 @@ MonoBehaviour:
   seasonText: {fileID: 2051998374}
   dayText: {fileID: 92271960}
   panelInventory: {fileID: 743809771}
+  prefabCase: {fileID: 9064541169677078982, guid: dbfe38b1cb19529438e8b7a466c53ee5, type: 3}
 --- !u!4 &1817954452
 Transform:
   m_ObjectHideFlags: 0

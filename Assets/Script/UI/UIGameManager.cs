@@ -14,11 +14,25 @@ public class UIGameManager : MonoBehaviour
 
 
     [SerializeField] GameObject panelInventory;
+    [SerializeField] GameObject prefabCase;
 
     // Start is called before the first frame update
     void Awake()
     {
         Instance = this;
+    }
+
+    private void Start()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                GameObject tempCase = Instantiate(prefabCase, panelInventory.transform);
+                tempCase.transform.localPosition -= new Vector3(120 * 4, 120, 0);
+                tempCase.transform.localPosition += new Vector3(120 * j, 120 * i, 0);
+            }
+        }
     }
 
     public void UpdateToolText(Item _item)
@@ -51,6 +65,6 @@ public class UIGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
