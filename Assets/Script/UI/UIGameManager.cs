@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIGameManager : MonoBehaviour
@@ -119,5 +117,5 @@ public class UIGameManager : MonoBehaviour
         {
             mouseItem.gameObject.transform.position = Input.mousePosition + Vector3.right * 25 + Vector3.down * 25;
         }
-    }
+    } 
 }
