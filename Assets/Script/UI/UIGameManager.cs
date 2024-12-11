@@ -14,7 +14,7 @@ public class UIGameManager : MonoBehaviour
 
     [SerializeField] GameObject panelInventory;
     [SerializeField] GameObject prefabCase;
-    List<RawImage> listInventory = new List<RawImage>();
+    RawImage[,] listInventory;
 
     // Start is called before the first frame update
     void Awake()
@@ -24,29 +24,33 @@ public class UIGameManager : MonoBehaviour
 
     private void Start()
     {
+        listInventory = new RawImage[3,9];
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 9; j++)
             {
                 GameObject tempCase = Instantiate(prefabCase, panelInventory.transform);
-                float caseWidth = tempCase.GetComponent<RectTransform>().rect.width ;
+                float caseWidth = tempCase.GetComponent<RectTransform>().rect.width;
                 tempCase.GetComponent<RectTransform>().transform.localPosition -= new Vector3(caseWidth * 4, -caseWidth, 0);
-                tempCase.GetComponent<RectTransform>().transform.localPosition += new Vector3(caseWidth * j, -caseWidth  * i, 0);
-                listInventory.Add(tempCase.GetComponentInChildren<RawImage>());
+                tempCase.GetComponent<RectTransform>().transform.localPosition += new Vector3(caseWidth * j, -caseWidth * i, 0);
+                listInventory[i,j] = tempCase.GetComponentInChildren<RawImage>();
             }
         }
     }
 
-    public void UpdateInventory(List<Item> _items)
+    public void UpdateInventory(Item[][] _inventory)
     {
         if (!panelInventory.activeSelf)
         {
             panelInventory.SetActive(true);
-            for (int i = 0; i < _items.Count; i++)
+            for (int i = 0; i < _inventory.Length; i++)
             {
-                if (_items[i] != null)
+                for (int j = 0; j < _inventory.Length; j++)
                 {
-                    listInventory[i].texture = _items[i].inventorySprite;
+                    if (_inventory[i][j] != null)
+                    {
+                        listInventory[i,j].texture = _inventory[i][j].inventorySprite;
+                    }
                 }
             }
         }

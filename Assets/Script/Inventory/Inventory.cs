@@ -8,6 +8,8 @@ public class Inventory : MonoBehaviour
     [SerializeField] int nbColumn = 9;
     Item[][] inventory;
 
+    Item itemMouse;
+
     public static ItemDataList data;
 
     // Start is called before the first frame update
@@ -47,17 +49,10 @@ public class Inventory : MonoBehaviour
         return inventory[_line][_col];
     }
 
-    public List<Item> GetInventory()
+    public Item[][] GetInventory()
     {
-        List<Item> list = new List<Item>();
-        for (int i = 0; i < inventory.Length; i++)
-        {
-            for (int j = 0; j < inventory[i].Length; j++)
-            {
-                list.Add(inventory[i][j]);
-            }
-        }
-        return list;
+        
+        return inventory;
     }
 
     public void AddItem(Item _newItem)
