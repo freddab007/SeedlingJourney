@@ -12,6 +12,9 @@ public class UIGameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI seasonText;
     [SerializeField] TextMeshProUGUI dayText;
 
+
+    [SerializeField] GameObject panelInventory;
+
     // Start is called before the first frame update
     void Awake()
     {
