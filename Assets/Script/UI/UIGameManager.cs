@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class UIGameManager : MonoBehaviour
@@ -15,6 +16,7 @@ public class UIGameManager : MonoBehaviour
     [SerializeField] GameObject panelInventory;
     [SerializeField] GameObject prefabCase;
     [SerializeField] Texture2D emptyCase;
+    [SerializeField]RawImage mouseItem;
     RawImage[,] listInventory;
 
     // Start is called before the first frame update
@@ -68,6 +70,21 @@ public class UIGameManager : MonoBehaviour
         }
     }
 
+    public void UpdateMousItem(Item _item)
+    {
+        if (panelInventory.activeSelf)
+        {
+            if (_item != null)
+            {
+                mouseItem.texture = _item.inventorySprite;
+            }
+            else
+            {
+                mouseItem.texture = emptyCase;
+            }
+        }
+    }
+
     public void UpdateToolText(Item _item)
     {
         if (_item != null)
@@ -98,6 +115,9 @@ public class UIGameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (panelInventory.activeSelf)
+        {
+            mouseItem.gameObject.transform.position = Input.mousePosition + Vector3.right * 25 + Vector3.down * 25;
+        }
     }
 }

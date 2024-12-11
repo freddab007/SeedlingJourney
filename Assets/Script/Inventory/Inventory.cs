@@ -14,7 +14,7 @@ public class Inventory : MonoBehaviour
 
     private void Awake()
     {
-        
+
     }
 
     // Start is called before the first frame update
@@ -56,7 +56,7 @@ public class Inventory : MonoBehaviour
 
     public Item[][] GetInventory()
     {
-        
+
         return inventory;
     }
 
@@ -123,7 +123,7 @@ public class Inventory : MonoBehaviour
             }
             if (_newItem != null && itemFind)
             {
-                AddItem( _newItem );
+                AddItem(_newItem);
             }
         }
     }
@@ -131,13 +131,15 @@ public class Inventory : MonoBehaviour
 
     public void OpenInventory()
     {
-        UIGameManager.Instance.OpenInventory();
-        UIGameManager.Instance.UpdateInventory(inventory);
+        if (itemMouse == null)
+        {
+            UIGameManager.Instance.OpenInventory();
+            UIGameManager.Instance.UpdateInventory(inventory);
+        }
     }
 
     public void TakeItem(Vector2Int _pos)
     {
-        print(itemMouse);
         if (itemMouse == null)
         {
             itemMouse = inventory[_pos.y][_pos.x];
@@ -157,7 +159,8 @@ public class Inventory : MonoBehaviour
                 itemMouse = swapItem;
             }
         }
-        UIGameManager.Instance.UpdateInventory( inventory );
+        UIGameManager.Instance.UpdateInventory(inventory);
+        UIGameManager.Instance.UpdateMousItem(itemMouse);
     }
 
     // Update is called once per frame
