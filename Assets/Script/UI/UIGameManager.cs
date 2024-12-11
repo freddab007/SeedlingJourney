@@ -29,8 +29,8 @@ public class UIGameManager : MonoBehaviour
             for (int j = 0; j < 9; j++)
             {
                 GameObject tempCase = Instantiate(prefabCase, panelInventory.transform);
-                tempCase.transform.localPosition -= new Vector3(120 * 4, 120, 0);
-                tempCase.transform.localPosition += new Vector3(120 * j, 120 * i, 0);
+                tempCase.transform.localPosition -= new Vector3(tempCase.GetComponent<RectTransform>().rect.width / 2 * 4, tempCase.GetComponent<RectTransform>().rect.width, 0);
+                tempCase.transform.localPosition += new Vector3(tempCase.GetComponent<RectTransform>().rect.width * j, tempCase.GetComponent<RectTransform>().rect.width * i, 0);
             }
         }
     }
