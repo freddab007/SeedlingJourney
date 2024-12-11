@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class Inventory : MonoBehaviour
@@ -43,6 +45,19 @@ public class Inventory : MonoBehaviour
     public Item GetItem(int _line, int _col)
     {
         return inventory[_line][_col];
+    }
+
+    public List<Item> GetInventory()
+    {
+        List<Item> list = new List<Item>();
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            for (int j = 0; j < inventory[i].Length; j++)
+            {
+                list.Add(inventory[i][j]);
+            }
+        }
+        return list;
     }
 
     public void AddItem(Item _newItem)

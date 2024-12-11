@@ -1755,7 +1755,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.size
-      value: 11
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_ActionId
@@ -1802,6 +1802,18 @@ PrefabInstance:
       value: c5761650-a070-4ab0-95a0-bc5d55610c0f
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionId
+      value: 3b6fedf1-9758-4e90-88d4-351730e86654
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionId
+      value: bbfcf444-5733-464f-923f-be96ee91aa86
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_ActionId
+      value: b1714238-ccab-454d-9391-13d1d68dd8ed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[0].m_ActionName
       value: Movement/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
       objectReference: {fileID: 0}
@@ -1844,6 +1856,18 @@ PrefabInstance:
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[10].m_ActionName
       value: Movement/Case8[/Keyboard/9]
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[11].m_ActionName
+      value: Movement/MouseInteract[/Mouse/rightButton]
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[12].m_ActionName
+      value: Movement/Scroll[/Mouse/scroll/y]
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_ActionName
+      value: Movement/Inventory[/Keyboard/i]
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_DeviceLostEvent.m_PersistentCalls.m_Calls.Array.size
@@ -1890,6 +1914,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_DeviceLostEvent.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
@@ -1930,6 +1958,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 917479447}
@@ -1963,6 +1995,10 @@ PrefabInstance:
       objectReference: {fileID: 917479447}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[10].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 917479447}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 917479447}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
@@ -2002,6 +2038,10 @@ PrefabInstance:
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChangePosBarTo0
       objectReference: {fileID: 0}
@@ -2036,6 +2076,10 @@ PrefabInstance:
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[10].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ChangePosBarTo8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OpenInventory
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -2074,6 +2118,10 @@ PrefabInstance:
       value: Player, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: Player, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[2].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
@@ -2107,6 +2155,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
       propertyPath: m_ActionEvents.Array.data[10].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2759704589710863483, guid: 08fe571a3860f574cb139246938b8c17, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4929212034475332761, guid: 08fe571a3860f574cb139246938b8c17, type: 3}

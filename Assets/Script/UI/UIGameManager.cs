@@ -14,7 +14,7 @@ public class UIGameManager : MonoBehaviour
 
     [SerializeField] GameObject panelInventory;
     [SerializeField] GameObject prefabCase;
-    List<Image> listInventory = new List<Image>();
+    List<RawImage> listInventory = new List<RawImage>();
 
     // Start is called before the first frame update
     void Awake()
@@ -30,18 +30,29 @@ public class UIGameManager : MonoBehaviour
             {
                 GameObject tempCase = Instantiate(prefabCase, panelInventory.transform);
                 float caseWidth = tempCase.GetComponent<RectTransform>().rect.width ;
-                tempCase.transform.localPosition -= new Vector3(caseWidth * 4, caseWidth, 0);
-                tempCase.transform.localPosition += new Vector3(caseWidth * j, caseWidth  * i, 0);
-                listInventory.Add(tempCase.GetComponentInChildren<Image>());
+                tempCase.GetComponent<RectTransform>().transform.localPosition -= new Vector3(caseWidth * 4, -caseWidth, 0);
+                tempCase.GetComponent<RectTransform>().transform.localPosition += new Vector3(caseWidth * j, -caseWidth  * i, 0);
+                listInventory.Add(tempCase.GetComponentInChildren<RawImage>());
             }
         }
     }
 
     public void UpdateInventory(List<Item> _items)
     {
-        for (int i = 0; i < _items.Count; i++)
+        if (!panelInventory.activeSelf)
         {
-            listInventory[i].sprite = Sprite.Create(_items[i].inventorySprite, new Rect(Vector2.zero, new Vector2(MapManager.tileSize, MapManager.tileSize)), Vector2.zero);
+            panelInventory.SetActive(true);
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (_items[i] != null)
+                {
+                    listInventory[i].texture = _items[i].inventorySprite;
+                }
+            }
+        }
+        else
+        {
+            panelInventory.SetActive(false);
         }
     }
 

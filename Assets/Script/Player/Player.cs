@@ -164,4 +164,13 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    public void OpenInventory(InputAction.CallbackContext callbackContext)
+    {
+        if (callbackContext.phase == InputActionPhase.Performed)
+        {
+            UIGameManager.Instance.UpdateInventory(inventory.GetInventory());
+        }
+    }
+
 }
