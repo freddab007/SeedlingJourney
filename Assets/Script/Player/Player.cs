@@ -42,11 +42,21 @@ public class Player : MonoBehaviour
     {
         if (plI.currentActionMap.actions[3].ReadValue<float>() > 0)
         {
-
+            columnSelect++;
+            if (columnSelect > 8)
+            {
+                columnSelect = 8;
+            }
+            UIGameManager.Instance.UpdateToolText(GetItemEquiped());
         }
         else if (plI.currentActionMap.actions[3].ReadValue<float>() < 0)
         {
-
+            columnSelect--;
+            if (columnSelect < 0)
+            {
+                columnSelect = 0;
+            }
+            UIGameManager.Instance.UpdateToolText(GetItemEquiped());
         }
     }
 
