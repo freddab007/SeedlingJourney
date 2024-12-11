@@ -1,13 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Unity.VisualScripting;
-using Unity.VisualScripting.FullSerializer;
-using UnityEditor.SearchService;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
-using static TimeGame;
 
 public class MapManager : MonoBehaviour
 {

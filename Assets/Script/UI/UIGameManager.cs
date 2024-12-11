@@ -1,8 +1,7 @@
-using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using TMPro.Examples;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIGameManager : MonoBehaviour
 {
@@ -15,6 +14,7 @@ public class UIGameManager : MonoBehaviour
 
     [SerializeField] GameObject panelInventory;
     [SerializeField] GameObject prefabCase;
+    List<Image> listInventory = new List<Image>();
 
     // Start is called before the first frame update
     void Awake()
@@ -32,7 +32,16 @@ public class UIGameManager : MonoBehaviour
                 float caseWidth = tempCase.GetComponent<RectTransform>().rect.width ;
                 tempCase.transform.localPosition -= new Vector3(caseWidth * 4, caseWidth, 0);
                 tempCase.transform.localPosition += new Vector3(caseWidth * j, caseWidth  * i, 0);
+                listInventory.Add(tempCase.GetComponentInChildren<Image>());
             }
+        }
+    }
+
+    public void UpdateInventory(List<Item> _items)
+    {
+        for (int i = 0; i < _items.Count; i++)
+        {
+            listInventory[i].sprite = Sprite.Create(_items[i].inventorySprite, new Rect(Vector2.zero, new Vector2(MapManager.tileSize, MapManager.tileSize)), Vector2.zero);
         }
     }
 
