@@ -14,6 +14,7 @@ public class UIGameManager : MonoBehaviour
 
     [SerializeField] GameObject panelInventory;
     [SerializeField] GameObject prefabCase;
+    [SerializeField] Texture2D emptyCase;
     RawImage[,] listInventory;
 
     // Start is called before the first frame update
@@ -24,7 +25,8 @@ public class UIGameManager : MonoBehaviour
 
     private void Start()
     {
-        listInventory = new RawImage[3,9];
+        listInventory = new RawImage[3, 9];
+        panelInventory.SetActive(true);
         for (int i = 0; i < 3; i++)
         {
             for (int j = 0; j < 9; j++)
@@ -33,30 +35,36 @@ public class UIGameManager : MonoBehaviour
                 float caseWidth = tempCase.GetComponent<RectTransform>().rect.width;
                 tempCase.GetComponent<RectTransform>().transform.localPosition -= new Vector3(caseWidth * 4, -caseWidth, 0);
                 tempCase.GetComponent<RectTransform>().transform.localPosition += new Vector3(caseWidth * j, -caseWidth * i, 0);
-                listInventory[i,j] = tempCase.GetComponentInChildren<RawImage>();
+                tempCase.GetComponent<InventoryCase>().Init(new Vector2Int(j, i));
+                listInventory[i, j] = tempCase.GetComponentInChildren<RawImage>();
             }
         }
+        panelInventory.SetActive(false);
+    }
+
+    public void OpenInventory()
+    {
+        panelInventory.SetActive(!panelInventory.activeSelf);
     }
 
     public void UpdateInventory(Item[][] _inventory)
     {
-        if (!panelInventory.activeSelf)
+        if (panelInventory.activeSelf)
         {
-            panelInventory.SetActive(true);
             for (int i = 0; i < _inventory.Length; i++)
             {
-                for (int j = 0; j < _inventory.Length; j++)
+                for (int j = 0; j < _inventory[i].Length; j++)
                 {
                     if (_inventory[i][j] != null)
                     {
-                        listInventory[i,j].texture = _inventory[i][j].inventorySprite;
+                        listInventory[i, j].texture = _inventory[i][j].inventorySprite;
+                    }
+                    else
+                    {
+                        listInventory[i, j].texture = emptyCase;
                     }
                 }
             }
-        }
-        else
-        {
-            panelInventory.SetActive(false);
         }
     }
 

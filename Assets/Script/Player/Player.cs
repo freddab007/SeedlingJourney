@@ -11,9 +11,16 @@ public class Player : MonoBehaviour
     int columnSelect;
     Vector2Int mouseMapPosition = new Vector2Int();
 
-    [SerializeField][Range( 1.0f, 20.0f)]float speed = 2;
+    [SerializeField][Range(1.0f, 20.0f)] float speed = 2;
     [SerializeField] GameObject playerPos;
     [SerializeField] MapManager mapManager;
+
+    bool inventoryOpen = false;
+
+    private void Awake()
+    {
+
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -64,21 +71,23 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        Scroll();   
-        float mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
-        Vector2Int playerPosTick = new Vector2Int( (int)playerPos.transform.position.x, Mathf.Abs((int)playerPos.transform.position.y));
-        rb.velocity = plI.currentActionMap.actions[0].ReadValue<Vector2>() * speed;
-
-        if (mouseActive > 0 && playerPosTick.y >= 0 && playerPosTick.x >= 0)
+        if (!inventoryOpen)
         {
+            Scroll();
+            float mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
+            Vector2Int playerPosTick = new Vector2Int((int)playerPos.transform.position.x, Mathf.Abs((int)playerPos.transform.position.y));
+            rb.velocity = plI.currentActionMap.actions[0].ReadValue<Vector2>() * speed;
 
-            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3( Input.mousePosition.x, Input.mousePosition.y, 0));
-            mouseMapPosition.x = (int)mousePosition.x;
-            mouseMapPosition.y = Mathf.Abs((int)mousePosition.y);
-            if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
+            if (mouseActive > 0 && playerPosTick.y >= 0 && playerPosTick.x >= 0)
             {
-                mapManager.ChangeTile(mouseMapPosition, GetItemEquiped()); 
+
+                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+                mouseMapPosition.x = (int)mousePosition.x;
+                mouseMapPosition.y = Mathf.Abs((int)mousePosition.y);
+                if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
+                {
+                    mapManager.ChangeTile(mouseMapPosition, GetItemEquiped());
+                }
             }
         }
     }
@@ -169,7 +178,8 @@ public class Player : MonoBehaviour
     {
         if (callbackContext.phase == InputActionPhase.Performed)
         {
-            UIGameManager.Instance.UpdateInventory(inventory.GetInventory());
+            inventory.OpenInventory();
+            inventoryOpen = !inventoryOpen;
         }
     }
 
