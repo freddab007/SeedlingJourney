@@ -1577,7 +1577,7 @@ MonoBehaviour:
   panelInventory: {fileID: 621447023}
   panelChest: {fileID: 160481359}
   prefabCase: {fileID: 9064541169677078982, guid: dbfe38b1cb19529438e8b7a466c53ee5, type: 3}
-  emptyCase: {fileID: 0}
+  emptyCase: {fileID: 2800000, guid: f2b78004d3981474cb09cb24d1ddad2e, type: 3}
   mouseItem: {fileID: 928094017}
 --- !u!4 &1817954452
 Transform:

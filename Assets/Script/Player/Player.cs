@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inventoryOpen)
+        if (!inventoryOpen && !chestOpen)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
             float mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
@@ -98,7 +98,15 @@ public class Player : MonoBehaviour
             }
             else if (mouseInteract > 0 && playerPosTick.y >= 0 && playerPosTick.x >= 0)
             {
-
+                if (objectOnMap)
+                {
+                    if (objectOnMap.GetComponent<Chest>())
+                    {
+                        inventory.OpenInventory();
+                        objectOnMap.GetComponent<Chest>().OpenChest();
+                        chestOpen = !chestOpen;
+                    }
+                }
             }
         }
     }
@@ -210,8 +218,11 @@ public class Player : MonoBehaviour
     {
         if (callbackContext.phase == InputActionPhase.Performed)
         {
-            inventory.OpenInventory();
-            inventoryOpen = !inventoryOpen;
+            if (!chestOpen)
+            {
+                inventory.OpenInventory();
+                inventoryOpen = !inventoryOpen;
+            }
         }
     }
 

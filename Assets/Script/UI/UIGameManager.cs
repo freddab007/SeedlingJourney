@@ -62,7 +62,19 @@ public class UIGameManager : MonoBehaviour
 
     public void OpenInventory()
     {
+        panelInventory.transform.parent.gameObject.SetActive(!panelInventory.transform.parent.gameObject.activeSelf);
         panelInventory.SetActive(!panelInventory.activeSelf);
+        panelInventory.GetComponent<RectTransform>().localPosition = Vector3.zero;
+        panelInventory.GetComponentInParent<Image>().enabled = true;
+    }
+
+    public void OpenChest()
+    {
+        panelChest.transform.parent.gameObject.SetActive(!panelChest.transform.parent.gameObject.activeSelf);
+        panelChest.SetActive(!panelChest.activeSelf);
+        panelInventory.GetComponent<RectTransform>().localPosition = new Vector3( 0, -140);
+        panelInventory.GetComponentInParent<Image>().enabled = false;
+        panelChest.GetComponent<RectTransform>().localPosition = new Vector3( 0, 140);
     }
 
     public void UpdateInventory(Item[][] _inventory)
