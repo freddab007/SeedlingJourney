@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] MapManager mapManager;
 
     bool inventoryOpen = false;
+    bool chestOpen = false;
 
     private void Awake()
     {
