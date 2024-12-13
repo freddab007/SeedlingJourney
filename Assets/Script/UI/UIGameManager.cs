@@ -12,10 +12,12 @@ public class UIGameManager : MonoBehaviour
 
 
     [SerializeField] GameObject panelInventory;
+    [SerializeField] GameObject panelChest;
     [SerializeField] GameObject prefabCase;
     [SerializeField] Texture2D emptyCase;
-    [SerializeField]RawImage mouseItem;
+    [SerializeField] RawImage mouseItem;
     RawImage[,] listInventory;
+    RawImage[,] listChest;
 
     // Start is called before the first frame update
     void Awake()
@@ -40,6 +42,22 @@ public class UIGameManager : MonoBehaviour
             }
         }
         panelInventory.SetActive(false);
+
+        listChest = new RawImage[3, 9];
+        panelChest.SetActive(true);
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 9; j++)
+            {
+                GameObject tempCase = Instantiate(prefabCase, panelChest.transform);
+                float caseWidth = tempCase.GetComponent<RectTransform>().rect.width;
+                tempCase.GetComponent<RectTransform>().transform.localPosition -= new Vector3(caseWidth * 4, -caseWidth, 0);
+                tempCase.GetComponent<RectTransform>().transform.localPosition += new Vector3(caseWidth * j, -caseWidth * i, 0);
+                tempCase.GetComponent<InventoryCase>().Init(new Vector2Int(j, i));
+                listChest[i, j] = tempCase.GetComponentInChildren<RawImage>();
+            }
+        }
+        panelChest.SetActive(false);
     }
 
     public void OpenInventory()
@@ -117,5 +135,5 @@ public class UIGameManager : MonoBehaviour
         {
             mouseItem.gameObject.transform.position = Input.mousePosition + Vector3.right * 25 + Vector3.down * 25;
         }
-    } 
+    }
 }
