@@ -65,7 +65,7 @@ public class UIGameManager : MonoBehaviour
         panelInventory.transform.parent.gameObject.SetActive(!panelInventory.transform.parent.gameObject.activeSelf);
         panelInventory.SetActive(!panelInventory.activeSelf);
         panelInventory.GetComponent<RectTransform>().localPosition = Vector3.zero;
-        panelInventory.GetComponentInParent<Image>().enabled = true;
+        panelInventory.GetComponentInParent<Image>(true).enabled = true;
     }
 
     public void OpenChest()

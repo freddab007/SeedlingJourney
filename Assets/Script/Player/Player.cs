@@ -104,11 +104,16 @@ public class Player : MonoBehaviour
                     {
                         inventory.OpenInventory();
                         objectOnMap.GetComponent<Chest>().OpenChest();
-                        chestOpen = !chestOpen;
+                        OpenChest();
                     }
                 }
             }
         }
+    }
+
+    public void OpenChest()
+    {
+        chestOpen = !chestOpen;
     }
 
     void GetWhatInFront()
