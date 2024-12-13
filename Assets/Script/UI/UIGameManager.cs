@@ -72,27 +72,25 @@ public class UIGameManager : MonoBehaviour
     {
         panelChest.transform.parent.gameObject.SetActive(!panelChest.transform.parent.gameObject.activeSelf);
         panelChest.SetActive(!panelChest.activeSelf);
-        panelInventory.GetComponent<RectTransform>().localPosition = new Vector3( 0, -140);
+        panelInventory.GetComponent<RectTransform>().localPosition = new Vector3(0, -140);
         panelInventory.GetComponentInParent<Image>().enabled = false;
-        panelChest.GetComponent<RectTransform>().localPosition = new Vector3( 0, 140);
+        panelChest.GetComponent<RectTransform>().localPosition = new Vector3(0, 140);
     }
 
     public void UpdateInventory(Item[][] _inventory)
     {
-        if (panelInventory.activeSelf)
+
+        for (int i = 0; i < _inventory.Length; i++)
         {
-            for (int i = 0; i < _inventory.Length; i++)
+            for (int j = 0; j < _inventory[i].Length; j++)
             {
-                for (int j = 0; j < _inventory[i].Length; j++)
+                if (_inventory[i][j] != null)
                 {
-                    if (_inventory[i][j] != null)
-                    {
-                        listInventory[i, j].texture = _inventory[i][j].inventorySprite;
-                    }
-                    else
-                    {
-                        listInventory[i, j].texture = emptyCase;
-                    }
+                    listInventory[i, j].texture = _inventory[i][j].inventorySprite;
+                }
+                else
+                {
+                    listInventory[i, j].texture = emptyCase;
                 }
             }
         }
@@ -100,20 +98,18 @@ public class UIGameManager : MonoBehaviour
 
     public void UpdateChest(Item[,] _inventory, Vector2Int _size)
     {
-        if (panelInventory.activeSelf)
+
+        for (int i = 0; i < _size.y; i++)
         {
-            for (int i = 0; i < _size.y; i++)
+            for (int j = 0; j < _size.x; j++)
             {
-                for (int j = 0; j < _size.x; j++)
+                if (_inventory[i, j] != null)
                 {
-                    if (_inventory[i,j] != null)
-                    {
-                        listInventory[i, j].texture = _inventory[i, j].inventorySprite;
-                    }
-                    else
-                    {
-                        listInventory[i, j].texture = emptyCase;
-                    }
+                    listChest[i, j].texture = _inventory[i, j].inventorySprite;
+                }
+                else
+                {
+                    listChest[i, j].texture = emptyCase;
                 }
             }
         }
