@@ -121,30 +121,29 @@ public class MapManager : MonoBehaviour
         return null;
     }
 
-    public void ChangeTile(Vector2Int _pos, Item _item)
+    public void ChangeTile(Vector2Int _pos, Item _item, GameObject _objectInFront)
     {
         if (_item != null)
         {
             if (_item.itemType == TypeItem.TOOL && _item.toolType == ToolType.HOE)
             {
-                GameObject tempGameObject = GetWhatInFront(_pos);
-                if (!tempGameObject)
+                if (!_objectInFront)
                 {
                     if (mapType[_pos.y][_pos.x] == (int)TypeTile.GROUND)
                     {
                         ChangeSprite((int)TypeTile.GROUNDDRY, _pos);
                     }
                 }
-                else if (tempGameObject.GetComponent<Seed>())
+                else if (_objectInFront.GetComponent<Seed>())
                 {
-                    Seed tempSeed = tempGameObject.GetComponent<Seed>();
+                    Seed tempSeed = _objectInFront.GetComponent<Seed>();
                     if (tempSeed.GetPlant() != null)
                     {
                         if (tempSeed.GetPlant().itemGiver != -1)
                         {
                             Item item = new Item(Inventory.data.items[tempSeed.GetPlant().itemGiver]);
                             item.nbItem = tempSeed.GetPlant().numberGive;
-                            Destroy(tempGameObject);
+                            Destroy(_objectInFront);
                             FindAnyObjectByType<Player>()?.GetComponent<Inventory>().AddItem(item);
                         }
                     }

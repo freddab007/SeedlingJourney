@@ -18,4 +18,10 @@ public class Chest : MonoBehaviour
     {
         
     }
+
+
+    public void OpenChest()
+    {
+        UIGameManager.Instance.UpdateChest(itemList, sizeChest);
+    }
 }

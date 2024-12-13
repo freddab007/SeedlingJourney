@@ -86,6 +86,27 @@ public class UIGameManager : MonoBehaviour
         }
     }
 
+    public void UpdateChest(Item[,] _inventory, Vector2Int _size)
+    {
+        if (panelInventory.activeSelf)
+        {
+            for (int i = 0; i < _size.y; i++)
+            {
+                for (int j = 0; j < _size.x; j++)
+                {
+                    if (_inventory[i,j] != null)
+                    {
+                        listInventory[i, j].texture = _inventory[i, j].inventorySprite;
+                    }
+                    else
+                    {
+                        listInventory[i, j].texture = emptyCase;
+                    }
+                }
+            }
+        }
+    }
+
     public void UpdateMousItem(Item _item)
     {
         if (panelInventory.activeSelf)

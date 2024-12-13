@@ -15,6 +15,8 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject playerPos;
     [SerializeField] MapManager mapManager;
 
+    GameObject objectOnMap;
+
     bool inventoryOpen = false;
     bool chestOpen = false;
 
@@ -74,24 +76,53 @@ public class Player : MonoBehaviour
     {
         if (!inventoryOpen)
         {
-            Scroll();
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
             float mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
+            float mouseInteract = plI.currentActionMap.actions[2].ReadValue<float>();
             Vector2Int playerPosTick = new Vector2Int((int)playerPos.transform.position.x, Mathf.Abs((int)playerPos.transform.position.y));
+           
+            mouseMapPosition.x = (int)mousePosition.x;
+            mouseMapPosition.y = Mathf.Abs((int)mousePosition.y);
             rb.velocity = plI.currentActionMap.actions[0].ReadValue<Vector2>() * speed;
+
+            Scroll();
+            GetWhatInFront();
 
             if (mouseActive > 0 && playerPosTick.y >= 0 && playerPosTick.x >= 0)
             {
 
-                Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-                mouseMapPosition.x = (int)mousePosition.x;
-                mouseMapPosition.y = Mathf.Abs((int)mousePosition.y);
                 if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
                 {
-                    mapManager.ChangeTile(mouseMapPosition, GetItemEquiped());
+                    mapManager.ChangeTile(mouseMapPosition, GetItemEquiped(), objectOnMap);
                 }
+            }
+            else if (mouseInteract > 0 && playerPosTick.y >= 0 && playerPosTick.x >= 0)
+            {
+
             }
         }
     }
+
+    void GetWhatInFront()
+    {
+        RaycastHit2D[] hit = Physics2D.RaycastAll(new Vector2(mouseMapPosition.x + 0.1f, -mouseMapPosition.y - 0.1f), Vector2.zero, 0f);
+
+        for (int i = 0; i < hit.Length; i++)
+        {
+            if (hit[i].collider.GetComponent<Seed>() != null)
+            {
+                objectOnMap = hit[i].collider.gameObject;
+                return;
+            }
+            else if (hit[i].collider.GetComponent<Chest>() != null)
+            {
+                objectOnMap = hit[i].collider.gameObject;
+                return;
+            }
+        }
+        objectOnMap = null;
+    }
+
 
     public void ChangePosBarTo0(InputAction.CallbackContext callbackContext)
     {
