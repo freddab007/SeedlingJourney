@@ -39,8 +39,7 @@ public class MapManager : MonoBehaviour
         Vector2Int posTile = new Vector2Int();
         nbLine = textureMap.height / tileSize;
         nbCol = textureMap.width / tileSize;
-        reader = new StreamReader(@"Assets\Resources\Map\Map.csv");
-
+        reader = new StreamReader(Application.streamingAssetsPath + @"\Maps\Map.csv");
 
 
         while (!reader.EndOfStream)
