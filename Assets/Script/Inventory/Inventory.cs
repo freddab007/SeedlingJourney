@@ -58,7 +58,7 @@ public class Inventory : MonoBehaviour
         return inventory;
     }
 
-    public void AddItem(Item _newItem)
+    public Item AddItem(Item _newItem)
     {
         if (_newItem != null)
         {
@@ -123,7 +123,11 @@ public class Inventory : MonoBehaviour
             {
                 AddItem(_newItem);
             }
+
+
         }
+
+        return _newItem;
     }
 
 
@@ -138,27 +142,39 @@ public class Inventory : MonoBehaviour
 
     public void TakeItem(Vector2Int _pos)
     {
-        if (itemMouse == null)
+        if (UIGameManager.Instance.GetOpenChest() == null)
         {
-            itemMouse = inventory[_pos.y][_pos.x];
-            inventory[_pos.y][_pos.x] = null;
-        }
-        else
-        {
-            if (inventory[_pos.y][_pos.x] == null)
+            if (itemMouse == null)
             {
-                inventory[_pos.y][_pos.x] = itemMouse;
-                itemMouse = null;
+                itemMouse = inventory[_pos.y][_pos.x];
+                inventory[_pos.y][_pos.x] = null;
             }
             else
             {
-                Item swapItem = inventory[_pos.y][_pos.x];
-                inventory[_pos.y][_pos.x] = itemMouse;
-                itemMouse = swapItem;
+                if (inventory[_pos.y][_pos.x] == null)
+                {
+                    inventory[_pos.y][_pos.x] = itemMouse;
+                    itemMouse = null;
+                }
+                else
+                {
+                    Item swapItem = inventory[_pos.y][_pos.x];
+                    inventory[_pos.y][_pos.x] = itemMouse;
+                    itemMouse = swapItem;
+                }
             }
+            UIGameManager.Instance.UpdateMousItem(itemMouse);
+            UIGameManager.Instance.UpdateInventory(inventory);
         }
-        UIGameManager.Instance.UpdateInventory(inventory);
-        UIGameManager.Instance.UpdateMousItem(itemMouse);
+        else
+        {
+
+
+
+
+            UIGameManager.Instance.UpdateInventory(inventory);
+            UIGameManager.Instance.UpdateChest(UIGameManager.Instance.GetOpenChest().GetItems(), UIGameManager.Instance.GetOpenChest().GetSize());
+        }
     }
 
     // Update is called once per frame

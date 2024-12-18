@@ -536,7 +536,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1817954451}
         m_TargetAssemblyTypeName: UIGameManager, Assembly-CSharp
-        m_MethodName: OpenChest
+        m_MethodName: CloseChest
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1733,7 +1733,8 @@ MonoBehaviour:
   dayText: {fileID: 92271960}
   panelInventory: {fileID: 621447023}
   panelChest: {fileID: 160481359}
-  prefabCase: {fileID: 9064541169677078982, guid: dbfe38b1cb19529438e8b7a466c53ee5, type: 3}
+  prefabCaseInventory: {fileID: 9064541169677078982, guid: dbfe38b1cb19529438e8b7a466c53ee5, type: 3}
+  prefabCaseChest: {fileID: 9064541169677078982, guid: 972ed68be40b0904a8af7d56e0e3afbf, type: 3}
   emptyCase: {fileID: 2800000, guid: f2b78004d3981474cb09cb24d1ddad2e, type: 3}
   mouseItem: {fileID: 928094017}
 --- !u!4 &1817954452

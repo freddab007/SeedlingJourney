@@ -1,5 +1,7 @@
 using TMPro;
+using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UIGameManager : MonoBehaviour
@@ -13,9 +15,13 @@ public class UIGameManager : MonoBehaviour
 
     [SerializeField] GameObject panelInventory;
     [SerializeField] GameObject panelChest;
-    [SerializeField] GameObject prefabCase;
+    [SerializeField] GameObject prefabCaseInventory;
+    [SerializeField] GameObject prefabCaseChest;
     [SerializeField] Texture2D emptyCase;
     [SerializeField] RawImage mouseItem;
+
+    Chest openChest;
+
     RawImage[,] listInventory;
     RawImage[,] listChest;
 
@@ -33,7 +39,7 @@ public class UIGameManager : MonoBehaviour
         {
             for (int j = 0; j < 9; j++)
             {
-                GameObject tempCase = Instantiate(prefabCase, panelInventory.transform);
+                GameObject tempCase = Instantiate(prefabCaseInventory, panelInventory.transform);
                 float caseWidth = tempCase.GetComponent<RectTransform>().rect.width;
                 tempCase.GetComponent<RectTransform>().transform.localPosition -= new Vector3(caseWidth * 4, -caseWidth, 0);
                 tempCase.GetComponent<RectTransform>().transform.localPosition += new Vector3(caseWidth * j, -caseWidth * i, 0);
@@ -49,11 +55,11 @@ public class UIGameManager : MonoBehaviour
         {
             for (int j = 0; j < 9; j++)
             {
-                GameObject tempCase = Instantiate(prefabCase, panelChest.transform);
+                GameObject tempCase = Instantiate(prefabCaseChest, panelChest.transform);
                 float caseWidth = tempCase.GetComponent<RectTransform>().rect.width;
                 tempCase.GetComponent<RectTransform>().transform.localPosition -= new Vector3(caseWidth * 4, -caseWidth, 0);
                 tempCase.GetComponent<RectTransform>().transform.localPosition += new Vector3(caseWidth * j, -caseWidth * i, 0);
-                tempCase.GetComponent<InventoryCase>().Init(new Vector2Int(j, i));
+                tempCase.GetComponent<ChestCase>().Init(new Vector2Int(j, i));
                 listChest[i, j] = tempCase.GetComponentInChildren<RawImage>();
             }
         }
@@ -68,13 +74,34 @@ public class UIGameManager : MonoBehaviour
         panelInventory.GetComponentInParent<Image>(true).enabled = true;
     }
 
-    public void OpenChest()
+    public void OpenChest(Chest _chest)
     {
-        panelChest.transform.parent.gameObject.SetActive(!panelChest.transform.parent.gameObject.activeSelf);
+        bool isOpen = !panelChest.transform.parent.gameObject.activeSelf;
+        panelChest.transform.parent.gameObject.SetActive(isOpen);
         panelChest.SetActive(!panelChest.activeSelf);
         panelInventory.GetComponent<RectTransform>().localPosition = new Vector3(0, -140);
         panelInventory.GetComponentInParent<Image>().enabled = false;
         panelChest.GetComponent<RectTransform>().localPosition = new Vector3(0, 140);
+        if (isOpen)
+        {
+            openChest = _chest;
+        }
+        else
+        {
+            openChest = null;
+        }
+    }
+
+    public void CloseChest()
+    {
+        panelChest.transform.parent.gameObject.SetActive(false);
+        panelChest.SetActive(false);
+        openChest = null;
+    }
+
+    public Chest GetOpenChest()
+    {
+        return openChest;
     }
 
     public void UpdateInventory(Item[][] _inventory)
