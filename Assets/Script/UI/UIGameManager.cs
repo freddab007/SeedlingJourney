@@ -121,6 +121,8 @@ public class UIGameManager : MonoBehaviour
                 }
             }
         }
+
+        UpdateToolText(FindAnyObjectByType<Player>().GetItemEquiped());
     }
 
     public void UpdateChest(Item[,] _inventory, Vector2Int _size)

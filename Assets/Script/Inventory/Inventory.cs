@@ -169,7 +169,12 @@ public class Inventory : MonoBehaviour
         else
         {
 
+            inventory[_pos.y][_pos.x] = UIGameManager.Instance.GetOpenChest().AddItem(inventory[_pos.y][_pos.x]);
 
+            if (inventory[_pos.y][_pos.y] != null)
+            {
+                inventory[_pos.y][_pos.y] = new Item(inventory[_pos.y][_pos.y]);
+            }
 
 
             UIGameManager.Instance.UpdateInventory(inventory);

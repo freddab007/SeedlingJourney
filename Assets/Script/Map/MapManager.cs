@@ -154,7 +154,7 @@ public class MapManager : MonoBehaviour
                 AddWet(_pos);
                 ChangeSprite((int)TypeTile.GROUNDWET, _pos);
             }
-            else if ((mapType[_pos.y][_pos.x] == (int)TypeTile.GROUNDWET || mapType[_pos.y][_pos.x] == (int)TypeTile.GROUNDDRY) && _item.itemType == TypeItem.SEED && GetWhatInFront(_pos) == null)
+            else if ((mapType[_pos.y][_pos.x] == (int)TypeTile.GROUNDWET || mapType[_pos.y][_pos.x] == (int)TypeTile.GROUNDDRY) && _item.itemType == TypeItem.SEED && _objectInFront == null)
             {
                 AddSprite(_item, _pos);
             }

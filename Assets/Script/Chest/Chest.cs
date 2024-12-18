@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class Chest : MonoBehaviour
 {
@@ -49,4 +50,76 @@ public class Chest : MonoBehaviour
         return itemList;
     }
 
+
+    public Item AddItem(Item _newItem)
+    {
+        if (_newItem != null)
+        {
+            bool itemFind = false;
+
+            for (int i = 0; i < sizeChest.y; i++)
+            {
+                for (int j = 0; j < sizeChest.x; j++)
+                {
+                    if (itemList[i,j] != null && itemList[i,j].itemId == _newItem.itemId)
+                    {
+                        if (itemList[i,j].nbItem + _newItem.nbItem < itemList[i,j].maxNbItem)
+                        {
+                            itemList[i,j].nbItem += _newItem.nbItem;
+                            _newItem = null;
+                            itemFind = true;
+                        }
+                        else
+                        {
+                            int left = (itemList[i,j].nbItem + _newItem.nbItem) - itemList[i,j].maxNbItem;
+                            itemList[i,j].nbItem = itemList[i,j].maxNbItem;
+                            _newItem.nbItem = left;
+                        }
+                    }
+                }
+
+            }
+            if (itemFind == false)
+            {
+                for (int i = 0; i < sizeChest.y; i++)
+                {
+                    if (itemFind == false)
+                    {
+                        for (int j = 0; j < sizeChest.x; j++)
+                        {
+
+                            if (itemFind != false)
+                            {
+                                continue;
+                            }
+                            if (itemList[i,j] == null)
+                            {
+                                if (_newItem.nbItem <= _newItem.maxNbItem)
+                                {
+                                    itemList[i,j] = new Item(_newItem);
+                                    _newItem = null;
+                                    itemFind = true;
+                                }
+                                else
+                                {
+                                    Item tempItem = new Item(_newItem);
+                                    tempItem.nbItem = tempItem.maxNbItem;
+                                    _newItem.nbItem -= tempItem.maxNbItem;
+                                    itemList[i,j] = new Item(tempItem);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (_newItem != null && itemFind)
+            {
+                AddItem(_newItem);
+            }
+
+
+        }
+
+        return _newItem;
+    }
 }

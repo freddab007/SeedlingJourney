@@ -10,6 +10,7 @@ public class Player : MonoBehaviour
     Inventory inventory;
     int columnSelect;
     Vector2Int mouseMapPosition = new Vector2Int();
+    Vector2Int playerPosTick = new Vector2Int();
 
     [SerializeField][Range(1.0f, 20.0f)] float speed = 2;
     [SerializeField] GameObject playerPos;
@@ -19,6 +20,9 @@ public class Player : MonoBehaviour
 
     bool inventoryOpen = false;
     bool chestOpen = false;
+
+    float mouseActive;
+    float mouseInteract;
 
     private void Awake()
     {
@@ -42,7 +46,7 @@ public class Player : MonoBehaviour
         UIGameManager.Instance.UpdateToolText(GetItemEquiped());
     }
 
-    Item GetItemEquiped()
+    public Item GetItemEquiped()
     {
         return inventory.GetItem(0, columnSelect);
     }
@@ -77,10 +81,12 @@ public class Player : MonoBehaviour
         if (!inventoryOpen && !chestOpen)
         {
             Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
-            float mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
-            float mouseInteract = plI.currentActionMap.actions[2].ReadValue<float>();
-            Vector2Int playerPosTick = new Vector2Int((int)playerPos.transform.position.x, Mathf.Abs((int)playerPos.transform.position.y));
-           
+            mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
+            mouseInteract = plI.currentActionMap.actions[2].ReadValue<float>();
+
+            playerPosTick.x = (int)playerPos.transform.position.x;
+            playerPosTick.y = Mathf.Abs((int)playerPos.transform.position.y);
+
             mouseMapPosition.x = (int)mousePosition.x;
             mouseMapPosition.y = Mathf.Abs((int)mousePosition.y);
             rb.velocity = plI.currentActionMap.actions[0].ReadValue<Vector2>() * speed;
