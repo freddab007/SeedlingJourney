@@ -196,6 +196,8 @@ GameObject:
   - component: {fileID: 2759704589710863483}
   - component: {fileID: 2488440493848631409}
   - component: {fileID: 2704311774457138436}
+  - component: {fileID: 1057436821629797405}
+  - component: {fileID: 1271537695082932802}
   m_Layer: 0
   m_Name: Body
   m_TagString: Untagged
@@ -233,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Actions: {fileID: -944628639613478452, guid: 8a0e2ab5add834b48ba0096182249192, type: 3}
-  m_NotificationBehavior: 0
+  m_NotificationBehavior: 2
   m_UIInputModule: {fileID: 0}
   m_DeviceLostEvent:
     m_PersistentCalls:
@@ -244,7 +246,183 @@ MonoBehaviour:
   m_ControlsChangedEvent:
     m_PersistentCalls:
       m_Calls: []
-  m_ActionEvents: []
+  m_ActionEvents:
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 2dd01d48-b201-4499-9003-d27646b2a3c1
+    m_ActionName: Movement/Movement[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: b9171388-a296-421c-8503-19cae004b05b
+    m_ActionName: Movement/MouseAction[/Mouse/leftButton]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo0
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 6c430c3e-994f-4a81-9d92-f51f7bcec455
+    m_ActionName: Movement/Case0[/Keyboard/1]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo1
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 0c72a6c5-8795-4537-a1c0-e266beef1afb
+    m_ActionName: Movement/Case1[/Keyboard/2]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo2
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 7c6cac8c-cd32-4d69-9b52-c05117c795b0
+    m_ActionName: Movement/Case2[/Keyboard/3]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo3
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 18e0b28b-6360-4b95-b914-c3f3cf7fbe5e
+    m_ActionName: Movement/Case3[/Keyboard/4]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo4
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b0eb493f-d90b-46e9-bd79-44d620410f66
+    m_ActionName: Movement/Case4[/Keyboard/5]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo5
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 723c485a-2f50-47c0-bce2-df5c2943b307
+    m_ActionName: Movement/Case5[/Keyboard/6]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo6
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 64cb05dc-5fcb-467c-9974-92aedbe4d4b4
+    m_ActionName: Movement/Case6[/Keyboard/7]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo7
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: 9e891e90-2487-4497-8709-b1c44cdd2bba
+    m_ActionName: Movement/Case7[/Keyboard/8]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: ChangePosBarTo8
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: c5761650-a070-4ab0-95a0-bc5d55610c0f
+    m_ActionName: Movement/Case8[/Keyboard/9]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 3b6fedf1-9758-4e90-88d4-351730e86654
+    m_ActionName: Movement/MouseInteract[/Mouse/rightButton]
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: bbfcf444-5733-464f-923f-be96ee91aa86
+    m_ActionName: Movement/Scroll[/Mouse/scroll/y]
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2488440493848631409}
+        m_TargetAssemblyTypeName: Player, Assembly-CSharp
+        m_MethodName: OpenInventory
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_ActionId: b1714238-ccab-454d-9391-13d1d68dd8ed
+    m_ActionName: Movement/Inventory[/Keyboard/i]
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: 
   m_DefaultActionMap: Movement
@@ -263,6 +441,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 6
+  playerPos: {fileID: 370515329265700478}
+  mapManager: {fileID: 0}
 --- !u!50 &2704311774457138436
 Rigidbody2D:
   serializedVersion: 4
@@ -290,6 +470,32 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 4
+--- !u!114 &1057436821629797405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6125489166951408626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b784c91b2ac11574ab120a9c791a08b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1271537695082932802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6125489166951408626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 065747e2b7b164244bf523372d3e9a76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nbLine: 3
+  nbColumn: 9
 --- !u!1 &8096797181456158055
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,16 +546,16 @@ MonoBehaviour:
   m_LockStageInInspector: 
   m_StreamingVersion: 20170927
   m_Priority: 1
-  m_StandbyUpdate: 2
+  m_StandbyUpdate: 1
   m_LookAt: {fileID: 6562445185091121851}
   m_Follow: {fileID: 6562445185091121851}
   m_Lens:
     FieldOfView: 40
-    OrthographicSize: 10
+    OrthographicSize: 3
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
-    ModeOverride: 0
+    ModeOverride: 1
     LensShift: {x: 0, y: 0}
     GateFit: 2
     FocusDistance: 10
