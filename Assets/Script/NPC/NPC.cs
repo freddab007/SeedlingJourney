@@ -9,12 +9,11 @@ public class NPC : MonoBehaviour
     [SerializeField] Transform target;
 
     NavMeshAgent agent;
-    link
+    NavMeshLink link;
 
     // Start is called before the first frame update
     void Start()
     {
-        
         agent = GetComponent<NavMeshAgent>();
         agent.updateRotation = false;
         agent.updateUpAxis = false;
@@ -24,5 +23,10 @@ public class NPC : MonoBehaviour
     void Update()
     {
         agent.SetDestination(target.position);
+
+        if (agent.isOnOffMeshLink)
+        {
+            agent.CompleteOffMeshLink();
+        }
     }
 }
