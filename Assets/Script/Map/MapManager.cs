@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class MapManager : MonoBehaviour
 {
@@ -82,9 +83,12 @@ public class MapManager : MonoBehaviour
 
         newSprite.transform.position = new Vector3(_pos.x, -_pos.y, -1);
     }
-
+    //Tilemap TEST;
     void InstanciateTile(string _value, Vector2Int _posTile)
     {
+        //TEST = new Tilemap();
+        //TEST.SetTile( , );
+
         int valueRead = int.Parse(_value);
         BoxCollider2D mapTileCol;
 
