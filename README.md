@@ -1,5 +1,8 @@
-# PersonalProject
+# Defense Project
 
-<a href="https://github.com/devxb/gitanimals">
-  <img src="https://render.gitanimals.org/farms/freddab007"/>
-</a>
+
+Seedling Journey is a 2D farming game.
+
+You play as a farmer in a little farm where your goal is to make money from cultivate various plant.
+
+(This is a defense project this may contain a lot of bug and non functionnal feature)
