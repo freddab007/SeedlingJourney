@@ -25,6 +25,12 @@ public class TimeGame : MonoBehaviour
     string today;
     int day = 1;
     int maxDay = 28;
+
+    int hours = 6;
+    int maxHours = 24;
+
+    int minute = 0;
+    int maxMinutes = 60;
     Season season = Season.Spring;
 
 
@@ -50,6 +56,16 @@ public class TimeGame : MonoBehaviour
         {
             AddDay();
         }
+    }
+
+    public void AddMinute()
+    {
+        
+    }
+
+    public void AddHour()
+    {
+
     }
 
     public void AddDay()
