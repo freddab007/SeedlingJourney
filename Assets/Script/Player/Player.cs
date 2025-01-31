@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     int columnSelect;
     Vector2Int mouseMapPosition = new Vector2Int();
     Vector2Int playerPosTick = new Vector2Int();
+    Vector2Int globalMapPosition = new Vector2Int( 0, 0);
 
     [SerializeField][Range(1.0f, 20.0f)] float speed = 2;
     [SerializeField] GameObject playerPos;
@@ -36,6 +37,7 @@ public class Player : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         inventory = GetComponent<Inventory>();
         columnSelect = 0;
+        CameraManager.instance.ChangeColliderMap(globalMapPosition);
         StartCoroutine(LaunchUpdate());
     }
 
@@ -235,6 +237,17 @@ public class Player : MonoBehaviour
                 inventoryOpen = !inventoryOpen;
             }
         }
+    }
+
+    public void AddMapPosition(Vector2Int _addPos)
+    {
+        globalMapPosition += _addPos;
+        CameraManager.instance.ChangeColliderMap(globalMapPosition);
+    }
+
+    public void ChangPosition(Vector3 _newPos)
+    {
+        rb.position = _newPos;
     }
 
 }
