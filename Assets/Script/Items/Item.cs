@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 [Serializable]
 
@@ -21,6 +22,7 @@ public class Item : IItem
     public Texture2D inventorySprite;
 
     public List<Texture2D> texItem;
+    public List<Tile> tileItem;
 
     public int maxNbItem = 1;
     public int nbItem = 1;

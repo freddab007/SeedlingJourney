@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ItemDataBaseWindow : EditorWindow
 {
@@ -16,6 +17,8 @@ public class ItemDataBaseWindow : EditorWindow
     string Itemname = "default";
 
     Texture2D newTex;
+
+    Tile newTile;
 
     [MenuItem("Tools/Item Database")]
 
@@ -298,6 +301,34 @@ public class ItemDataBaseWindow : EditorWindow
             }
 
             GUILayout.EndHorizontal();
+            
+            GUILayout.BeginHorizontal();
+
+            PrintLabelInColor("NbTex :", 45);
+
+            if (GUILayout.Button("-", GUILayout.Width(20)))
+            {
+                --item.nbOfTex;
+                if (item.nbOfTex >= 0)
+                {
+                    item.tileItem.RemoveAt(item.nbOfTex);
+                }
+                if (item.nbOfTex < 0)
+                {
+                    item.nbOfTex = 0;
+                }
+            }
+
+            PrintLabelInColor(item.nbOfTex.ToString(), 20);
+
+            if (GUILayout.Button("+", GUILayout.Width(20)))
+            {
+                ++item.nbOfTex;
+                item.tileItem.Add(newTile);
+
+            }
+
+            GUILayout.EndHorizontal();
 
             switch (item.itemType)
             {
@@ -333,9 +364,13 @@ public class ItemDataBaseWindow : EditorWindow
             {
                 GUILayout.BeginHorizontal();
                 GUI.contentColor = baseColor;
+                //if (GUILayout.Button(item.texItem[j], GUILayout.Width(32), GUILayout.Height(32)))
+                //{
+                //    AssetsSearchTexture.OpenWindow().RegisterCallback(ChangeText, item, j);
+                //}
                 if (GUILayout.Button(item.texItem[j], GUILayout.Width(32), GUILayout.Height(32)))
                 {
-                    AssetsSearchTexture.OpenWindow().RegisterCallback(ChangeText, item, j);
+                    AssetsSearchTile.OpenWindow().RegisterCallback(ChangeTile, item, j);
                 }
                 PrintLabelInColor(item.texItem[j].name);
                 //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
@@ -371,6 +406,50 @@ public class ItemDataBaseWindow : EditorWindow
 
                 GUILayout.EndHorizontal();
             }
+
+
+            //for (int j = 0; j < item.nbOfTex; j++)
+            //{
+            //    GUILayout.BeginHorizontal();
+            //    GUI.contentColor = baseColor;
+            //    if (GUILayout.Button(item.tileItem[j].sprite.texture, GUILayout.Width(32), GUILayout.Height(32)))
+            //    {
+            //        AssetsSearchTexture.OpenWindow().RegisterCallback(ChangeText, item, j);
+            //    }
+            //    PrintLabelInColor(item.tileItem[j].name);
+            //    //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
+
+            //    GUILayout.BeginVertical();
+            //    if (j > 0)
+            //    {
+            //        if (GUILayout.Button("Up"))
+            //        {
+            //            Tile swap = item.tileItem[j - 1];
+            //            item.tileItem[j - 1] = item.tileItem[j];
+            //            item.tileItem[j] = swap;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        PrintLabelInColor("Already First Item");
+            //    }
+            //    if (j < item.nbOfTex - 1)
+            //    {
+            //        if (GUILayout.Button("Down"))
+            //        {
+            //            Tile swap = item.tileItem[j + 1];
+            //            item.tileItem[j + 1] = item.tileItem[j];
+            //            item.tileItem[j] = swap;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        PrintLabelInColor("Already Last Item");
+            //    }
+            //    GUILayout.EndVertical();
+
+            //    GUILayout.EndHorizontal();
+            //}
 
             GUILayout.BeginHorizontal();
             GUI.color = Color.red;
@@ -420,6 +499,19 @@ public class ItemDataBaseWindow : EditorWindow
             return;
         }
         filteredItems.Where(x => x == _tex).First().texItem[_index] = _texChoice;
+    }
+
+
+    void ChangeTile(Item _itemTile, int _index, Tile _tileChoice)
+    {
+        if (_tileChoice == null)
+        {
+            filteredItems.Where(x => x == _itemTile).First().tileItem.RemoveAt(_index);
+            filteredItems.Where(x => x == _itemTile).First().nbOfTex--;
+
+            return;
+        }
+        filteredItems.Where(x => x == _itemTile).First().tileItem[_index] = _tileChoice;
     }
 
 

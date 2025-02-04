@@ -3,46 +3,37 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 
-public class AssetsSearchTexture : EditorWindow
+public class AssetsSearchTile : EditorWindow
 {
     Item callBackVariable;
     int listIndex;
 
-    List<Texture2D> TList;
-    List<Texture2D> filteredTex;
+    List<Tile> TList;
+    List<Tile> filteredTex;
     string search = "";
     Vector2 scrollPosition = Vector2.zero;
 
-    public delegate void DelegateItemPicker(Item _callbackVariable, int _index, Texture2D _changeVariable);
+    public delegate void DelegateItemPicker(Item _callbackVariable, int _index, Tile _changeVariable);
     DelegateItemPicker callback;
 
-    public delegate void DelegateSpriteInventory(Item _callbackVariable, Texture2D _changeVariable);
-    DelegateSpriteInventory callbackSpriteInventory;
+    static GUIStyle buttonStyleTile = new GUIStyle(GUI.skin.button);
 
-    static GUIStyle buttonStyle = new GUIStyle(GUI.skin.button);
-
-    public static AssetsSearchTexture OpenWindow()
+    public static AssetsSearchTile OpenWindow()
     {
-        buttonStyle.alignment = TextAnchor.MiddleLeft; // Alignement à gauche
-        buttonStyle.imagePosition = ImagePosition.ImageLeft;
-        return GetWindow<AssetsSearchTexture>("Searcher");
+        buttonStyleTile.alignment = TextAnchor.MiddleLeft; // Alignement à gauche
+        buttonStyleTile.imagePosition = ImagePosition.ImageLeft;
+        return GetWindow<AssetsSearchTile>("Searcher");
     }
     public void RegisterCallback(DelegateItemPicker _callback, Item _callBackVariable, int _index)
     {
-        TList = new List<Texture2D>();
+        TList = new List<Tile>();
         GetAtPath();
         callback = _callback;
         callBackVariable = _callBackVariable;
         listIndex = _index;
-    }
-    public void RegisterCallback(DelegateSpriteInventory _callback, Item _callBackVariable)
-    {
-        TList = new List<Texture2D>();
-        GetAtPath();
-        callbackSpriteInventory = _callback;
-        callBackVariable = _callBackVariable;
     }
 
 
@@ -73,10 +64,10 @@ public class AssetsSearchTexture : EditorWindow
             // Exclure les fichiers qui se trouvent dans un dossier "Editor"
             if (!file.Contains(Path.DirectorySeparatorChar + "Editor" + Path.DirectorySeparatorChar) && !file.Contains(Path.DirectorySeparatorChar + "TextMesh"))
             {
-                Texture2D temp;
+                Tile temp;
                 try
                 {
-                    temp = (Texture2D)EditorGUIUtility.Load(file);
+                    temp = (Tile)EditorGUIUtility.Load(file);
                 }
                 catch (System.Exception)
                 {
@@ -86,7 +77,7 @@ public class AssetsSearchTexture : EditorWindow
                 }
                 if (temp)
                 {
-                    TList.Add((Texture2D)EditorGUIUtility.Load(file));
+                    TList.Add((Tile)EditorGUIUtility.Load(file));
                 }
             }
         }
@@ -96,7 +87,7 @@ public class AssetsSearchTexture : EditorWindow
 
     private void OnEnable()
     {
-        TList = new List<Texture2D>();
+        TList = new List<Tile>();
     }
 
     private void OnGUI()
@@ -110,16 +101,12 @@ public class AssetsSearchTexture : EditorWindow
 
         scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
-        if (GUILayout.Button("None", buttonStyle))
+        if (GUILayout.Button("None", buttonStyleTile))
         {
             Close();
             if (callback != null)
             {
                 callback?.Invoke(callBackVariable, listIndex, null);
-            }
-            if (callbackSpriteInventory != null)
-            {
-                callbackSpriteInventory?.Invoke(callBackVariable, null);
             }
         }
 
@@ -127,17 +114,16 @@ public class AssetsSearchTexture : EditorWindow
         {
             GUILayout.BeginHorizontal();
 
-            Texture2D item = filteredTex[i];
-            if (GUILayout.Button(item, buttonStyle))
+            Tile item = filteredTex[i];
+            Debug.Log(item.sprite.textureRect);
+            Texture2D tex = GetCroppedTexture(item.sprite);
+
+            if (GUILayout.Button(tex, buttonStyleTile))
             {
                 Close();
                 if (callback != null)
                 {
                     callback?.Invoke(callBackVariable, listIndex, item);
-                }
-                if (callbackSpriteInventory != null)
-                {
-                    callbackSpriteInventory?.Invoke(callBackVariable, item);
                 }
             }
 
@@ -147,8 +133,39 @@ public class AssetsSearchTexture : EditorWindow
         GUILayout.EndScrollView();
     }
 
+    private Texture2D GetCroppedTexture(Sprite sprite)
+    {
+        if (sprite == null || sprite.texture == null) return null;
+
+        Rect rect = sprite.rect; // Zone du sprite dans la texture complète
+        Texture2D originalTexture = sprite.texture;
+
+        // Créer une copie de la texture pour la rendre lisible
+        RenderTexture rt = RenderTexture.GetTemporary(originalTexture.width, originalTexture.height);
+        Graphics.Blit(originalTexture, rt);
+        RenderTexture previous = RenderTexture.active;
+        RenderTexture.active = rt;
+
+        Texture2D readableTexture = new Texture2D(originalTexture.width, originalTexture.height, TextureFormat.RGBA32, false);
+        readableTexture.ReadPixels(new Rect(0, 0, originalTexture.width, originalTexture.height), 0, 0);
+        readableTexture.Apply();
+
+        RenderTexture.active = previous;
+        RenderTexture.ReleaseTemporary(rt);
+
+        // Extraire la portion du sprite
+        Texture2D croppedTexture = new Texture2D((int)rect.width, (int)rect.height);
+        Color[] pixels = readableTexture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+        croppedTexture.SetPixels(pixels);
+        croppedTexture.Apply();
+
+        Object.DestroyImmediate(readableTexture); // Nettoyage mémoire
+
+        return croppedTexture;
+    }
+
     void FilterTexByName(string _search)
     {
-        filteredTex = TList.Where(x => x.name.ToLower().Contains(_search.ToLower())).ToList();
+        filteredTex = TList.Where(x => x.sprite.texture.name.ToLower().Contains(_search.ToLower())).ToList();
     }
 }
