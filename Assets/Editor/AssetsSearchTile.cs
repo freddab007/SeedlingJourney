@@ -12,8 +12,10 @@ public class AssetsSearchTile : EditorWindow
     int listIndex;
 
     List<Tile> TList;
-    List<Tile> filteredTex;
+    List<Tile> filteredTile;
+    List<Texture2D> filteredTex;
     string search = "";
+    string lastsearch;
     Vector2 scrollPosition = Vector2.zero;
 
     public delegate void DelegateItemPicker(Item _callbackVariable, int _index, Tile _changeVariable);
@@ -29,11 +31,14 @@ public class AssetsSearchTile : EditorWindow
     }
     public void RegisterCallback(DelegateItemPicker _callback, Item _callBackVariable, int _index)
     {
+        lastsearch = search;
         TList = new List<Tile>();
         GetAtPath();
         callback = _callback;
         callBackVariable = _callBackVariable;
         listIndex = _index;
+
+        FilterTexByName(search);
     }
 
 
@@ -97,7 +102,11 @@ public class AssetsSearchTile : EditorWindow
         search = EditorGUILayout.TextField(search);
         GUILayout.EndHorizontal();
 
-        FilterTexByName(search);
+        if (search != lastsearch)
+        {
+            lastsearch = search;
+            FilterTexByName(search);
+        }
 
         scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
@@ -110,20 +119,19 @@ public class AssetsSearchTile : EditorWindow
             }
         }
 
-        for (int i = 0; i < filteredTex.Count; i++)
+        for (int i = 0; i < filteredTile.Count; i++)
         {
             GUILayout.BeginHorizontal();
 
-            Tile item = filteredTex[i];
-            Debug.Log(item.sprite.textureRect);
-            Texture2D tex = GetCroppedTexture(item.sprite);
+            //Tile item = filteredTile[i];
+            //Texture2D tex = GetCroppedTexture(item.sprite);
 
-            if (GUILayout.Button(tex, buttonStyleTile))
+            if (GUILayout.Button(filteredTex[i], buttonStyleTile))
             {
                 Close();
                 if (callback != null)
                 {
-                    callback?.Invoke(callBackVariable, listIndex, item);
+                    callback?.Invoke(callBackVariable, listIndex, filteredTile[i]);
                 }
             }
 
@@ -137,35 +145,41 @@ public class AssetsSearchTile : EditorWindow
     {
         if (sprite == null || sprite.texture == null) return null;
 
+        // Vérifie si la texture est lisible
+        if (!sprite.texture.isReadable)
+        {
+            Debug.LogError("La texture du sprite " + sprite.name + " n'est pas lisible. Activez 'Read/Write Enabled' dans les import settings.");
+            return null;
+        }
+
         Rect rect = sprite.rect; // Zone du sprite dans la texture complète
         Texture2D originalTexture = sprite.texture;
 
-        // Créer une copie de la texture pour la rendre lisible
-        RenderTexture rt = RenderTexture.GetTemporary(originalTexture.width, originalTexture.height);
-        Graphics.Blit(originalTexture, rt);
-        RenderTexture previous = RenderTexture.active;
-        RenderTexture.active = rt;
+        // Crée une nouvelle texture vide avec la taille du sprite
+        Texture2D croppedTexture = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGBA32, false);
 
-        Texture2D readableTexture = new Texture2D(originalTexture.width, originalTexture.height, TextureFormat.RGBA32, false);
-        readableTexture.ReadPixels(new Rect(0, 0, originalTexture.width, originalTexture.height), 0, 0);
-        readableTexture.Apply();
-
-        RenderTexture.active = previous;
-        RenderTexture.ReleaseTemporary(rt);
-
-        // Extraire la portion du sprite
-        Texture2D croppedTexture = new Texture2D((int)rect.width, (int)rect.height);
-        Color[] pixels = readableTexture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+        // Copie uniquement les pixels correspondant au sprite
+        Color[] pixels = originalTexture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
         croppedTexture.SetPixels(pixels);
         croppedTexture.Apply();
-
-        Object.DestroyImmediate(readableTexture); // Nettoyage mémoire
 
         return croppedTexture;
     }
 
+
     void FilterTexByName(string _search)
     {
-        filteredTex = TList.Where(x => x.sprite.texture.name.ToLower().Contains(_search.ToLower())).ToList();
+
+        filteredTile = TList.Where(x => x.name.ToLower().Contains(_search.ToLower())).ToList();
+
+
+        List<Texture2D> tempTexs = new List<Texture2D>();
+
+        for (int i = 0; i < filteredTile.Count; i++)
+        {
+            tempTexs.Add(GetCroppedTexture(filteredTile[i].sprite));
+
+            filteredTex = tempTexs;
+        }
     }
 }
