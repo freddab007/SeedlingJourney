@@ -11,6 +11,7 @@ public class ItemDataBaseWindow : EditorWindow
     List<Item> filteredItems = new List<Item>();
 
     public TypeItem filter;
+    public TypeItem lastFilter;
 
     Color baseColor;
 
@@ -32,8 +33,12 @@ public class ItemDataBaseWindow : EditorWindow
     {
         itemList = Resources.Load<ItemDataList>("ItemDataBase/ItemDataList");
         filter = (TypeItem)(~0);
+        lastFilter = filter;
 
         newTex = (Texture2D)EditorGUIUtility.Load("Assets/Prefab/BGSprite.png");
+        newTile = (Tile)EditorGUIUtility.Load("Assets/Prefab/BGSprite.asset");
+
+        FilterItems();
     }
 
 
@@ -190,6 +195,170 @@ public class ItemDataBaseWindow : EditorWindow
         //GUILayout.EndHorizontal();
     }
 
+    private void AddRemoveTile(Item _item)
+    {
+        GUILayout.BeginHorizontal();
+
+        PrintLabelInColor("NbTile :", 45);
+
+        if (GUILayout.Button("-", GUILayout.Width(20)))
+        {
+            --_item.nbOfTile;
+            if (_item.nbOfTile >= 0)
+            {
+                _item.tileItem.RemoveAt(_item.nbOfTile);
+                _item.tileTex.RemoveAt(_item.nbOfTile);
+            }
+            if (_item.nbOfTile < 0)
+            {
+                _item.nbOfTile = 0;
+            }
+        }
+
+        PrintLabelInColor(_item.nbOfTile.ToString(), 20);
+
+        if (GUILayout.Button("+", GUILayout.Width(20)))
+        {
+            ++_item.nbOfTile;
+            _item.tileItem.Add(newTile);
+            _item.tileTex.Add(GetCroppedTexture(newTile.sprite));
+        }
+
+        GUILayout.EndHorizontal();
+    }
+
+    private void AddRemoveTex(Item _item)
+    {
+        GUILayout.BeginHorizontal();
+
+        PrintLabelInColor("NbTex :", 45);
+
+        if (GUILayout.Button("-", GUILayout.Width(20)))
+        {
+            --_item.nbOfTex;
+            if (_item.nbOfTex >= 0)
+            {
+                _item.texItem.RemoveAt(_item.nbOfTex);
+            }
+            if (_item.nbOfTex < 0)
+            {
+                _item.nbOfTex = 0;
+            }
+        }
+
+        PrintLabelInColor(_item.nbOfTex.ToString(), 20);
+
+        if (GUILayout.Button("+", GUILayout.Width(20)))
+        {
+            ++_item.nbOfTex;
+            _item.texItem.Add(newTex);
+
+        }
+
+        GUILayout.EndHorizontal();
+    }
+
+
+    private void DisplayTexList(Item _item)
+    {
+        for (int j = 0; j < _item.nbOfTex; j++)
+        {
+            GUILayout.BeginHorizontal();
+            GUI.contentColor = baseColor;
+            if (GUILayout.Button(_item.texItem[j], GUILayout.Width(32), GUILayout.Height(32)))
+            {
+                AssetsSearchTexture.OpenWindow().RegisterCallback(ChangeText, _item, j);
+            }
+            PrintLabelInColor(_item.texItem[j].name);
+            //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
+
+            GUILayout.BeginVertical();
+            if (j > 0)
+            {
+                if (GUILayout.Button("Up"))
+                {
+                    Texture2D swap = _item.texItem[j - 1];
+                    _item.texItem[j - 1] = _item.texItem[j];
+                    _item.texItem[j] = swap;
+                }
+            }
+            else
+            {
+                PrintLabelInColor("Already First Item");
+            }
+            if (j < _item.nbOfTex - 1)
+            {
+                if (GUILayout.Button("Down"))
+                {
+                    Texture2D swap = _item.texItem[j + 1];
+                    _item.texItem[j + 1] = _item.texItem[j];
+                    _item.texItem[j] = swap;
+                }
+            }
+            else
+            {
+                PrintLabelInColor("Already Last Item");
+            }
+
+            GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal();
+        }
+    }
+
+
+    private void DisplayTileList(Item _item)
+    {
+        for (int j = 0; j < _item.nbOfTile; j++)
+        {
+            GUILayout.BeginHorizontal();
+            GUI.contentColor = baseColor;
+            if (GUILayout.Button(_item.tileTex[j], GUILayout.Width(32), GUILayout.Height(32)))
+            {
+                AssetsSearchTile.OpenWindow().RegisterCallback(ChangeTile, _item, j);
+            }
+            PrintLabelInColor(_item.tileItem[j].name);
+            //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
+
+            GUILayout.BeginVertical();
+            if (j > 0)
+            {
+                if (GUILayout.Button("Up"))
+                {
+                    Tile swap = _item.tileItem[j - 1];
+                    _item.tileItem[j - 1] = _item.tileItem[j];
+                    _item.tileItem[j] = swap;
+                    Texture2D swapTex = _item.tileTex[j - 1];
+                    _item.tileTex[j - 1] = _item.tileTex[j];
+                    _item.tileTex[j] = swapTex;
+                }
+            }
+            else
+            {
+                PrintLabelInColor("Already First Item");
+            }
+            if (j < _item.nbOfTex - 1)
+            {
+                if (GUILayout.Button("Down"))
+                {
+                    Tile swap = _item.tileItem[j + 1];
+                    _item.tileItem[j + 1] = _item.tileItem[j];
+                    _item.tileItem[j] = swap;
+                    Texture2D swapTex = _item.tileTex[j + 1];
+                    _item.tileTex[j + 1] = _item.tileTex[j];
+                    _item.tileTex[j] = swapTex;
+                }
+            }
+            else
+            {
+                PrintLabelInColor("Already Last Item");
+            }
+
+            GUILayout.EndHorizontal();
+            GUILayout.EndHorizontal();
+        }
+    }
+
+
     private void OnGUI()
     {
         baseColor = GUI.color;
@@ -219,7 +388,11 @@ public class ItemDataBaseWindow : EditorWindow
 
         GUILayout.EndHorizontal();
 
-        FilterItems();
+        if (lastFilter != filter)
+        {
+            lastFilter = filter;
+            FilterItems();
+        }
 
         scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
@@ -274,61 +447,8 @@ public class ItemDataBaseWindow : EditorWindow
             GUILayout.EndHorizontal();
 
 
-            GUILayout.BeginHorizontal();
-
-            PrintLabelInColor("NbTex :", 45);
-
-            if (GUILayout.Button("-", GUILayout.Width(20)))
-            {
-                --item.nbOfTex;
-                if (item.nbOfTex >= 0)
-                {
-                    item.texItem.RemoveAt(item.nbOfTex);
-                }
-                if (item.nbOfTex < 0)
-                {
-                    item.nbOfTex = 0;
-                }
-            }
-
-            PrintLabelInColor(item.nbOfTex.ToString(), 20);
-
-            if (GUILayout.Button("+", GUILayout.Width(20)))
-            {
-                ++item.nbOfTex;
-                item.texItem.Add(newTex);
-
-            }
-
-            GUILayout.EndHorizontal();
-            
-            GUILayout.BeginHorizontal();
-
-            PrintLabelInColor("NbTex :", 45);
-
-            if (GUILayout.Button("-", GUILayout.Width(20)))
-            {
-                --item.nbOfTex;
-                if (item.nbOfTex >= 0)
-                {
-                    item.tileItem.RemoveAt(item.nbOfTex);
-                }
-                if (item.nbOfTex < 0)
-                {
-                    item.nbOfTex = 0;
-                }
-            }
-
-            PrintLabelInColor(item.nbOfTex.ToString(), 20);
-
-            if (GUILayout.Button("+", GUILayout.Width(20)))
-            {
-                ++item.nbOfTex;
-                item.tileItem.Add(newTile);
-
-            }
-
-            GUILayout.EndHorizontal();
+            AddRemoveTex(item);
+            AddRemoveTile(item);
 
             switch (item.itemType)
             {
@@ -360,96 +480,9 @@ public class ItemDataBaseWindow : EditorWindow
             GUILayout.EndHorizontal();
 
 
-            for (int j = 0; j < item.nbOfTex; j++)
-            {
-                GUILayout.BeginHorizontal();
-                GUI.contentColor = baseColor;
-                //if (GUILayout.Button(item.texItem[j], GUILayout.Width(32), GUILayout.Height(32)))
-                //{
-                //    AssetsSearchTexture.OpenWindow().RegisterCallback(ChangeText, item, j);
-                //}
-                if (GUILayout.Button(item.texItem[j], GUILayout.Width(32), GUILayout.Height(32)))
-                {
-                    AssetsSearchTile.OpenWindow().RegisterCallback(ChangeTile, item, j);
-                }
-                PrintLabelInColor(item.texItem[j].name);
-                //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
+            DisplayTexList(item);
+            DisplayTileList(item);
 
-                GUILayout.BeginVertical();
-                if (j > 0)
-                {
-                    if (GUILayout.Button("Up"))
-                    {
-                        Texture2D swap = item.texItem[j - 1];
-                        item.texItem[j - 1] = item.texItem[j];
-                        item.texItem[j] = swap;
-                    }
-                }
-                else
-                {
-                    PrintLabelInColor("Already First Item");
-                }
-                if (j < item.nbOfTex - 1)
-                {
-                    if (GUILayout.Button("Down"))
-                    {
-                        Texture2D swap = item.texItem[j + 1];
-                        item.texItem[j + 1] = item.texItem[j];
-                        item.texItem[j] = swap;
-                    }
-                }
-                else
-                {
-                    PrintLabelInColor("Already Last Item");
-                }
-                GUILayout.EndVertical();
-
-                GUILayout.EndHorizontal();
-            }
-
-
-            //for (int j = 0; j < item.nbOfTex; j++)
-            //{
-            //    GUILayout.BeginHorizontal();
-            //    GUI.contentColor = baseColor;
-            //    if (GUILayout.Button(item.tileItem[j].sprite.texture, GUILayout.Width(32), GUILayout.Height(32)))
-            //    {
-            //        AssetsSearchTexture.OpenWindow().RegisterCallback(ChangeText, item, j);
-            //    }
-            //    PrintLabelInColor(item.tileItem[j].name);
-            //    //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
-
-            //    GUILayout.BeginVertical();
-            //    if (j > 0)
-            //    {
-            //        if (GUILayout.Button("Up"))
-            //        {
-            //            Tile swap = item.tileItem[j - 1];
-            //            item.tileItem[j - 1] = item.tileItem[j];
-            //            item.tileItem[j] = swap;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        PrintLabelInColor("Already First Item");
-            //    }
-            //    if (j < item.nbOfTex - 1)
-            //    {
-            //        if (GUILayout.Button("Down"))
-            //        {
-            //            Tile swap = item.tileItem[j + 1];
-            //            item.tileItem[j + 1] = item.tileItem[j];
-            //            item.tileItem[j] = swap;
-            //        }
-            //    }
-            //    else
-            //    {
-            //        PrintLabelInColor("Already Last Item");
-            //    }
-            //    GUILayout.EndVertical();
-
-            //    GUILayout.EndHorizontal();
-            //}
 
             GUILayout.BeginHorizontal();
             GUI.color = Color.red;
@@ -470,7 +503,6 @@ public class ItemDataBaseWindow : EditorWindow
 
 
 
-
         GUILayout.EndScrollView();
 
         if (GUILayout.Button("Save"))
@@ -486,6 +518,40 @@ public class ItemDataBaseWindow : EditorWindow
     {
         filteredItems = itemList.items.Where(x => ((int)x.itemType & (int)filter) == (int)x.itemType).ToList();
         //filteredItems = itemList.items;
+
+        for (int i = 0; i < filteredItems.Count; i++)
+        {
+            filteredItems[i].tileTex.Clear();
+            for (int j = 0; j < filteredItems[i].nbOfTile; j++)
+            {
+                filteredItems[i].tileTex.Add(GetCroppedTexture(filteredItems[i].tileItem[j].sprite));
+            }
+        }
+    }
+
+    private Texture2D GetCroppedTexture(Sprite sprite)
+    {
+        if (sprite == null || sprite.texture == null) return null;
+
+        // Vérifie si la texture est lisible
+        if (!sprite.texture.isReadable)
+        {
+            Debug.LogError("La texture du sprite " + sprite.name + " n'est pas lisible. Activez 'Read/Write Enabled' dans les import settings.");
+            return null;
+        }
+
+        Rect rect = sprite.rect; // Zone du sprite dans la texture complète
+        Texture2D originalTexture = sprite.texture;
+
+        // Crée une nouvelle texture vide avec la taille du sprite
+        Texture2D croppedTexture = new Texture2D((int)rect.width, (int)rect.height, TextureFormat.RGBA32, false);
+
+        // Copie uniquement les pixels correspondant au sprite
+        Color[] pixels = originalTexture.GetPixels((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+        croppedTexture.SetPixels(pixels);
+        croppedTexture.Apply();
+
+        return croppedTexture;
     }
 
 
@@ -507,11 +573,13 @@ public class ItemDataBaseWindow : EditorWindow
         if (_tileChoice == null)
         {
             filteredItems.Where(x => x == _itemTile).First().tileItem.RemoveAt(_index);
-            filteredItems.Where(x => x == _itemTile).First().nbOfTex--;
+            filteredItems.Where(x => x == _itemTile).First().tileTex.RemoveAt(_index);
+            filteredItems.Where(x => x == _itemTile).First().nbOfTile--;
 
             return;
         }
         filteredItems.Where(x => x == _itemTile).First().tileItem[_index] = _tileChoice;
+        filteredItems.Where(x => x == _itemTile).First().tileTex[_index] = GetCroppedTexture(_tileChoice.sprite);
     }
 
 

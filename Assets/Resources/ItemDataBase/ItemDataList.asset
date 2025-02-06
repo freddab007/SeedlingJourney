@@ -18,6 +18,7 @@ MonoBehaviour:
     itemName: WeatSeed
     itemDescription: A bag of seed for make growing weat
     nbOfTex: 5
+    nbOfTile: 2
     inventorySprite: {fileID: 2800000, guid: 78608d9b3a36fde4b957dfc6c1c7e7a3, type: 3}
     texItem:
     - {fileID: 2800000, guid: 8694282300e80f146b35d2ee4a85ad5c, type: 3}
@@ -25,6 +26,14 @@ MonoBehaviour:
     - {fileID: 2800000, guid: 3ade7eae093d5834cbe01010e982bc05, type: 3}
     - {fileID: 2800000, guid: c5adf20328a23cd4fbd236805e72781d, type: 3}
     - {fileID: 2800000, guid: 090cc105b25e1f54cb4ba9099d090c71, type: 3}
+    - {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
+    - {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
+    tileItem:
+    - {fileID: 11400000, guid: 9673e0a124f8b9e45bbd4a65e1376c59, type: 2}
+    - {fileID: 11400000, guid: c44730b2283debc49abbf15fc22b715b, type: 2}
+    tileTex:
+    - {fileID: 0}
+    - {fileID: 0}
     maxNbItem: 20
     nbItem: 1
     weaponType: 0
@@ -49,8 +58,11 @@ MonoBehaviour:
     itemName: Hoe
     itemDescription: 
     nbOfTex: 0
+    nbOfTile: 0
     inventorySprite: {fileID: 2800000, guid: 910d157238f8df942bbf07ac5cffc2fa, type: 3}
     texItem: []
+    tileItem: []
+    tileTex: []
     maxNbItem: 1
     nbItem: 1
     weaponType: 0
@@ -75,8 +87,11 @@ MonoBehaviour:
     itemName: Watering Can
     itemDescription: 
     nbOfTex: 0
+    nbOfTile: 0
     inventorySprite: {fileID: 2800000, guid: 9e6af3ba48c25e04d8270f54e1297d03, type: 3}
     texItem: []
+    tileItem: []
+    tileTex: []
     maxNbItem: 1
     nbItem: 1
     weaponType: 0
@@ -101,8 +116,11 @@ MonoBehaviour:
     itemName: Wheat
     itemDescription: 
     nbOfTex: 0
+    nbOfTile: 0
     inventorySprite: {fileID: 2800000, guid: 431199352949dbc428f0115d32977ec1, type: 3}
     texItem: []
+    tileItem: []
+    tileTex: []
     maxNbItem: 20
     nbItem: 1
     weaponType: 0
@@ -127,8 +145,11 @@ MonoBehaviour:
     itemName: Chest
     itemDescription: 
     nbOfTex: 0
+    nbOfTile: 0
     inventorySprite: {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
     texItem: []
+    tileItem: []
+    tileTex: []
     maxNbItem: 1
     nbItem: 1
     weaponType: 0

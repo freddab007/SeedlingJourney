@@ -18,11 +18,14 @@ public class Item : IItem
     public string itemDescription;
 
     public int nbOfTex;
+    public int nbOfTile;
 
     public Texture2D inventorySprite;
 
     public List<Texture2D> texItem;
+
     public List<Tile> tileItem;
+    public List<Texture2D> tileTex;
 
     public int maxNbItem = 1;
     public int nbItem = 1;
