@@ -11,6 +11,7 @@ public class UIGameManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI yearText;
     [SerializeField] TextMeshProUGUI seasonText;
     [SerializeField] TextMeshProUGUI dayText;
+    [SerializeField] TextMeshProUGUI timeText;
 
 
     [SerializeField] GameObject panelInventory;
@@ -179,6 +180,11 @@ public class UIGameManager : MonoBehaviour
     public void UpdateSeasonText(string _text)
     {
         seasonText.text = _text;
+    }
+
+    public void UpdateTimeText(string _text)
+    {
+        timeText.text = _text;
     }
 
     public void UpdateDayText(string _text)
