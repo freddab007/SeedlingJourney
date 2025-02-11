@@ -18,7 +18,7 @@ MonoBehaviour:
     itemName: WeatSeed
     itemDescription: A bag of seed for make growing weat
     nbOfTex: 5
-    nbOfTile: 2
+    nbOfTile: 5
     inventorySprite: {fileID: 2800000, guid: 78608d9b3a36fde4b957dfc6c1c7e7a3, type: 3}
     texItem:
     - {fileID: 2800000, guid: 8694282300e80f146b35d2ee4a85ad5c, type: 3}
@@ -29,9 +29,15 @@ MonoBehaviour:
     - {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
     - {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
     tileItem:
-    - {fileID: 11400000, guid: 9673e0a124f8b9e45bbd4a65e1376c59, type: 2}
-    - {fileID: 11400000, guid: c44730b2283debc49abbf15fc22b715b, type: 2}
+    - {fileID: 11400000, guid: c5ec434372966a3479801a937f391abd, type: 2}
+    - {fileID: 11400000, guid: 05bead521b2433346885e9459ceb119a, type: 2}
+    - {fileID: 11400000, guid: 35cb619b4ec4ee24ea3452b5f7f768d2, type: 2}
+    - {fileID: 11400000, guid: 41ae9c2116ce7a04fa3df9d5017ce0b9, type: 2}
+    - {fileID: 11400000, guid: 87e865e5db7ad2d48bcf1f95a315c6ad, type: 2}
     tileTex:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
     maxNbItem: 20

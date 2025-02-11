@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Seed : MonoBehaviour, IItem
 {
@@ -13,6 +14,8 @@ public class Seed : MonoBehaviour, IItem
 
     int deathTimer = 3;
 
+    Tilemap tileMap;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,10 +26,13 @@ public class Seed : MonoBehaviour, IItem
         spriteRenderer.sprite = Sprite.Create(linkItem.texItem[state], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
     }
 
-    public void Init(Vector2Int _pos, Item _item)
+    public void Init(Vector2Int _pos, Item _item, Tilemap _tileMap)
     {
         tilePos = _pos;
         linkItem = new Item(_item);
+        tileMap = _tileMap;
+
+        tileMap.SetTile(new Vector3Int(tilePos.x, tilePos.y), _item.tileItem[0]);
 
     }
 

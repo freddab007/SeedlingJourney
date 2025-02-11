@@ -22,6 +22,8 @@ public class MapManager : MonoBehaviour
 
     StreamReader reader;
 
+    Tilemap plantTileMap;
+
     public enum TypeTile
     {
         WALL = 0,
@@ -79,7 +81,7 @@ public class MapManager : MonoBehaviour
         newSprite.GetComponent<SpriteRenderer>().sprite = Sprite.Create(_item.texItem[0], new Rect(0, 0, 32, 32), new Vector2(0, 1), tileSize);
         newSprite.GetComponent<BoxCollider2D>().isTrigger = !_item.collision;
         newSprite.AddComponent<Seed>();
-        newSprite.GetComponent<Seed>().Init(_pos, _item);
+        newSprite.GetComponent<Seed>().Init(_pos, _item, plantTileMap);
 
         newSprite.transform.position = new Vector3(_pos.x, -_pos.y, -1);
     }
