@@ -8,6 +8,7 @@ public class MapManager : MonoBehaviour
 {
     static public MapManager instance;
     [SerializeField] GameObject baseSprite;
+    [SerializeField] GameObject baseTile;
     [SerializeField] Texture2D textureMap;
     static public int tileSize = 32;
     int nbLine;
@@ -22,7 +23,9 @@ public class MapManager : MonoBehaviour
 
     StreamReader reader;
 
+    Tilemap groundTileMap;
     Tilemap plantTileMap;
+    Tilemap plantTileMapCol;
 
     public enum TypeTile
     {
@@ -68,10 +71,38 @@ public class MapManager : MonoBehaviour
 
         reader.Close();
     }
+
+    public void ChangePlantTile(Tile _tile, Vector2Int _pos, bool _colision)
+    {
+        Vector3Int posTile = new Vector3Int( _pos.x, _pos.y);
+        if (_colision)
+        {
+            if (groundTileMap.GetTile(new Vector3Int(_pos.x, _pos.y)) != null)
+            {
+                plantTileMapCol.SetTile(new Vector3Int(_pos.x, _pos.y), _tile);
+            }
+        }
+        else
+        {
+            if (groundTileMap.GetTile(new Vector3Int(_pos.x, _pos.y)) != null)
+            {
+                plantTileMap.SetTile(new Vector3Int(_pos.x, _pos.y), _tile);
+            }
+        }
+    }
+
     void ChangeSprite(int _value, Vector2Int _pos)
     {
         mapType[_pos.y][_pos.x] = _value;
         map[_pos.y][_pos.x].GetComponent<SpriteRenderer>().sprite = Sprite.Create(textureMap, new Rect((_value % nbCol) * tileSize, nbLine == 1 ? 0 : ((nbLine - 1) * tileSize - (int)Math.Floor(_value / (float)nbLine) * tileSize), tileSize, tileSize), new Vector2(0, 1), tileSize);
+    }
+
+    void AddPlant(Item _item, Vector2Int _pos)
+    {
+        GameObject newSprite = Instantiate(baseTile);
+
+        newSprite.AddComponent<Seed>();
+        newSprite.GetComponent<Seed>().Init(_pos, _item);
     }
 
     void AddSprite(Item _item, Vector2Int _pos)
@@ -81,7 +112,7 @@ public class MapManager : MonoBehaviour
         newSprite.GetComponent<SpriteRenderer>().sprite = Sprite.Create(_item.texItem[0], new Rect(0, 0, 32, 32), new Vector2(0, 1), tileSize);
         newSprite.GetComponent<BoxCollider2D>().isTrigger = !_item.collision;
         newSprite.AddComponent<Seed>();
-        newSprite.GetComponent<Seed>().Init(_pos, _item, plantTileMap);
+        newSprite.GetComponent<Seed>().Init(_pos, _item);
 
         newSprite.transform.position = new Vector3(_pos.x, -_pos.y, -1);
     }
