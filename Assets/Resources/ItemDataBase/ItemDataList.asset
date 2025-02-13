@@ -17,15 +17,10 @@ MonoBehaviour:
     itemId: 0
     itemName: WeatSeed
     itemDescription: A bag of seed for make growing weat
-    nbOfTex: 5
+    nbOfTex: 0
     nbOfTile: 5
     inventorySprite: {fileID: 2800000, guid: 78608d9b3a36fde4b957dfc6c1c7e7a3, type: 3}
     texItem:
-    - {fileID: 2800000, guid: 8694282300e80f146b35d2ee4a85ad5c, type: 3}
-    - {fileID: 2800000, guid: 4d0dc6b36d3bfed44a9a32abdd4b6d5f, type: 3}
-    - {fileID: 2800000, guid: 3ade7eae093d5834cbe01010e982bc05, type: 3}
-    - {fileID: 2800000, guid: c5adf20328a23cd4fbd236805e72781d, type: 3}
-    - {fileID: 2800000, guid: 090cc105b25e1f54cb4ba9099d090c71, type: 3}
     - {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
     - {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
     tileItem:

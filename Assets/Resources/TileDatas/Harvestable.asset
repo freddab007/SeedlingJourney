@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b95aa90b403d4242aab95c05fda7e67, type: 3}
   m_Name: Harvestable
   m_EditorClassIdentifier: 
-  _tileBase:
-  - {fileID: 11400000, guid: 81b86d78265444a4bbfdc354a978be98, type: 2}
-  - {fileID: 11400000, guid: 9213d54ff4f4b904b842fa6d60a50f0d, type: 2}
+  tileBase:
+  - {fileID: 11400000, guid: 88fcf09c35c5a3d4985b6305b8f756cf, type: 2}
   havertable: 1

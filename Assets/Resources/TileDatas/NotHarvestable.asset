@@ -12,15 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6b95aa90b403d4242aab95c05fda7e67, type: 3}
   m_Name: NotHarvestable
   m_EditorClassIdentifier: 
-  _tileBase:
-  - {fileID: 11400000, guid: 0271fcb7443152e499ba977f43b6cb53, type: 2}
-  - {fileID: 11400000, guid: b0bf93308f88929498b86eef3dabaee0, type: 2}
-  - {fileID: 11400000, guid: 38497accea6d8a84b880beac22de04c3, type: 2}
-  - {fileID: 11400000, guid: 55eaaf47280c28b4a81135201bb856bd, type: 2}
-  - {fileID: 11400000, guid: 002098c86f885194c81e413309449a4b, type: 2}
-  - {fileID: 11400000, guid: 09392b8b042f78e4dbc10928dd79b17f, type: 2}
-  - {fileID: 11400000, guid: 007a969233f220043a2baab85009ee76, type: 2}
-  - {fileID: 11400000, guid: cc8872df59e77854e9e1b4becdb02e34, type: 2}
-  - {fileID: 11400000, guid: e5d3a6ae4ea795d4b9eb7704df0b2c8e, type: 2}
-  - {fileID: 11400000, guid: 84015b3fb25b94745b00107b72f4d0f2, type: 2}
+  tileBase:
+  - {fileID: 11400000, guid: c0563828511b2214a8cfc4363811da2e, type: 2}
+  - {fileID: 11400000, guid: 9213d54ff4f4b904b842fa6d60a50f0d, type: 2}
   havertable: 0

@@ -9,14 +9,21 @@ public class MapTileManager : MonoBehaviour
     public static MapTileManager instance;
 
 
-    enum TileMapType
+    public enum TileMapType
     {
         GROUND,
         MAPCOL,
-        WALL,
+        MAPEXTERIOR,
         PLANT,
         PLANTCOL,
         NBTILEMAP
+    }
+
+
+    public enum DRYWETTYPE
+    {
+        DRY,
+        WET
     }
 
     [SerializeField] GameObject baseTile;
@@ -25,6 +32,33 @@ public class MapTileManager : MonoBehaviour
 
     [SerializeField] NavMeshSurface navMesh;
 
+    [SerializeField] TileData[] tileData;
+
+    Dictionary<TileBase, TileData> dataFromTiles;
+
+    TileBase[] dryWetTile;
+
+
+
+    // Start is called before the first frame update
+    void Awake()
+    {
+        if (!instance)
+        {
+            instance = this;
+        }
+
+        dataFromTiles = new Dictionary<TileBase, TileData>();
+
+        foreach (var tileData in tileData)
+        {
+            foreach (var tile in tileData.tileBase)
+            {       
+                dataFromTiles.Add(tile, tileData);
+            }
+        }
+
+    }
 
     public void ChangePlantTile(Tile _tile, Vector2Int _pos, bool _colision)
     {
@@ -34,8 +68,6 @@ public class MapTileManager : MonoBehaviour
             if (TileMaps[(int)TileMapType.GROUND].GetTile(posTile) != null)
             {
                 TileMaps[(int)TileMapType.PLANTCOL].SetTile(posTile, _tile);
-                //TileMaps[(int)TileMapType.PLANTCOL].GetComponent<TilemapRenderer>().enabled = false;
-                //TileMaps[(int)TileMapType.PLANTCOL].GetComponent<TilemapRenderer>().enabled = true;
             }
         }
         else
@@ -43,8 +75,6 @@ public class MapTileManager : MonoBehaviour
             if (TileMaps[(int)TileMapType.GROUND].GetTile(posTile) != null)
             {
                 TileMaps[(int)TileMapType.PLANT].SetTile(posTile, _tile);
-                //TileMaps[(int)TileMapType.PLANT].GetComponent<TilemapRenderer>().enabled = false;
-                //TileMaps[(int)TileMapType.PLANT].GetComponent<TilemapRenderer>().enabled = true;
             }
         }
     }
@@ -57,12 +87,21 @@ public class MapTileManager : MonoBehaviour
         newSprite.GetComponent<Seed>().Init(_pos, _item);
     }
 
-    // Start is called before the first frame update
-    void Awake()
+    public TileBase GetTileOnMap(Vector3Int _pos, TileMapType _type)
     {
-        if (!instance)
+        return TileMaps[(int)_type].GetTile(_pos);
+    }
+
+    void ChangeGroundTile(Vector3Int _pos)
+    {
+        if (GetTileOnMap( _pos, TileMapType.GROUND) != null && GetTileOnMap(_pos, TileMapType.MAPCOL) == null && GetTileOnMap(_pos, TileMapType.MAPEXTERIOR) == null)
         {
-            instance = this;
+            if (dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
+            {
+                Debug.Log(GetTileOnMap(_pos, TileMapType.GROUND).name);
+                Debug.Log("TEST !!");
+                //TileMaps[(int)TileMapType.GROUND].SetTile( _pos, dryWetTile[(int)DRYWETTYPE.DRY]);
+            }
         }
     }
 
@@ -70,5 +109,18 @@ public class MapTileManager : MonoBehaviour
     public AsyncOperation StartNavMeshBake()
     {
         return navMesh.BuildNavMeshAsync();
+    }
+
+    public void TileChanger(Vector2Int _pos, Item _item)
+    {
+        if (_item != null)
+        {
+            Vector3Int pos = new Vector3Int(_pos.x, _pos.y, 0);
+
+            if (_item.itemType == TypeItem.TOOL && _item.toolType == ToolType.HOE)
+            {
+                ChangeGroundTile(pos);
+            }
+        }
     }
 }

@@ -336,7 +336,7 @@ public class ItemDataBaseWindow : EditorWindow
             {
                 PrintLabelInColor("Already First Item");
             }
-            if (j < _item.nbOfTex - 1)
+            if (j < _item.nbOfTile - 1)
             {
                 if (GUILayout.Button("Down"))
                 {
