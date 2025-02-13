@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
@@ -12,7 +13,7 @@ public class Player : MonoBehaviour
     int columnSelect;
     Vector2Int mouseMapPosition = new Vector2Int();
     Vector2Int playerPosTick = new Vector2Int();
-    Vector2Int globalMapPosition = new Vector2Int( 0, 0);
+    Vector2Int globalMapPosition = new Vector2Int(0, 0);
 
     [SerializeField][Range(1.0f, 20.0f)] float speed = 2;
     [SerializeField] GameObject playerPos;
@@ -94,6 +95,23 @@ public class Player : MonoBehaviour
         }
     }
 
+
+    void SetPlayerPositionTile()
+    {
+
+        playerPosTick.x = (int)playerPos.transform.position.x;
+        playerPosTick.y = (int)playerPos.transform.position.y;
+        if (playerPos.transform.position.y < 0)
+        {
+            playerPosTick.y = Mathf.FloorToInt(playerPos.transform.position.y);
+        }
+        if (playerPos.transform.position.x < 0)
+        {
+            playerPosTick.x = Mathf.FloorToInt(playerPos.transform.position.x);
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -102,25 +120,22 @@ public class Player : MonoBehaviour
             mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
             mouseInteract = plI.currentActionMap.actions[2].ReadValue<float>();
 
-            playerPosTick.x = (int)playerPos.transform.position.x;
-            playerPosTick.y = (int)playerPos.transform.position.y;
 
+            SetPlayerPositionTile();
             SetMousePositionTile();
             rb.velocity = plI.currentActionMap.actions[0].ReadValue<Vector2>() * speed;
 
             Scroll();
             GetWhatInFront();
 
-            SelectedTest.transform.position = new Vector3(mouseMapPosition.x + 0.5f, mouseMapPosition.y + 0.5f, -1);
 
-            if (mouseActive > 0)
+            if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
             {
-
-                if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
+                SelectedTest.transform.position = new Vector3(mouseMapPosition.x + 0.5f, mouseMapPosition.y + 0.5f, -1);
+                if (mouseActive > 0)
                 {
-                    Debug.Log(mouseMapPosition);
                     //mapManager.ChangeTile(mouseMapPosition, GetItemEquiped(), objectOnMap);
-                    MapTileManager.instance.TileChanger( mouseMapPosition, GetItemEquiped());
+                    MapTileManager.instance.TileChanger(mouseMapPosition, GetItemEquiped());
                 }
             }
             else if (mouseInteract > 0 && playerPosTick.y >= 0 && playerPosTick.x >= 0)

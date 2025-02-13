@@ -98,7 +98,6 @@ public class MapTileManager : MonoBehaviour
         {
             if (dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
             {
-                Debug.Log(GetTileOnMap(_pos, TileMapType.GROUND).name);
                 Debug.Log("TEST !!");
                 //TileMaps[(int)TileMapType.GROUND].SetTile( _pos, dryWetTile[(int)DRYWETTYPE.DRY]);
             }
