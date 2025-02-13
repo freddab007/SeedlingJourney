@@ -54,6 +54,7 @@ public class MapTileManager : MonoBehaviour
         {
             foreach (var tile in tileData.tileBase)
             {       
+
                 dataFromTiles.Add(tile, tileData);
             }
         }
