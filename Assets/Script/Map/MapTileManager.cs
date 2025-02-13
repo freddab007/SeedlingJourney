@@ -36,7 +36,7 @@ public class MapTileManager : MonoBehaviour
 
     Dictionary<TileBase, TileData> dataFromTiles;
 
-    TileBase[] dryWetTile;
+    [SerializeField]TileBase[] dryWetTile;
 
 
 
@@ -53,8 +53,7 @@ public class MapTileManager : MonoBehaviour
         foreach (var tileData in tileData)
         {
             foreach (var tile in tileData.tileBase)
-            {       
-
+            {
                 dataFromTiles.Add(tile, tileData);
             }
         }
@@ -93,14 +92,17 @@ public class MapTileManager : MonoBehaviour
         return TileMaps[(int)_type].GetTile(_pos);
     }
 
-    void ChangeGroundTile(Vector3Int _pos)
+    void ChangeGroundTile(Vector3Int _pos, ToolType _toolType)
     {
         if (GetTileOnMap( _pos, TileMapType.GROUND) != null && GetTileOnMap(_pos, TileMapType.MAPCOL) == null && GetTileOnMap(_pos, TileMapType.MAPEXTERIOR) == null)
         {
-            if (dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
+            if (_toolType == ToolType.HOE && dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
             {
-                Debug.Log("TEST !!");
-                //TileMaps[(int)TileMapType.GROUND].SetTile( _pos, dryWetTile[(int)DRYWETTYPE.DRY]);
+                TileMaps[(int)TileMapType.GROUND].SetTile( _pos, dryWetTile[(int)DRYWETTYPE.DRY]);
+            }
+            else if (_toolType == ToolType.WATERINGCAN && GetTileOnMap(_pos, TileMapType.GROUND) == dryWetTile[(int)DRYWETTYPE.DRY])
+            {
+                TileMaps[(int)TileMapType.GROUND].SetTile(_pos, dryWetTile[(int)DRYWETTYPE.WET]);
             }
         }
     }
@@ -117,9 +119,9 @@ public class MapTileManager : MonoBehaviour
         {
             Vector3Int pos = new Vector3Int(_pos.x, _pos.y, 0);
 
-            if (_item.itemType == TypeItem.TOOL && _item.toolType == ToolType.HOE)
+            if (_item.itemType == TypeItem.TOOL)
             {
-                ChangeGroundTile(pos);
+                ChangeGroundTile(pos, _item.toolType);
             }
         }
     }
