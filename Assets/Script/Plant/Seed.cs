@@ -17,11 +17,11 @@ public class Seed : MonoBehaviour, IItem
     // Start is called before the first frame update
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        //spriteRenderer = GetComponent<SpriteRenderer>();
         PlantManager.Instance.AddPlant(GrowSeed);
         PlantManager.Instance.AddSeed(this);
 
-        spriteRenderer.sprite = Sprite.Create(linkItem.texItem[state], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
+        //spriteRenderer.sprite = Sprite.Create(linkItem.texItem[state], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
     }
 
     public void Init(Vector2Int _pos, Item _item)
@@ -30,7 +30,7 @@ public class Seed : MonoBehaviour, IItem
         linkItem = new Item(_item);
 
 
-        MapManager.instance.ChangePlantTile(_item.tileItem[0], _pos, _item.collision);
+        MapTileManager.instance.ChangePlantTile(_item.tileItem[0], _pos, _item.collision);
     }
 
     public Vector2Int GetPos()
@@ -41,19 +41,20 @@ public class Seed : MonoBehaviour, IItem
 
     public void GrowSeed()
     {
-        if (MapManager.instance.GetTile(tilePos) == MapManager.TypeTile.GROUNDWET && !isDead)
+        if (MapTileManager.instance.GetTileOnMap(new Vector3Int(tilePos.x, tilePos.y, 0), MapTileManager.TileMapType.GROUND) == MapTileManager.instance.dryWetTile[(int)MapTileManager.DRYWETTYPE.WET] && !isDead)
         {
             ++linkItem.growDay;
             deathTimer = 3;
             if (state < linkItem.texItem.Count - 3)
             {
                 ++state;
-                spriteRenderer.sprite = Sprite.Create(linkItem.texItem[state], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
+                //spriteRenderer.sprite = Sprite.Create(linkItem.texItem[state], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
+                MapTileManager.instance.ChangePlantTile(linkItem.tileItem[state], tilePos, linkItem.collision);
             }
             if (linkItem.growDay >= linkItem.timeGrowth)
             {
-                spriteRenderer.sprite = Sprite.Create(linkItem.texItem[linkItem.texItem.Count - 2], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
-                MapManager.instance.ChangePlantTile(linkItem.tileItem[linkItem.nbOfTile - 2], tilePos, linkItem.collision);
+                //spriteRenderer.sprite = Sprite.Create(linkItem.texItem[linkItem.texItem.Count - 2], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
+                MapTileManager.instance.ChangePlantTile(linkItem.tileItem[linkItem.nbOfTile - 2], tilePos, linkItem.collision);
                 PlantManager.Instance.SubPlant(GrowSeed);
             }
         }
@@ -72,7 +73,8 @@ public class Seed : MonoBehaviour, IItem
     public void Death()
     {
         PlantManager.Instance.SubPlant(GrowSeed);
-        spriteRenderer.sprite = Sprite.Create(linkItem.texItem[linkItem.texItem.Count - 1], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
+        //spriteRenderer.sprite = Sprite.Create(linkItem.texItem[linkItem.texItem.Count - 1], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);
+        MapTileManager.instance.ChangePlantTile(linkItem.tileItem[linkItem.nbOfTile - 1], tilePos, linkItem.collision);
     }
 
 

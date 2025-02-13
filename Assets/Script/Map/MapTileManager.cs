@@ -36,7 +36,7 @@ public class MapTileManager : MonoBehaviour
 
     Dictionary<TileBase, TileData> dataFromTiles;
 
-    [SerializeField]TileBase[] dryWetTile;
+    public TileBase[] dryWetTile;
 
 
 
@@ -79,7 +79,7 @@ public class MapTileManager : MonoBehaviour
         }
     }
 
-    void AddPlant(Item _item, Vector2Int _pos)
+    public void AddPlant(Item _item, Vector2Int _pos)
     {
         GameObject newSprite = Instantiate(baseTile);
 
