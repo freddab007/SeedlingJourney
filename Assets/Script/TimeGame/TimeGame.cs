@@ -54,7 +54,7 @@ public class TimeGame : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            AddDay();
+            NewDay();
         }
     }
 
@@ -113,8 +113,8 @@ public class TimeGame : MonoBehaviour
     {
         PlantManager.Instance.LaunchGrow();
         PlantManager.Instance.LaunchDeath();
-        MapManager.instance.WetToDry();
-        if (hours <= 2)
+        MapTileManager.instance.WetToDry();
+        if (hours >= 2 && hours <= maxHours)
         {
             AddDay();
         }

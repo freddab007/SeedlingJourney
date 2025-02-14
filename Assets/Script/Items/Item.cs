@@ -92,8 +92,10 @@ public class Item : IItem
         itemName = _item.itemName;
         itemDescription = _item.itemDescription;
         nbOfTex = _item.nbOfTex;
+        nbOfTile = _item.nbOfTile;
         inventorySprite = _item.inventorySprite;
         texItem = _item.texItem;
+        tileItem = _item.tileItem;
         maxNbItem = _item.maxNbItem;
         nbItem = _item.nbItem;
         weaponType = _item.weaponType;

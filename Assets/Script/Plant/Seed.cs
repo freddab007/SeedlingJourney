@@ -45,7 +45,7 @@ public class Seed : MonoBehaviour, IItem
         {
             ++linkItem.growDay;
             deathTimer = 3;
-            if (state < linkItem.texItem.Count - 3)
+            if (state < linkItem.tileItem.Count - 3)
             {
                 ++state;
                 //spriteRenderer.sprite = Sprite.Create(linkItem.texItem[state], new Rect(0, 0, 32, 32), new Vector2(0, 1), MapManager.tileSize);

@@ -38,7 +38,8 @@ public class MapTileManager : MonoBehaviour
 
     public TileBase[] dryWetTile;
 
-
+    List<Vector3Int> wetGround = new List<Vector3Int>();
+    List<Vector3Int> dryGround = new List<Vector3Int>();
 
     // Start is called before the first frame update
     void Awake()
@@ -58,6 +59,15 @@ public class MapTileManager : MonoBehaviour
             }
         }
 
+    }
+
+    public void WetToDry()
+    {
+        foreach(var wetPos in wetGround)
+        {
+            TileMaps[(int)TileMapType.GROUND].SetTile(wetPos, dryWetTile[(int)DRYWETTYPE.DRY]);
+        }
+        wetGround.Clear();
     }
 
     public void ChangePlantTile(Tile _tile, Vector2Int _pos, bool _colision)
@@ -98,10 +108,13 @@ public class MapTileManager : MonoBehaviour
         {
             if (_toolType == ToolType.HOE && dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
             {
+                dryGround.Add(_pos);
                 TileMaps[(int)TileMapType.GROUND].SetTile( _pos, dryWetTile[(int)DRYWETTYPE.DRY]);
             }
             else if (_toolType == ToolType.WATERINGCAN && GetTileOnMap(_pos, TileMapType.GROUND) == dryWetTile[(int)DRYWETTYPE.DRY])
             {
+                wetGround.Add(_pos);
+                dryGround.Remove(_pos);
                 TileMaps[(int)TileMapType.GROUND].SetTile(_pos, dryWetTile[(int)DRYWETTYPE.WET]);
             }
         }
