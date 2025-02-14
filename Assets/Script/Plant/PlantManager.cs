@@ -23,7 +23,7 @@ public class PlantManager : MonoBehaviour
         
     }
 
-    public Seed GetSeedPos(Vector2Int _pos)
+    public Seed GetSeedByPos(Vector2Int _pos)
     {
         testSeed = seeds.Where(x => x.GetPos() == _pos).ToList();
         if (testSeed.Count == 0)

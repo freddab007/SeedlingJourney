@@ -77,13 +77,14 @@ public class Seed : MonoBehaviour, IItem
         MapTileManager.instance.ChangePlantTile(linkItem.tileItem[linkItem.nbOfTile - 1], tilePos, linkItem.collision);
     }
 
-
     public Item GetPlant()
     {
         if (isDead || linkItem.growDay < linkItem.timeGrowth)
         {
             if (isDead)
             {
+                MapTileManager.instance.ChangePlantTile( null, tilePos, linkItem.collision);
+                PlantManager.Instance.SubSeed(this);
                 Destroy(gameObject);
             }
             return null;

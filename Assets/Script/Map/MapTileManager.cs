@@ -64,7 +64,7 @@ public class MapTileManager : MonoBehaviour
 
     public void WetToDry()
     {
-        foreach(var wetPos in wetGround)
+        foreach (var wetPos in wetGround)
         {
             TileMaps[(int)TileMapType.GROUND].SetTile(wetPos, dryWetTile[(int)DRYWETTYPE.DRY]);
         }
@@ -105,7 +105,7 @@ public class MapTileManager : MonoBehaviour
 
     bool NothingOnGround(Vector3Int _pos, TileMapType[] _ignore = null)
     {
-        if (GetTileOnMap( _pos, TileMapType.GROUND) == null)
+        if (GetTileOnMap(_pos, TileMapType.GROUND) == null)
         {
             return false;
         }
@@ -118,7 +118,7 @@ public class MapTileManager : MonoBehaviour
                     continue;
                 }
             }
-            if (GetTileOnMap( _pos, (TileMapType)i) != null)
+            if (GetTileOnMap(_pos, (TileMapType)i) != null)
             {
                 return false;
             }
@@ -130,12 +130,12 @@ public class MapTileManager : MonoBehaviour
     void ChangeGroundTile(Vector3Int _pos, ToolType _toolType)
     {
         //if (GetTileOnMap( _pos, TileMapType.GROUND) != null && GetTileOnMap(_pos, TileMapType.MAPCOL) == null && GetTileOnMap(_pos, TileMapType.MAPEXTERIOR) == null)
-        if (NothingOnGround(_pos, new TileMapType[]{ TileMapType.PLANT, TileMapType.PLANTCOL}))
+        if (NothingOnGround(_pos, new TileMapType[] { TileMapType.PLANT, TileMapType.PLANTCOL }))
         {
             if (_toolType == ToolType.HOE && dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
             {
                 dryGround.Add(_pos);
-                TileMaps[(int)TileMapType.GROUND].SetTile( _pos, dryWetTile[(int)DRYWETTYPE.DRY]);
+                TileMaps[(int)TileMapType.GROUND].SetTile(_pos, dryWetTile[(int)DRYWETTYPE.DRY]);
             }
             else if (_toolType == ToolType.WATERINGCAN && dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].canBeSpray && !dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].isWet)
             {
@@ -158,15 +158,33 @@ public class MapTileManager : MonoBehaviour
         {
             Vector3Int pos = new Vector3Int(_pos.x, _pos.y, 0);
 
-            if (_item.itemType == TypeItem.TOOL)
+            if (GetTileOnMap(pos, TileMapType.PLANT) != null || GetTileOnMap(pos, TileMapType.PLANT) != null)
+            {
+                Seed tempSeed = PlantManager.Instance.GetSeedByPos(_pos);
+                if (tempSeed != null)
+                {
+                    Item itemPlant = tempSeed.GetPlant();
+                    if (itemPlant != null && itemPlant.itemGiver != -1)
+                    {
+                        PlantManager.Instance.SubSeed(tempSeed);
+                        Item itemGive = new Item(Inventory.data.items[itemPlant.itemGiver]);
+                        itemGive.nbItem = itemPlant.numberGive;
+                        ChangePlantTile(null, _pos, itemPlant.collision);
+                        FindAnyObjectByType<Player>()?.GetComponent<Inventory>().AddItem(itemGive);
+                        Destroy(tempSeed.gameObject);
+                    }
+
+                }
+            }
+            else if (_item.itemType == TypeItem.TOOL)
             {
                 ChangeGroundTile(pos, _item.toolType);
             }
             else if (_item.itemType == TypeItem.SEED)
             {
-                if (NothingOnGround( pos) && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].canBeSpray)
+                if (NothingOnGround(pos) && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].canBeSpray)
                 {
-                    AddPlant( _item, _pos);
+                    AddPlant(_item, _pos);
                 }
             }
         }

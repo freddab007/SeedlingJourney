@@ -848,11 +848,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: cc8872df59e77854e9e1b4becdb02e34, type: 2}
   - {fileID: 11400000, guid: e5d3a6ae4ea795d4b9eb7704df0b2c8e, type: 2}
   - {fileID: 11400000, guid: 84015b3fb25b94745b00107b72f4d0f2, type: 2}
-  - {fileID: 11400000, guid: c5ec434372966a3479801a937f391abd, type: 2}
-  - {fileID: 11400000, guid: 05bead521b2433346885e9459ceb119a, type: 2}
-  - {fileID: 11400000, guid: 35cb619b4ec4ee24ea3452b5f7f768d2, type: 2}
-  - {fileID: 11400000, guid: 41ae9c2116ce7a04fa3df9d5017ce0b9, type: 2}
-  - {fileID: 11400000, guid: 87e865e5db7ad2d48bcf1f95a315c6ad, type: 2}
   havertable: 0
   canBeSpray: 0
   isWet: 0
+  plant: 0
