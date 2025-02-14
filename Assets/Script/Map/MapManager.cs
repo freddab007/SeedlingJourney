@@ -72,25 +72,6 @@ public class MapManager : MonoBehaviour
         reader.Close();
     }
 
-    public void ChangePlantTile(Tile _tile, Vector2Int _pos, bool _colision)
-    {
-        Vector3Int posTile = new Vector3Int( _pos.x, _pos.y);
-        if (_colision)
-        {
-            if (groundTileMap.GetTile(new Vector3Int(_pos.x, _pos.y)) != null)
-            {
-                plantTileMapCol.SetTile(new Vector3Int(_pos.x, _pos.y), _tile);
-            }
-        }
-        else
-        {
-            if (groundTileMap.GetTile(new Vector3Int(_pos.x, _pos.y)) != null)
-            {
-                plantTileMap.SetTile(new Vector3Int(_pos.x, _pos.y), _tile);
-            }
-        }
-    }
-
     void ChangeSprite(int _value, Vector2Int _pos)
     {
         mapType[_pos.y][_pos.x] = _value;

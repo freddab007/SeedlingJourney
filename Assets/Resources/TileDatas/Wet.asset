@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b95aa90b403d4242aab95c05fda7e67, type: 3}
+  m_Name: Wet
+  m_EditorClassIdentifier: 
+  tileBase:
+  - {fileID: 11400000, guid: c8d863a8c09fb5b4097a9fc864e8d746, type: 2}
+  havertable: 0
+  canBeSpray: 1
+  isWet: 1

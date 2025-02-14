@@ -131,24 +131,29 @@ public class Player : MonoBehaviour
 
             if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
             {
+                SelectedTest.SetActive(true);
                 SelectedTest.transform.position = new Vector3(mouseMapPosition.x + 0.5f, mouseMapPosition.y + 0.5f, -1);
                 if (mouseActive > 0)
                 {
                     //mapManager.ChangeTile(mouseMapPosition, GetItemEquiped(), objectOnMap);
                     MapTileManager.instance.TileChanger(mouseMapPosition, GetItemEquiped());
                 }
-            }
-            else if (mouseInteract > 0 && playerPosTick.y >= 0 && playerPosTick.x >= 0)
-            {
-                if (objectOnMap)
+                else if (mouseInteract > 0)
                 {
-                    if (objectOnMap.GetComponent<Chest>())
+                    if (objectOnMap)
                     {
-                        inventory.OpenInventory();
-                        objectOnMap.GetComponent<Chest>().OpenChest();
-                        OpenChest();
+                        if (objectOnMap.GetComponent<Chest>())
+                        {
+                            inventory.OpenInventory();
+                            objectOnMap.GetComponent<Chest>().OpenChest();
+                            OpenChest();
+                        }
                     }
                 }
+            }
+            else
+            {
+                SelectedTest.SetActive(false);
             }
         }
     }

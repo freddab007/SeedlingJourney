@@ -31,8 +31,6 @@ public class Inventory : MonoBehaviour
         AddItem(data.items[1]);
         AddItem(data.items[2]);
         AddItem(data.items[0]);
-
-        MapTileManager.instance.AddPlant(data.items[0], new Vector2Int(5, 5));
         //MapTileManager.instance.ChangePlantTile(data.items[0].tileItem[0], new Vector2Int( 15, 4), false);
 
         //for (int i = 0; i < nbLine; i++)

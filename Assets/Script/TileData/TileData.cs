@@ -8,4 +8,8 @@ public class TileData : ScriptableObject
     public TileBase[] tileBase;
 
     public bool havertable;
+
+    public bool canBeSpray;
+   
+    public bool isWet;
 }

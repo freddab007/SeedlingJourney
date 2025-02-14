@@ -1,6 +1,7 @@
 using NavMeshPlus.Components;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -102,16 +103,41 @@ public class MapTileManager : MonoBehaviour
         return TileMaps[(int)_type].GetTile(_pos);
     }
 
+    bool NothingOnGround(Vector3Int _pos, TileMapType[] _ignore = null)
+    {
+        if (GetTileOnMap( _pos, TileMapType.GROUND) == null)
+        {
+            return false;
+        }
+        for (int i = 1; i < (int)TileMapType.NBTILEMAP; i++)
+        {
+            if (_ignore != null)
+            {
+                if (_ignore.Where(x => x == (TileMapType)i) != null)
+                {
+                    continue;
+                }
+            }
+            if (GetTileOnMap( _pos, (TileMapType)i) != null)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     void ChangeGroundTile(Vector3Int _pos, ToolType _toolType)
     {
-        if (GetTileOnMap( _pos, TileMapType.GROUND) != null && GetTileOnMap(_pos, TileMapType.MAPCOL) == null && GetTileOnMap(_pos, TileMapType.MAPEXTERIOR) == null)
+        //if (GetTileOnMap( _pos, TileMapType.GROUND) != null && GetTileOnMap(_pos, TileMapType.MAPCOL) == null && GetTileOnMap(_pos, TileMapType.MAPEXTERIOR) == null)
+        if (NothingOnGround(_pos, new TileMapType[]{ TileMapType.PLANT, TileMapType.PLANTCOL}))
         {
             if (_toolType == ToolType.HOE && dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
             {
                 dryGround.Add(_pos);
                 TileMaps[(int)TileMapType.GROUND].SetTile( _pos, dryWetTile[(int)DRYWETTYPE.DRY]);
             }
-            else if (_toolType == ToolType.WATERINGCAN && GetTileOnMap(_pos, TileMapType.GROUND) == dryWetTile[(int)DRYWETTYPE.DRY])
+            else if (_toolType == ToolType.WATERINGCAN && dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].canBeSpray && !dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].isWet)
             {
                 wetGround.Add(_pos);
                 dryGround.Remove(_pos);
@@ -135,6 +161,13 @@ public class MapTileManager : MonoBehaviour
             if (_item.itemType == TypeItem.TOOL)
             {
                 ChangeGroundTile(pos, _item.toolType);
+            }
+            else if (_item.itemType == TypeItem.SEED)
+            {
+                if (NothingOnGround( pos) && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].canBeSpray)
+                {
+                    AddPlant( _item, _pos);
+                }
             }
         }
     }

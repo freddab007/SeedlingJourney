@@ -835,14 +835,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 61cdfe562feaa92409a7bbac94a7f6ba, type: 2}
   - {fileID: 11400000, guid: 4cd7b7b2e0719c744b8e913c74e28c9e, type: 2}
   - {fileID: 11400000, guid: 46e27649223518d4889676717e45d2a9, type: 2}
-  - {fileID: 11400000, guid: 207192d91fafe564bbcff407084d9d64, type: 2}
   - {fileID: 11400000, guid: fd006c3b999cf694ba89603d4d71b561, type: 2}
   - {fileID: 11400000, guid: 4cc24f933c94c8d46b547b5ea2eefec9, type: 2}
   - {fileID: 11400000, guid: a29138ae6cda4d147b6694860f2d2b76, type: 2}
   - {fileID: 11400000, guid: 0271fcb7443152e499ba977f43b6cb53, type: 2}
   - {fileID: 11400000, guid: b0bf93308f88929498b86eef3dabaee0, type: 2}
   - {fileID: 11400000, guid: 38497accea6d8a84b880beac22de04c3, type: 2}
-  - {fileID: 11400000, guid: c8d863a8c09fb5b4097a9fc864e8d746, type: 2}
   - {fileID: 11400000, guid: 55eaaf47280c28b4a81135201bb856bd, type: 2}
   - {fileID: 11400000, guid: 002098c86f885194c81e413309449a4b, type: 2}
   - {fileID: 11400000, guid: 09392b8b042f78e4dbc10928dd79b17f, type: 2}
@@ -856,3 +854,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41ae9c2116ce7a04fa3df9d5017ce0b9, type: 2}
   - {fileID: 11400000, guid: 87e865e5db7ad2d48bcf1f95a315c6ad, type: 2}
   havertable: 0
+  canBeSpray: 0
+  isWet: 0
