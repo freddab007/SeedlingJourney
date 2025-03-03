@@ -1,8 +1,14 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
+
+enum PlayerAction
+{
+    NOTHING,
+    HARVEST,
+    WATERING,
+    PLANTSEED,
+}
 
 public class Player : MonoBehaviour
 {
@@ -21,6 +27,8 @@ public class Player : MonoBehaviour
     [SerializeField] MapManager mapManager;
 
     GameObject objectOnMap;
+
+    PlayerAction action;
 
     bool inventoryOpen = false;
     bool chestOpen = false;

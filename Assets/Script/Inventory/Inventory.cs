@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using static UnityEditor.Progress;
 
@@ -56,8 +57,35 @@ public class Inventory : MonoBehaviour
 
     public Item[][] GetInventory()
     {
-
         return inventory;
+    }
+
+    public Vector2Int SearchItem(Item _itemSearch, bool _addInInventory = false)
+    {
+        Vector2Int invPos = new Vector2Int( -1, -1);
+
+        for (int i = 0; i < inventory.Length; i++)
+        {
+            for (int j = 0; j < inventory[i].Length; j++)
+            {
+                if (inventory[i][j].itemId == _itemSearch.itemId)
+                {
+                    if (_addInInventory && inventory[i][j].nbItem == inventory[i][j].maxNbItem)
+                    {
+                        invPos.x = -1;
+                        invPos.y = -1;
+                        continue;
+                    }
+
+                    invPos.x = j;
+                    invPos.y = i;
+                    return invPos;
+
+                }
+            }
+        }
+
+        return invPos;
     }
 
     public Item AddItem(Item _newItem)
@@ -130,6 +158,16 @@ public class Inventory : MonoBehaviour
         }
 
         return _newItem;
+    }
+
+    public bool SubItemByPos( Vector2Int _invPos, int _num)
+    {
+        if (inventory[_invPos.y][_invPos.x].nbItem - _num >= 0)
+        {
+            inventory[_invPos.y][_invPos.x].nbItem -= _num;
+            return true;
+        }
+        return false;
     }
 
 
