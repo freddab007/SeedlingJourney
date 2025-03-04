@@ -21,7 +21,7 @@ public class ItemDataBaseWindow : EditorWindow
 
     Tile newTile;
 
-    [MenuItem("Tools/Item Database")]
+    [MenuItem("Seedling Journey/Item Database")]
 
     public static void OpenWindow()
     {
