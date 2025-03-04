@@ -175,6 +175,7 @@ public class Inventory : MonoBehaviour
     {
         if (itemMouse == null)
         {
+            GameManager.instance.PauseGame();
             UIGameManager.Instance.OpenInventory();
             UIGameManager.Instance.UpdateInventory(inventory);
         }
