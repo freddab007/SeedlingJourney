@@ -6,5 +6,5 @@ using UnityEngine;
 
 public class NPCDataBase : ScriptableObject
 {
-    List<NPCData> NPCDatas = new List<NPCData>();
+    public List<NPCData> NPCDatas = new List<NPCData>();
 }
