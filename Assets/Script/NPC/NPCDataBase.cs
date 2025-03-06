@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NPCDatabase")]
+[CreateAssetMenu(fileName = "NPCDatabase", menuName = "Seedling Journey/DataBases/NPC DataBase")]
 
 public class NPCDataBase : ScriptableObject
 {

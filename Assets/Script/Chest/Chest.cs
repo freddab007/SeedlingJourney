@@ -14,7 +14,7 @@ public class Chest : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        temp = Resources.Load<ItemDataList>("ItemDataBase/ItemDataList");
+        temp = Resources.Load<ItemDataList>("DataBases/ItemDataBase/ItemDataList");
         itemList[ 0, 0] = new Item(temp.items[2]);
         playerInventory = FindAnyObjectByType<Inventory>();
     }

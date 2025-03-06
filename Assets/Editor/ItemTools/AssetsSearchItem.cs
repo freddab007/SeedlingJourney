@@ -26,7 +26,7 @@ public class AssetsSearchItem : EditorWindow
 
     private void OnEnable()
     {
-        listData = Resources.Load<ItemDataList>("ItemDataBase/ItemDataList");
+        listData = Resources.Load<ItemDataList>("DataBases/ItemDataBase/ItemDataList");
     }
 
     private void OnGUI()

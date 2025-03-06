@@ -26,8 +26,10 @@ public class NPCData
 
     public string name;
 
-    public List<NPCType> type;
-    public List<NPCAction> actions;
+    public List<NPCType> type = new List<NPCType>();
+    public List<NPCAction> actions = new List<NPCAction>();
 
-    public Dictionary<NPCAction, List<string>> dialog;
+    public List<Routine> routines = new List<Routine>();
+
+    public Dictionary<Routine, List<string>> dialog;
 }

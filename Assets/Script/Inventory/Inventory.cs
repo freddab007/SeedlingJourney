@@ -20,7 +20,7 @@ public class Inventory : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        data = Resources.Load<ItemDataList>("ItemDataBase/ItemDataList");
+        data = Resources.Load<ItemDataList>("DataBases/ItemDataBase/ItemDataList");
 
         inventory = new Item[nbLine][];
 

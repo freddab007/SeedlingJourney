@@ -21,7 +21,7 @@ public class ItemDataBaseWindow : EditorWindow
 
     Tile newTile;
 
-    [MenuItem("Seedling Journey/Item Database")]
+    [MenuItem("Seedling Journey/DataBases/Item Database")]
 
     public static void OpenWindow()
     {
@@ -31,7 +31,7 @@ public class ItemDataBaseWindow : EditorWindow
 
     private void OnEnable()
     {
-        itemList = Resources.Load<ItemDataList>("ItemDataBase/ItemDataList");
+        itemList = Resources.Load<ItemDataList>("Databases/ItemDataBase/ItemDataList");
         filter = (TypeItem)(~0);
         lastFilter = filter;
 
@@ -42,11 +42,21 @@ public class ItemDataBaseWindow : EditorWindow
     }
 
 
-    private void PrintLabelInColor(string _text)
+    private void PrintLabelInColor(string _text, bool _center = false)
     {
         GUI.contentColor = baseColor;
 
-        EditorGUILayout.LabelField(_text);
+        if (_center)
+        {
+            GUIStyle centeredStyle = new GUIStyle(GUI.skin.label);
+            centeredStyle.alignment = TextAnchor.MiddleCenter;
+
+            EditorGUILayout.LabelField(_text, centeredStyle, GUILayout.ExpandWidth(true));
+        }
+        else
+        {
+            EditorGUILayout.LabelField(_text);
+        }
         GUI.contentColor = Color.green;
     }
 
@@ -284,7 +294,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already First Item");
+                PrintLabelInColor("Already First Item", true);
             }
             if (j < _item.nbOfTex - 1)
             {
@@ -297,10 +307,18 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already Last Item");
+                PrintLabelInColor("Already Last Item", true);
             }
 
-            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(40)))
+            {
+                _item.texItem.RemoveAt(j);
+                --_item.nbOfTex;
+                j = 0;
+            }
+
             GUILayout.EndHorizontal();
         }
     }
@@ -334,7 +352,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already First Item");
+                PrintLabelInColor("Already First Item", true);
             }
             if (j < _item.nbOfTile - 1)
             {
@@ -350,10 +368,18 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already Last Item");
+                PrintLabelInColor("Already Last Item", true);
             }
 
-            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+            if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(40)))
+            {
+                _item.tileTex.RemoveAt(j);
+                --_item.nbOfTile;
+                j = 0;
+            }
+
             GUILayout.EndHorizontal();
         }
     }
@@ -447,8 +473,6 @@ public class ItemDataBaseWindow : EditorWindow
             GUILayout.EndHorizontal();
 
 
-            AddRemoveTex(item);
-            AddRemoveTile(item);
 
             switch (item.itemType)
             {
@@ -480,7 +504,10 @@ public class ItemDataBaseWindow : EditorWindow
             GUILayout.EndHorizontal();
 
 
+            AddRemoveTex(item);
             DisplayTexList(item);
+
+            AddRemoveTile(item);
             DisplayTileList(item);
 
 
