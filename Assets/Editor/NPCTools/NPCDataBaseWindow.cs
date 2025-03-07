@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -266,6 +267,9 @@ public class NPCDataBaseWindow : EditorWindow
         PrintLabelInColor("FilterName : ", 70);
         search = EditorGUILayout.TextField(search);
         GUILayout.EndHorizontal();
+
+
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
         GUILayout.BeginHorizontal();
 
