@@ -17,6 +17,7 @@ public class Player : MonoBehaviour
     //ToolBar toolBar;
     Inventory inventory;
     int columnSelect;
+    Vector3 trueMousePosition = new Vector3();
     Vector2Int mouseMapPosition = new Vector2Int();
     Vector2Int playerPosTick = new Vector2Int();
     Vector2Int globalMapPosition = new Vector2Int(0, 0);
@@ -25,6 +26,10 @@ public class Player : MonoBehaviour
     [SerializeField] GameObject playerPos;
     [SerializeField] GameObject SelectedTest;
     [SerializeField] MapManager mapManager;
+
+    Vector2Int movementMap;
+    Vector2 pos;
+
 
     GameObject objectOnMap;
 
@@ -90,7 +95,8 @@ public class Player : MonoBehaviour
 
     void SetMousePositionTile()
     {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+        trueMousePosition = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 0));
+        Vector3 mousePosition = trueMousePosition;
         mouseMapPosition.x = (int)mousePosition.x;
         mouseMapPosition.y = (int)mousePosition.y;
         if (mousePosition.y < 0)
@@ -123,46 +129,62 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!inventoryOpen && !chestOpen)
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
-            mouseInteract = plI.currentActionMap.actions[2].ReadValue<float>();
-
-
-            SetPlayerPositionTile();
-            SetMousePositionTile();
-            rb.velocity = plI.currentActionMap.actions[0].ReadValue<Vector2>() * speed;
-
-            Scroll();
-            GetWhatInFront();
-
-
-            if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
+            GameManager.instance.PauseGame();
+        }
+        if (IsGamePlaying())
+        {
+            if (!inventoryOpen && !chestOpen)
             {
-                SelectedTest.SetActive(true);
-                SelectedTest.transform.position = new Vector3(mouseMapPosition.x + 0.5f, mouseMapPosition.y + 0.5f, -1);
-                if (mouseActive > 0)
+                mouseActive = plI.currentActionMap.actions[1].ReadValue<float>();
+                mouseInteract = plI.currentActionMap.actions[2].ReadValue<float>();
+
+
+                SetPlayerPositionTile();
+                SetMousePositionTile();
+                rb.velocity = plI.currentActionMap.actions[0].ReadValue<Vector2>() * speed;
+
+                Scroll();
+                GetWhatInFront();
+
+
+                if (Mathf.Abs(mouseMapPosition.x - playerPosTick.x) <= 1 && Mathf.Abs(mouseMapPosition.y - playerPosTick.y) <= 1)
                 {
-                    //mapManager.ChangeTile(mouseMapPosition, GetItemEquiped(), objectOnMap);
-                    MapTileManager.instance.TileChanger(mouseMapPosition, GetItemEquiped());
-                }
-                else if (mouseInteract > 0)
-                {
-                    if (objectOnMap)
+                    SelectedTest.SetActive(true);
+                    SelectedTest.transform.position = new Vector3(mouseMapPosition.x + 0.5f, mouseMapPosition.y + 0.5f, -1);
+                    if (mouseActive > 0)
                     {
-                        if (objectOnMap.GetComponent<Chest>())
+                        //mapManager.ChangeTile(mouseMapPosition, GetItemEquiped(), objectOnMap);
+                        MapTileManager.instance.TileChanger(mouseMapPosition, GetItemEquiped());
+                    }
+                    else if (mouseInteract > 0)
+                    {
+                        if (objectOnMap)
                         {
-                            inventory.OpenInventory();
-                            objectOnMap.GetComponent<Chest>().OpenChest();
-                            OpenChest();
+                            if (objectOnMap.GetComponent<Chest>())
+                            {
+                                inventory.OpenInventory();
+                                objectOnMap.GetComponent<Chest>().OpenChest();
+                                OpenChest();
+                            }
+                            else if (objectOnMap.GetComponent<NPC>())
+                            {
+                                GameManager.instance.PauseGame();
+                            }
                         }
                     }
                 }
+                else
+                {
+                    SelectedTest.SetActive(false);
+                }
             }
-            else
-            {
-                SelectedTest.SetActive(false);
-            }
+        }
+        else
+        {
+            rb.velocity = Vector2.zero;
+            SelectedTest.SetActive(false);
         }
     }
 
@@ -173,16 +195,11 @@ public class Player : MonoBehaviour
 
     void GetWhatInFront()
     {
-        RaycastHit2D[] hit = Physics2D.RaycastAll(new Vector2(mouseMapPosition.x + 0.1f, -mouseMapPosition.y - 0.1f), Vector2.zero, 0f);
+        RaycastHit2D[] hit = Physics2D.RaycastAll(new Vector2(trueMousePosition.x, trueMousePosition.y), Vector2.zero, 0f);
 
         for (int i = 0; i < hit.Length; i++)
         {
-            if (hit[i].collider.GetComponent<Seed>() != null)
-            {
-                objectOnMap = hit[i].collider.gameObject;
-                return;
-            }
-            else if (hit[i].collider.GetComponent<Chest>() != null)
+            if (hit[i].collider.GetComponent<NPC>() != null)
             {
                 objectOnMap = hit[i].collider.gameObject;
                 return;
@@ -191,10 +208,14 @@ public class Player : MonoBehaviour
         objectOnMap = null;
     }
 
+    bool IsGamePlaying()
+    {
+        return !GameManager.instance.GetPause();
+    }
 
     public void ChangePosBarTo0(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 0;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -203,7 +224,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo1(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 1;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -212,7 +233,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo2(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 2;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -221,7 +242,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo3(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 3;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -230,7 +251,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo4(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 4;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -239,7 +260,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo5(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 5;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -248,7 +269,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo6(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 6;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -257,7 +278,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo7(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 7;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -266,7 +287,7 @@ public class Player : MonoBehaviour
 
     public void ChangePosBarTo8(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             columnSelect = 8;
             UIGameManager.Instance.UpdateToolText(GetItemEquiped());
@@ -276,7 +297,7 @@ public class Player : MonoBehaviour
 
     public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
-        if (callbackContext.phase == InputActionPhase.Performed)
+        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
         {
             if (!chestOpen)
             {
@@ -288,13 +309,19 @@ public class Player : MonoBehaviour
 
     public void AddMapPosition(Vector2Int _addPos)
     {
-        globalMapPosition += _addPos;
-        CameraManager.instance.ChangeColliderMap(globalMapPosition);
+        movementMap = _addPos;
     }
 
     public void ChangPosition(Vector3 _newPos)
     {
-        rb.position = _newPos;
+        pos = _newPos;
+    }
+
+    public void LaunchTeleportation()
+    {
+        globalMapPosition += movementMap;
+        rb.position = pos;
+        CameraManager.instance.ChangeColliderMap(globalMapPosition);
     }
 
 }

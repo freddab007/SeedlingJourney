@@ -21,6 +21,8 @@ public class UIGameManager : MonoBehaviour
     [SerializeField] Texture2D emptyCase;
     [SerializeField] RawImage mouseItem;
 
+    Animator transitionAnimator;
+
     Chest openChest;
 
     RawImage[,] listInventory;
@@ -34,6 +36,7 @@ public class UIGameManager : MonoBehaviour
 
     private void Start()
     {
+        transitionAnimator = GetComponent<Animator>();
         listInventory = new RawImage[3, 9];
         panelInventory.SetActive(true);
         for (int i = 0; i < 3; i++)
@@ -190,6 +193,23 @@ public class UIGameManager : MonoBehaviour
     public void UpdateDayText(string _text)
     {
         dayText.text = _text;
+    }
+
+    public void StartTransition()
+    {
+        transitionAnimator.SetBool("Transition", true);
+        GameManager.instance.PauseGame();
+    }
+
+    public void MidTransition()
+    {
+        transitionAnimator.SetBool("Transition", false);
+        FindAnyObjectByType<Player>().LaunchTeleportation();
+    }
+
+    public void EndTransition()
+    {
+        GameManager.instance.PauseGame();
     }
 
     // Update is called once per frame

@@ -33,6 +33,8 @@ public class TimeGame : MonoBehaviour
     int maxMinutes = 60;
     Season season = Season.Spring;
 
+    [SerializeField] float timerMinMax = 1;
+    float timerMin = 0;
 
     public Season GetSeason()
     {
@@ -46,16 +48,33 @@ public class TimeGame : MonoBehaviour
         UIGameManager.Instance.UpdateYearText(year.ToString());
 
         UIGameManager.Instance.UpdateSeasonText(season.ToString());
+        UIGameManager.Instance.UpdateTimeText(GetHourText() + ":" + GetMinuteText());
 
+    }
+
+    void UpdateTime()
+    {
+        timerMin += Time.deltaTime;
+        if (timerMin >= timerMinMax)
+        {
+            timerMin = 0;
+            AddMinute();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.M))
+        if (!GameManager.instance.GetPause())
         {
-            NewDay();
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                //NewDay();
+                AddMinute();
+            }
+            UpdateTime();
         }
+        
     }
 
     public void AddMinute()

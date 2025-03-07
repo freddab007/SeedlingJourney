@@ -19,6 +19,7 @@ public class MapChanger : MonoBehaviour
                 if (teleportPoint)
                 {
                     player.ChangPosition(teleportPoint.position);
+                    UIGameManager.Instance.StartTransition();
                 }
             }
         }

@@ -22,11 +22,18 @@ public class NPC : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        agent.SetDestination(target.position);
-
-        if (agent.isOnOffMeshLink)
+        if (!GameManager.instance.GetPause())
         {
-            agent.CompleteOffMeshLink();
+            agent.SetDestination(target.position);
+
+            if (agent.isOnOffMeshLink)
+            {
+                agent.CompleteOffMeshLink();
+            }
+        }
+        else
+        {
+            agent.SetDestination(transform.position);
         }
     }
 }
