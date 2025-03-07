@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 
 
-[CreateAssetMenu]
+[CreateAssetMenu( fileName = "", menuName = "Seedling Journey/Datas/Tile Data")]
 public class TileData : ScriptableObject
 {
     public TileBase[] tileBase;
