@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -35,41 +36,21 @@ public class RoutineWindow : EditorWindow
         filteredRoutine = routines.routines.Where(x => x.name.ToLower().Contains(search.ToLower())).ToList();
     }
 
-    private void PrintLabelInColor(string _text, bool _center = false)
-    {
-        GUI.contentColor = baseColor;
-
-        if (_center)
-        {
-            GUIStyle centeredStyle = new GUIStyle(GUI.skin.label);
-            centeredStyle.alignment = TextAnchor.MiddleCenter;
-
-            EditorGUILayout.LabelField(_text, centeredStyle, GUILayout.ExpandWidth(true));
-        }
-        else
-        {
-            EditorGUILayout.LabelField(_text);
-        }
-        GUI.contentColor = Color.green;
-    }
-
-    private void PrintLabelInColor(string _text, int _widthLayout)
-    {
-        GUI.contentColor = baseColor;
-
-        EditorGUILayout.LabelField(_text, GUILayout.Width(_widthLayout));
-        GUI.contentColor = Color.green;
-    }
-
     private void DrawRoutineCommon(Routine _routine)
     {
         GUILayout.BeginHorizontal();
+        
+        EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 20);
 
-        PrintLabelInColor("Id: ", 20);
-        PrintLabelInColor(_routine.idRoutine.ToString());
+        EditorHelp.PrintLabelInColor(_routine.idRoutine.ToString(), baseColor, Color.green);
+        
+        EditorHelp.PrintLabelInColor("Name: ", baseColor, Color.green, 40);
 
-        PrintLabelInColor("Name: ", 40);
         _routine.name = EditorGUILayout.TextField(_routine.name);
+
+        EditorHelp.PrintLabelInColor("Action: ", baseColor, Color.green, 40);
+
+        EditorHelp.ShowFilteredEnum( new RoutineAction[]{ RoutineAction.NBROUTINE}, ref _routine.action);
 
         GUILayout.EndHorizontal();
     }
@@ -80,7 +61,7 @@ public class RoutineWindow : EditorWindow
 
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor( "search: ", 45);
+        EditorHelp.PrintLabelInColor( "search: ", baseColor, Color.green, 45);
         search = EditorGUILayout.TextField(search);
 
         GUILayout.EndHorizontal();

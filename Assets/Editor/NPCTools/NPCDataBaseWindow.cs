@@ -37,41 +37,15 @@ public class NPCDataBaseWindow : EditorWindow
         filteredData = NPCDatas.NPCDatas.Where(x => x.name.ToLower().Contains(search.ToLower())).ToList();
     }
 
-    private void PrintLabelInColor(string _text, bool _center = false)
-    {
-        GUI.contentColor = baseColor;
-
-        if (_center)
-        {
-            GUIStyle centeredStyle = new GUIStyle(GUI.skin.label);
-            centeredStyle.alignment = TextAnchor.MiddleCenter;
-
-            EditorGUILayout.LabelField(_text, centeredStyle, GUILayout.ExpandWidth(true));
-        }
-        else
-        {
-            EditorGUILayout.LabelField(_text);
-        }
-        GUI.contentColor = Color.green;
-    }
-
-    private void PrintLabelInColor(string _text, int _widthLayout)
-    {
-        GUI.contentColor = baseColor;
-
-        EditorGUILayout.LabelField(_text, GUILayout.Width(_widthLayout));
-        GUI.contentColor = Color.green;
-    }
-
 
     private void DrawCommonVariable(NPCData _nPC)
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Id : ", 30);
+        EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 30);
         EditorGUILayout.LabelField(_nPC.id.ToString(), GUILayout.Width(100));
 
-        PrintLabelInColor("Nam:", 30);
+        EditorHelp.PrintLabelInColor("Nam: ", baseColor, Color.green, 30);
         _nPC.name = EditorGUILayout.TextField(_nPC.name);
 
         GUILayout.EndHorizontal();
@@ -82,14 +56,17 @@ public class NPCDataBaseWindow : EditorWindow
         if (_npc.type.Count > 0)
         {
             GUILayout.BeginHorizontal();
-            PrintLabelInColor("NPC Types :", 100);
+            EditorHelp.PrintLabelInColor("NPC Types: ", baseColor, Color.green, 100);
             GUILayout.EndHorizontal();
 
             for (int i = 0; i < _npc.type.Count; i++)
             {
                 GUILayout.BeginHorizontal();
 
-                _npc.type[i] = (NPCType)EditorGUILayout.EnumPopup(_npc.type[i]);
+                //_npc.type[i] = (NPCType)EditorGUILayout.EnumPopup(_npc.type[i]);
+                NPCType nPCType = _npc.type[i];
+                EditorHelp.ShowFilteredEnum( new NPCType[]{ NPCType.NBTYPE}, ref nPCType);
+                _npc.type[i] = nPCType;
 
                 GUILayout.BeginVertical();
 
@@ -104,7 +81,7 @@ public class NPCDataBaseWindow : EditorWindow
                 }
                 else
                 {
-                    PrintLabelInColor("Already First Type", true);
+                    EditorHelp.PrintLabelInColor("Already First Type", baseColor, Color.green, true);
                 }
 
                 if (i < _npc.type.Count - 1)
@@ -118,7 +95,7 @@ public class NPCDataBaseWindow : EditorWindow
                 }
                 else
                 {
-                    PrintLabelInColor("Already Last Type", true);
+                    EditorHelp.PrintLabelInColor("Already Last Type", baseColor, Color.green, true);
                 }
 
                 GUILayout.EndVertical();
@@ -152,7 +129,7 @@ public class NPCDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("NbType :", 45);
+        EditorHelp.PrintLabelInColor("NbType: ", baseColor, Color.green, 45);
 
         if (_npc.type.Count > 0)
         {
@@ -162,7 +139,7 @@ public class NPCDataBaseWindow : EditorWindow
             }
         }
 
-        PrintLabelInColor(_npc.type.Count.ToString(), 20);
+        EditorHelp.PrintLabelInColor(_npc.type.Count.ToString(), baseColor, Color.green, 20);
 
         if (_npc.type.Count < (int)NPCType.NBTYPE)
         {
@@ -195,11 +172,12 @@ public class NPCDataBaseWindow : EditorWindow
             Routine routine = routineDatas.routines[_npc.routines[i].idRoutine];
             
             GUILayout.BeginHorizontal();
-            PrintLabelInColor("Id: ", 30);
-            PrintLabelInColor(routine.idRoutine.ToString());
-            
-            PrintLabelInColor("Name: ", 40);
-            PrintLabelInColor(routine.name);
+            EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 30);
+
+            EditorHelp.PrintLabelInColor(routine.idRoutine.ToString(), baseColor, Color.green);
+
+            EditorHelp.PrintLabelInColor("Name: ", baseColor, Color.green, 40);
+            EditorHelp.PrintLabelInColor(routine.name, baseColor, Color.green);
 
             if (GUILayout.Button("X" , GUILayout.Width(20), GUILayout.Height(20)))
             {
@@ -237,7 +215,7 @@ public class NPCDataBaseWindow : EditorWindow
     private void OnGUI()
     {
         GUILayout.BeginHorizontal();
-        PrintLabelInColor("FilterName : ", 70);
+        EditorHelp.PrintLabelInColor("FilterName: ", baseColor, Color.green, 70);
         search = EditorGUILayout.TextField(search);
         GUILayout.EndHorizontal();
 
