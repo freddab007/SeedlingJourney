@@ -117,6 +117,7 @@ public class RoutineWindow : EditorWindow
                 {
                     routines.routines[j].idRoutine = j;
                 }
+                NPCDataBaseWindow.DeleteARoutine(i);
                 i = 0;
             }
             GUILayout.EndHorizontal();

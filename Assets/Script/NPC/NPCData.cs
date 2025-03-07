@@ -12,11 +12,9 @@ public enum NPCType
 
 public enum NPCAction
 {
-    WALK,
     IDLE,
-    SHOPPING,
-    SELLING,
-    HISTORY,
+    WALK,
+    INROUTINE,
     NBACTION
 }
 
@@ -27,7 +25,6 @@ public class NPCData
     public string name;
 
     public List<NPCType> type = new List<NPCType>();
-    public List<NPCAction> actions = new List<NPCAction>();
 
     public List<Routine> routines = new List<Routine>();
 

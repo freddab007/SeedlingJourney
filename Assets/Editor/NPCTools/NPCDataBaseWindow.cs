@@ -11,7 +11,8 @@ public class NPCDataBaseWindow : EditorWindow
 
     Vector2 scrollPosition = Vector2.zero;
 
-    NPCDataBase NPCDatas;
+    static NPCDataBase NPCDatas;
+    RoutineDataBase routineDatas;
 
     Color baseColor;
 
@@ -26,6 +27,7 @@ public class NPCDataBaseWindow : EditorWindow
     private void OnEnable()
     {
         NPCDatas = Resources.Load<NPCDataBase>("Databases/NPCDataBase/NPCDataBase");
+        routineDatas = Resources.Load<RoutineDataBase>("Databases/Routine/RoutineDataBase");
 
         baseColor = GUI.color;
     }
@@ -132,63 +134,6 @@ public class NPCDataBaseWindow : EditorWindow
         }
     }
 
-    private void DrawActionNPC(NPCData _npc)
-    {
-        if (_npc.actions.Count > 0)
-        {
-            GUILayout.BeginHorizontal();
-            PrintLabelInColor("NPC Actions :", 100);
-            GUILayout.EndHorizontal();
-
-            for (int i = 0; i < _npc.actions.Count; i++)
-            {
-                GUILayout.BeginHorizontal();
-
-                _npc.actions[i] = (NPCAction)EditorGUILayout.EnumPopup(_npc.actions[i]);
-
-                GUILayout.BeginVertical();
-
-                if (i > 0)
-                {
-                    if (GUILayout.Button("Up"))
-                    {
-                        NPCAction swapType = _npc.actions[i - 1];
-                        _npc.actions[i - 1] = _npc.actions[i];
-                        _npc.actions[i] = swapType;
-                    }
-                }
-                else
-                {
-                    PrintLabelInColor("Already First Action", true);
-                }
-
-                if (i < _npc.actions.Count - 1)
-                {
-                    if (GUILayout.Button("Down"))
-                    {
-                        NPCAction swapType = _npc.actions[i + 1];
-                        _npc.actions[i + 1] = _npc.actions[i];
-                        _npc.actions[i] = swapType;
-                    }
-                }
-                else
-                {
-                    PrintLabelInColor("Already Last Action", true);
-                }
-
-                GUILayout.EndVertical();
-
-                if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(40)))
-                {
-                    _npc.actions.RemoveAt(i);
-                    i = 0;
-                }
-
-                GUILayout.EndHorizontal();
-            }
-        }
-    }
-
 
     void DrawDialog(NPCData _npc)
     {
@@ -232,34 +177,62 @@ public class NPCDataBaseWindow : EditorWindow
     }
 
 
-    private void AddRemoveAction(NPCData _npc)
+    private void DrawRoutine(NPCData _npc)
     {
         GUILayout.BeginHorizontal();
-
-        PrintLabelInColor("NbAction :", 45);
-
-        if (_npc.actions.Count > 0)
+        if (GUILayout.Button("New Routine"))
         {
-            if (GUILayout.Button("-", GUILayout.Width(20)))
-            {
-                _npc.actions.RemoveAt(_npc.actions.Count - 1);
-            }
+            RoutineSearchWindow.OpenWindow().RegisterCallback( AddRoutine, _npc, ref _npc.routines);
         }
-
-        PrintLabelInColor(_npc.actions.Count.ToString(), 20);
-
-        if (_npc.actions.Count < (int)NPCAction.NBACTION)
-        {
-            if (GUILayout.Button("+", GUILayout.Width(20)))
-            {
-                _npc.actions.Add(NPCAction.IDLE);
-
-            }
-        }
-
         GUILayout.EndHorizontal();
+
+        if (routineDatas.routines.Count == 0)
+        {
+            _npc.routines.Clear();
+        }
+        for (int i = 0; i < _npc.routines.Count; i++)
+        {
+            Routine routine = routineDatas.routines[_npc.routines[i].idRoutine];
+            
+            GUILayout.BeginHorizontal();
+            PrintLabelInColor("Id: ", 30);
+            PrintLabelInColor(routine.idRoutine.ToString());
+            
+            PrintLabelInColor("Name: ", 40);
+            PrintLabelInColor(routine.name);
+
+            if (GUILayout.Button("X" , GUILayout.Width(20), GUILayout.Height(20)))
+            {
+                _npc.routines.Remove(routine);
+            }
+            GUILayout.EndHorizontal();
+        }
     }
 
+    public static void DeleteARoutine(int _index)
+    {
+        NPCDatas = Resources.Load<NPCDataBase>("Databases/NPCDataBase/NPCDataBase");
+
+        List<NPCData> NPCs = NPCDatas.NPCDatas.Where(x => x.routines.Where(y => y.idRoutine == _index) != null).ToList();
+        for (int i = 0; i < NPCs.Count; i++)
+        {
+            for (int j = 0; j < NPCs[i].routines.Count; j++)
+            {
+                if (NPCs[i].routines[j].idRoutine == _index)
+                {
+                    NPCs[i].routines.RemoveAt(j);
+                }
+            }
+        }
+    }
+
+    public void AddRoutine(NPCData _npc, int _routineIndex)
+    {
+        if (_routineIndex >= 0)
+        {
+            NPCDatas.NPCDatas.Where(x => x == _npc).First()?.routines.Add(routineDatas.routines[_routineIndex]);
+        }
+    }
 
     private void OnGUI()
     {
@@ -267,9 +240,6 @@ public class NPCDataBaseWindow : EditorWindow
         PrintLabelInColor("FilterName : ", 70);
         search = EditorGUILayout.TextField(search);
         GUILayout.EndHorizontal();
-
-
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
         GUILayout.BeginHorizontal();
 
@@ -301,9 +271,7 @@ public class NPCDataBaseWindow : EditorWindow
 
             DrawTypeNPC(npc);
 
-            AddRemoveAction(npc);
-
-            DrawActionNPC(npc);
+            DrawRoutine(npc);
 
             GUILayout.BeginHorizontal();
             GUI.color = Color.red;
