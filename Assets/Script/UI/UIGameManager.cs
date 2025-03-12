@@ -1,7 +1,5 @@
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UIGameManager : MonoBehaviour

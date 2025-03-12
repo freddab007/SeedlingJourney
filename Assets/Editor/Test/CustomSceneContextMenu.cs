@@ -1,7 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System;
-using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using Unity.VisualScripting;
 
 [InitializeOnLoad]
