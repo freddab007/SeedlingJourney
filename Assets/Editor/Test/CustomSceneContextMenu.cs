@@ -51,9 +51,10 @@ public class CustomSceneContextMenu
         GenericMenu menu = new GenericMenu();
 
         // Ajouter une option pour ouvrir un éditeur de code
-        pos = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(new Vector3( mousePos.x, mousePos.y, 0));
+        pos = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(new Vector3( mousePos.x, mousePos.y, 0), Camera.MonoOrStereoscopicEye.Mono);
+        int diffPos = Mathf.CeilToInt(pos.y) - Mathf.CeilToInt(SceneView.currentDrawingSceneView.camera.transform.position.y);
         pos.x = Mathf.FloorToInt(pos.x);
-        pos.y = Mathf.FloorToInt(pos.y);
+        pos.y = Mathf.FloorToInt(pos.y - diffPos * 2);
         pos.z = 0;
         menu.AddItem(new GUIContent("Seedling Journey/Get Position"), false, OpenCodeEditor);
         menu.ShowAsContext();
@@ -62,13 +63,8 @@ public class CustomSceneContextMenu
     private static void OpenCodeEditor()
     {
         //CustomCodeEditor.ShowWindow();
-        CustomCodeEditor.ExecuteCode(pos);
+        ExecuteCode(pos);
     }
-}
-
-public class CustomCodeEditor : Editor
-{
-    private string code = "Debug.Log(\"Hello Unity!\");";
 
     static public void ExecuteCode(Vector3 _pos)
     {
