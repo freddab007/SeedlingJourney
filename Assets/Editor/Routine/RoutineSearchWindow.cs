@@ -88,38 +88,48 @@ public class RoutineSearchWindow : EditorWindow
 
         FilterBySearch();
 
-        if (type == TypeSearch.SETROUTINEPOS)
+
+        if (filteredRoutine.Count == 0)
         {
-            GUILayout.BeginHorizontal();
-            EditorHelp.PrintLabelInColor("Pos Selected : " + callBackPos.ToString(), GUI.color, GUI.color, true);
-            GUILayout.EndHorizontal();
+            EditorHelp.PrintLabelInColor("No Routine ! Verify your dataBase or empty search", GUI.color, GUI.color, true);
         }
-
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
-
-        for (int i = 0; i < filteredRoutine.Count; i++)
+        else
         {
-            GUILayout.BeginHorizontal();
-
-            Routine routine = filteredRoutine[i];
-            if (GUILayout.Button(routine.name))
+            if (type == TypeSearch.SETROUTINEPOS)
             {
-                Close();
-
-                if (type == TypeSearch.SETROUTINENPC)
-                {
-                    callback?.Invoke(callBackVariable, routine.idRoutine);
-                }
-                else if (type == TypeSearch.SETROUTINEPOS)
-                {
-                    SetPosRoutine(routine);
-                }
+                GUILayout.BeginHorizontal();
+                EditorHelp.PrintLabelInColor("Pos Selected : " + callBackPos.ToString(), GUI.color, GUI.color, true);
+                GUILayout.EndHorizontal();
             }
 
-            GUILayout.EndHorizontal();
+            scrollPosition = GUILayout.BeginScrollView(scrollPosition);
+
+            for (int i = 0; i < filteredRoutine.Count; i++)
+            {
+                GUILayout.BeginHorizontal();
+
+                Routine routine = filteredRoutine[i];
+                if (GUILayout.Button(routine.name))
+                {
+                    Close();
+
+                    if (type == TypeSearch.SETROUTINENPC)
+                    {
+                        callback?.Invoke(callBackVariable, routine.idRoutine);
+                    }
+                    else if (type == TypeSearch.SETROUTINEPOS)
+                    {
+                        SetPosRoutine(routine);
+                    }
+                }
+
+                GUILayout.EndHorizontal();
+            }
+
+            GUILayout.EndScrollView();
         }
 
-        GUILayout.EndScrollView();
+
     }
 
 }

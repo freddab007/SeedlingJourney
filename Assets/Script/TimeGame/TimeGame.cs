@@ -20,18 +20,31 @@ public class TimeGame : MonoBehaviour
         Sunday,
     }
 
-    int year = 1;
-    Day weekDay = Day.Monday;
+    public struct GameTime
+    {
+        public GameTime(Day _dayEnum, int _day, int _hour, int _minute, int _year)
+        {
+            weekDay = _dayEnum;
+            day = _day;
+            hours = _hour;
+            minute = _minute;
+            year = _year;
+        }
+        public Day weekDay;
+        public int day;
+        public int hours;
+        public int minute;
+        public int year;
+    }
+
     string today;
-    int day = 1;
     int maxDay = 28;
 
-    int hours = 6;
     int maxHours = 24;
 
-    int minute = 0;
     int maxMinutes = 60;
     Season season = Season.Spring;
+    GameTime gameTime = new GameTime( Day.Monday, 1, 6, 0, 0);
 
     [SerializeField] float timerMinMax = 1;
     float timerMin = 0;
@@ -44,11 +57,8 @@ public class TimeGame : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UIGameManager.Instance.UpdateDayText("Mon. " + day.ToString());
-        UIGameManager.Instance.UpdateYearText(year.ToString());
-
+        UIGameManager.Instance.UpdateAllTime(gameTime);
         UIGameManager.Instance.UpdateSeasonText(season.ToString());
-        UIGameManager.Instance.UpdateTimeText(GetHourText() + ":" + GetMinuteText());
 
     }
 
@@ -79,51 +89,51 @@ public class TimeGame : MonoBehaviour
 
     public void AddMinute()
     {
-        ++minute;
-        if (minute >= maxMinutes)
+        ++gameTime.minute;
+        if (gameTime.minute >= maxMinutes)
         {
-            minute = 0;
+            gameTime.minute = 0;
             AddHour();
         }
 
-        UIGameManager.Instance.UpdateTimeText(GetHourText() + ":" + GetMinuteText());
+        UIGameManager.Instance.UpdateAllTime(gameTime);
     }
 
     public void AddHour()
     {
-        hours++;
-        if (hours >= maxHours)
+        gameTime.hours++;
+        if (gameTime.hours >= maxHours)
         {
-            hours = 0;
+            gameTime.hours = 0;
             AddDay();
         }
-        UIGameManager.Instance.UpdateTimeText(GetHourText() + ":" + GetMinuteText());
+        UIGameManager.Instance.UpdateAllTime(gameTime);
     }
 
-    string GetMinuteText()
+    static public string GetMinuteText(GameTime _gameTime)
     {
         string minuteText;
-        if (minute < 10)
+        if (_gameTime.minute < 10)
         {
-            minuteText = "0" + minute;
+            minuteText = "0" + _gameTime.minute;
         }
         else
         {
-            minuteText = minute.ToString();
+            minuteText = _gameTime.minute.ToString();
         }
         return minuteText;
     }
 
-    string GetHourText()
+    static public string GetHourText(GameTime _gameTime)
     {
         string hourText;
-        if (hours < 10)
+        if (_gameTime.hours < 10)
         {
-            hourText = "0" + hours;
+            hourText = "0" + _gameTime.hours;
         }
         else
         {
-            hourText = hours.ToString();
+            hourText = _gameTime.hours.ToString();
         }
         return hourText;
     }
@@ -133,25 +143,25 @@ public class TimeGame : MonoBehaviour
         PlantManager.Instance.LaunchGrow();
         PlantManager.Instance.LaunchDeath();
         MapTileManager.instance.WetToDry();
-        if (hours >= 2 && hours <= maxHours)
+        if (gameTime.hours >= 2 && gameTime.hours <= maxHours)
         {
             AddDay();
         }
-        hours = 6;
-        minute = 0;
+        gameTime.hours = 6;
+        gameTime.minute = 0;
     }
 
     public void AddDay()
     {
-        ++day;
-        if (day > maxDay)
+        ++gameTime.day;
+        if (gameTime.day > maxDay)
         {
-            day = 1;
+            gameTime.day = 1;
             ChangeSeason();
         }
-        weekDay = (Day)((day - 1) % 7);
-        today = weekDay.ToString().Remove(3);
-        UIGameManager.Instance.UpdateDayText(today + ". " + day.ToString());
+        gameTime.weekDay = (Day)((gameTime.day - 1) % 7);
+        today = gameTime.weekDay.ToString().Remove(3);
+        UIGameManager.Instance.UpdateAllTime(gameTime);
 
     }
 
@@ -168,8 +178,8 @@ public class TimeGame : MonoBehaviour
 
     public void ChangeYear()
     {
-        ++year;
-        UIGameManager.Instance.UpdateYearText(year.ToString());
+        ++gameTime.year;
+        UIGameManager.Instance.UpdateAllTime(gameTime);
 
     }
 }

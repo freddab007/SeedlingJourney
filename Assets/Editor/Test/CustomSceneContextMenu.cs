@@ -56,7 +56,7 @@ public class CustomSceneContextMenu
         pos.x = Mathf.FloorToInt(pos.x);
         pos.y = Mathf.FloorToInt(pos.y - diffPos * 2);
         pos.z = 0;
-        menu.AddItem(new GUIContent("Seedling Journey/Get Position"), false, OpenCodeEditor);
+        menu.AddItem(new GUIContent("Seedling Journey/Set Routine Position"), false, OpenCodeEditor);
         menu.ShowAsContext();
     }
 
