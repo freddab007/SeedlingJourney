@@ -53,6 +53,16 @@ public class RoutineWindow : EditorWindow
         EditorHelp.ShowFilteredEnum( new RoutineAction[]{ RoutineAction.NBROUTINE}, ref _routine.action);
 
         GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        
+        EditorHelp.PrintLabelInColor("Pos: ", baseColor, Color.green, 30);
+
+        string posString = "x: " + _routine.routinePos.x.ToString() + " y: " + _routine.routinePos.y.ToString() + " z: " + _routine.routinePos.z.ToString();
+
+        EditorHelp.PrintLabelInColor( posString, baseColor, Color.green, true);
+
+        GUILayout.EndHorizontal();
     }
 
     private void OnGUI()

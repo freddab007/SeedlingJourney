@@ -52,7 +52,7 @@ public class CustomSceneContextMenu
 
         // Ajouter une option pour ouvrir un éditeur de code
         pos = SceneView.currentDrawingSceneView.camera.ScreenToWorldPoint(new Vector3( mousePos.x, mousePos.y, 0), Camera.MonoOrStereoscopicEye.Mono);
-        int diffPos = Mathf.CeilToInt(pos.y) - Mathf.CeilToInt(SceneView.currentDrawingSceneView.camera.transform.position.y);
+        int diffPos = Mathf.FloorToInt(pos.y) - Mathf.FloorToInt(SceneView.currentDrawingSceneView.camera.transform.position.y);
         pos.x = Mathf.FloorToInt(pos.x);
         pos.y = Mathf.FloorToInt(pos.y - diffPos * 2);
         pos.z = 0;
@@ -64,6 +64,7 @@ public class CustomSceneContextMenu
     {
         //CustomCodeEditor.ShowWindow();
         ExecuteCode(pos);
+        RoutineSearchWindow.OpenWindow().RegisterCallbackPos(pos);
     }
 
     static public void ExecuteCode(Vector3 _pos)
