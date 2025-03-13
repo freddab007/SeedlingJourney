@@ -1,7 +1,5 @@
 using TMPro;
-using Unity.VisualScripting.Antlr3.Runtime;
 using UnityEngine;
-using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class UIGameManager : MonoBehaviour
@@ -175,24 +173,17 @@ public class UIGameManager : MonoBehaviour
         }
     }
 
-    public void UpdateYearText(string _text)
-    {
-        yearText.text = "Year : " + _text;
-    }
-
     public void UpdateSeasonText(string _text)
     {
         seasonText.text = _text;
     }
 
-    public void UpdateTimeText(string _text)
+    public void UpdateAllTime(TimeGame.GameTime gameTime)
     {
-        timeText.text = _text;
-    }
+        yearText.text = "Year : " + gameTime.year.ToString();
+        timeText.text = TimeGame.GetHourText(gameTime) + ":" + TimeGame.GetMinuteText(gameTime);
+        dayText.text = gameTime.weekDay.ToString().Remove(3) + ". " + gameTime.day.ToString();
 
-    public void UpdateDayText(string _text)
-    {
-        dayText.text = _text;
     }
 
     public void StartTransition()
