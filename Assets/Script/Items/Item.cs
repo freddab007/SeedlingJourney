@@ -22,10 +22,10 @@ public class Item : IItem
 
     public Texture2D inventorySprite;
 
-    public List<Texture2D> texItem;
+    public List<Texture2D> texItem = new List<Texture2D>();
 
-    public List<Tile> tileItem;
-    public List<Texture2D> tileTex;
+    public List<Tile> tileItem = new List<Tile>();
+    public List<Texture2D> tileTex = new List<Texture2D>();
 
     public int maxNbItem = 1;
     public int nbItem = 1;

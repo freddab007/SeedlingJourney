@@ -139,9 +139,16 @@ public class ItemDataBaseWindow : EditorWindow
 
         if (_item.itemGiver != -1)
         {
-            if (GUILayout.Button("Give : " + itemList.items[_item.itemGiver].itemName))
+            if (itemList.items[_item.itemGiver] != null)
             {
-                AssetsSearchItem.OpenWindow().RegisterCallback(ChangeItemSeed);
+                if (GUILayout.Button("Give : " + itemList.items[_item.itemGiver].itemName))
+                {
+                    AssetsSearchItem.OpenWindow().RegisterCallback(ChangeItemSeed);
+                }
+            }
+            else
+            {
+                _item.itemGiver = -1;
             }
         }
         else
@@ -409,6 +416,7 @@ public class ItemDataBaseWindow : EditorWindow
             tempItem.texItem = new List<Texture2D>();
             tempItem.inventorySprite = newTex;
             itemList.items.Add(tempItem);
+            FilterItems();
         }
         GUI.contentColor = baseColor;
 
@@ -520,6 +528,7 @@ public class ItemDataBaseWindow : EditorWindow
                 {
                     itemList.items[j].itemId = j;
                 }
+                FilterItems();
             }
             GUI.color = baseColor;
             GUILayout.EndHorizontal();

@@ -15,7 +15,7 @@ MonoBehaviour:
   items:
   - itemType: 8
     itemId: 0
-    itemName: WeatSeed
+    itemName: WheatSeed
     itemDescription: A bag of seed for make growing weat
     nbOfTex: 0
     nbOfTile: 5
@@ -137,36 +137,7 @@ MonoBehaviour:
     itemGiver: -1
     collision: 0
     foodType: 0
-    lifeRestore: 1
-    energyRestore: -3
-    resourceType: 0
-    buildType: 0
-  - itemType: 64
-    itemId: 4
-    itemName: Chest
-    itemDescription: 
-    nbOfTex: 0
-    nbOfTile: 0
-    inventorySprite: {fileID: 2800000, guid: 1f663444a7461f04d8a4fe75ab2c1ac7, type: 3}
-    texItem: []
-    tileItem: []
-    tileTex: []
-    maxNbItem: 1
-    nbItem: 1
-    weaponType: 0
-    damage: 0
-    armorType: 0
-    defense: 0
-    toolType: 0
-    seedType: 0
-    seedSeason: 0
-    growDay: 0
-    timeGrowth: 0
-    numberGive: 0
-    itemGiver: -1
-    collision: 0
-    foodType: 0
-    lifeRestore: 0
-    energyRestore: 0
+    lifeRestore: 5
+    energyRestore: 10
     resourceType: 0
     buildType: 0
