@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -36,6 +35,24 @@ public class RoutineWindow : EditorWindow
         filteredRoutine = routines.routines.Where(x => x.name.ToLower().Contains(search.ToLower())).ToList();
     }
 
+    private void DrawTime(Routine _routine)
+    {
+        EditorHelp.PrintLabelInColor( "WeekDay: ", baseColor, Color.green, 70);
+        _routine.startRoutine.weekDay = (TimeGame.Day)EditorGUILayout.EnumPopup(_routine.startRoutine.weekDay);
+
+        EditorHelp.PrintLabelInColor( "Day: ", baseColor, Color.green, 30);
+        _routine.startRoutine.day = EditorGUILayout.IntField( _routine.startRoutine.day);
+
+        EditorHelp.PrintLabelInColor( "Hours: ", baseColor, Color.green, 40);
+        _routine.startRoutine.hours = EditorGUILayout.IntField( _routine.startRoutine.hours);
+
+        EditorHelp.PrintLabelInColor( "Minute: ", baseColor, Color.green, 50);
+        _routine.startRoutine.minute = EditorGUILayout.IntField( _routine.startRoutine.minute);
+
+        EditorHelp.PrintLabelInColor( "Year: ", baseColor, Color.green, 40);
+        _routine.startRoutine.year = EditorGUILayout.IntField( _routine.startRoutine.year);
+    }
+
     private void DrawRoutineCommon(Routine _routine)
     {
         GUILayout.BeginHorizontal();
@@ -51,6 +68,22 @@ public class RoutineWindow : EditorWindow
         EditorHelp.PrintLabelInColor("Action: ", baseColor, Color.green, 40);
 
         EditorHelp.ShowFilteredEnum( new RoutineAction[]{ RoutineAction.NBROUTINE}, ref _routine.action);
+
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+        
+        EditorHelp.PrintLabelInColor("Pos: ", baseColor, Color.green, 30);
+
+        string posString = "x: " + _routine.routinePos.x.ToString() + " y: " + _routine.routinePos.y.ToString() + " z: " + _routine.routinePos.z.ToString();
+
+        EditorHelp.PrintLabelInColor( posString, baseColor, Color.green, true);
+
+        GUILayout.EndHorizontal();
+
+        GUILayout.BeginHorizontal();
+
+        DrawTime(_routine);
 
         GUILayout.EndHorizontal();
     }

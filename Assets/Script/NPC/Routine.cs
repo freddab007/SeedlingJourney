@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public enum RoutineAction
@@ -20,4 +18,6 @@ public class Routine
     public Vector3 routinePos = Vector3.zero;
 
     public RoutineAction action;
+
+    public TimeGame.GameTime startRoutine;
 }
