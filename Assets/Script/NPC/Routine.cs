@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum RoutineAction
+{
+    SELLING,
+    LOOKING,
+    FISHING,
+    SLEEPING,
+    NBROUTINE
+}
+
 public class Routine
 {
     public int idRoutine;
@@ -10,5 +19,5 @@ public class Routine
 
     public Vector3 routinePos = Vector3.zero;
 
-    public NPCAction action;
+    public RoutineAction action;
 }

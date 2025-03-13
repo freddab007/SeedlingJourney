@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,6 +16,8 @@ public class RoutineWindow : EditorWindow
 
     RoutineDataBase routines;
 
+    List<Routine> filteredRoutine = new List<Routine>();
+
     [MenuItem("Seedling Journey/DataBases/Routine DataBase")]
     public static void OpenWindow()
     {
@@ -26,41 +31,26 @@ public class RoutineWindow : EditorWindow
         baseColor = GUI.color;
     }
 
-    private void PrintLabelInColor(string _text, bool _center = false)
+    void FilterRoutine()
     {
-        GUI.contentColor = baseColor;
-
-        if (_center)
-        {
-            GUIStyle centeredStyle = new GUIStyle(GUI.skin.label);
-            centeredStyle.alignment = TextAnchor.MiddleCenter;
-
-            EditorGUILayout.LabelField(_text, centeredStyle, GUILayout.ExpandWidth(true));
-        }
-        else
-        {
-            EditorGUILayout.LabelField(_text);
-        }
-        GUI.contentColor = Color.green;
-    }
-
-    private void PrintLabelInColor(string _text, int _widthLayout)
-    {
-        GUI.contentColor = baseColor;
-
-        EditorGUILayout.LabelField(_text, GUILayout.Width(_widthLayout));
-        GUI.contentColor = Color.green;
+        filteredRoutine = routines.routines.Where(x => x.name.ToLower().Contains(search.ToLower())).ToList();
     }
 
     private void DrawRoutineCommon(Routine _routine)
     {
         GUILayout.BeginHorizontal();
+        
+        EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 20);
 
-        PrintLabelInColor("Id: ", 20);
-        PrintLabelInColor(_routine.idRoutine.ToString());
+        EditorHelp.PrintLabelInColor(_routine.idRoutine.ToString(), baseColor, Color.green);
+        
+        EditorHelp.PrintLabelInColor("Name: ", baseColor, Color.green, 40);
 
-        PrintLabelInColor("Name: ", 40);
         _routine.name = EditorGUILayout.TextField(_routine.name);
+
+        EditorHelp.PrintLabelInColor("Action: ", baseColor, Color.green, 40);
+
+        EditorHelp.ShowFilteredEnum( new RoutineAction[]{ RoutineAction.NBROUTINE}, ref _routine.action);
 
         GUILayout.EndHorizontal();
     }
@@ -68,6 +58,13 @@ public class RoutineWindow : EditorWindow
     private void OnGUI()
     {
         baseColor = GUI.color;
+
+        GUILayout.BeginHorizontal();
+
+        EditorHelp.PrintLabelInColor( "search: ", baseColor, Color.green, 45);
+        search = EditorGUILayout.TextField(search);
+
+        GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
 
@@ -83,22 +80,25 @@ public class RoutineWindow : EditorWindow
 
         GUILayout.EndHorizontal();
 
+        FilterRoutine();
+
         scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
-        for (int i = 0; i < routines.routines.Count; i++)
+        for (int i = 0; i < filteredRoutine.Count; i++)
         {
-            Routine tempRoutine = routines.routines[i];
+            Routine tempRoutine = filteredRoutine[i];
 
             DrawRoutineCommon(tempRoutine);
 
             GUILayout.BeginHorizontal();
             if (GUILayout.Button("X"))
             {
-                routines.routines.RemoveAt(i);
+                routines.routines.Remove(tempRoutine);
                 for (int j = 0; j < routines.routines.Count; j++)
                 {
                     routines.routines[j].idRoutine = j;
                 }
+                NPCDataBaseWindow.DeleteARoutine(i);
                 i = 0;
             }
             GUILayout.EndHorizontal();

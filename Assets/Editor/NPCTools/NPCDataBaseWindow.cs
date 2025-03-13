@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -10,9 +11,12 @@ public class NPCDataBaseWindow : EditorWindow
 
     Vector2 scrollPosition = Vector2.zero;
 
-    NPCDataBase NPCDatas;
+    static NPCDataBase NPCDatas;
+    RoutineDataBase routineDatas;
 
     Color baseColor;
+
+    List<NPCData> filteredData = new List<NPCData>();
 
     [MenuItem("Seedling Journey/DataBases/NPC DataBase")]
     public static void OpenWindow()
@@ -23,34 +27,14 @@ public class NPCDataBaseWindow : EditorWindow
     private void OnEnable()
     {
         NPCDatas = Resources.Load<NPCDataBase>("Databases/NPCDataBase/NPCDataBase");
+        routineDatas = Resources.Load<RoutineDataBase>("Databases/Routine/RoutineDataBase");
 
         baseColor = GUI.color;
     }
 
-    private void PrintLabelInColor(string _text, bool _center = false)
+    void FilterNPC()
     {
-        GUI.contentColor = baseColor;
-
-        if (_center)
-        {
-            GUIStyle centeredStyle = new GUIStyle(GUI.skin.label);
-            centeredStyle.alignment = TextAnchor.MiddleCenter;
-
-            EditorGUILayout.LabelField(_text, centeredStyle, GUILayout.ExpandWidth(true));
-        }
-        else
-        {
-            EditorGUILayout.LabelField(_text);
-        }
-        GUI.contentColor = Color.green;
-    }
-
-    private void PrintLabelInColor(string _text, int _widthLayout)
-    {
-        GUI.contentColor = baseColor;
-
-        EditorGUILayout.LabelField(_text, GUILayout.Width(_widthLayout));
-        GUI.contentColor = Color.green;
+        filteredData = NPCDatas.NPCDatas.Where(x => x.name.ToLower().Contains(search.ToLower())).ToList();
     }
 
 
@@ -58,10 +42,10 @@ public class NPCDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Id : ", 30);
+        EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 30);
         EditorGUILayout.LabelField(_nPC.id.ToString(), GUILayout.Width(100));
 
-        PrintLabelInColor("Nam:", 30);
+        EditorHelp.PrintLabelInColor("Nam: ", baseColor, Color.green, 30);
         _nPC.name = EditorGUILayout.TextField(_nPC.name);
 
         GUILayout.EndHorizontal();
@@ -72,14 +56,17 @@ public class NPCDataBaseWindow : EditorWindow
         if (_npc.type.Count > 0)
         {
             GUILayout.BeginHorizontal();
-            PrintLabelInColor("NPC Types :", 100);
+            EditorHelp.PrintLabelInColor("NPC Types: ", baseColor, Color.green, 100);
             GUILayout.EndHorizontal();
 
             for (int i = 0; i < _npc.type.Count; i++)
             {
                 GUILayout.BeginHorizontal();
 
-                _npc.type[i] = (NPCType)EditorGUILayout.EnumPopup(_npc.type[i]);
+                //_npc.type[i] = (NPCType)EditorGUILayout.EnumPopup(_npc.type[i]);
+                NPCType nPCType = _npc.type[i];
+                EditorHelp.ShowFilteredEnum( new NPCType[]{ NPCType.NBTYPE}, ref nPCType);
+                _npc.type[i] = nPCType;
 
                 GUILayout.BeginVertical();
 
@@ -94,7 +81,7 @@ public class NPCDataBaseWindow : EditorWindow
                 }
                 else
                 {
-                    PrintLabelInColor("Already First Type", true);
+                    EditorHelp.PrintLabelInColor("Already First Type", baseColor, Color.green, true);
                 }
 
                 if (i < _npc.type.Count - 1)
@@ -108,7 +95,7 @@ public class NPCDataBaseWindow : EditorWindow
                 }
                 else
                 {
-                    PrintLabelInColor("Already Last Type", true);
+                    EditorHelp.PrintLabelInColor("Already Last Type", baseColor, Color.green, true);
                 }
 
                 GUILayout.EndVertical();
@@ -116,63 +103,6 @@ public class NPCDataBaseWindow : EditorWindow
                 if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(40)))
                 {
                     _npc.type.RemoveAt(i);
-                    i = 0;
-                }
-
-                GUILayout.EndHorizontal();
-            }
-        }
-    }
-
-    private void DrawActionNPC(NPCData _npc)
-    {
-        if (_npc.actions.Count > 0)
-        {
-            GUILayout.BeginHorizontal();
-            PrintLabelInColor("NPC Actions :", 100);
-            GUILayout.EndHorizontal();
-
-            for (int i = 0; i < _npc.actions.Count; i++)
-            {
-                GUILayout.BeginHorizontal();
-
-                _npc.actions[i] = (NPCAction)EditorGUILayout.EnumPopup(_npc.actions[i]);
-
-                GUILayout.BeginVertical();
-
-                if (i > 0)
-                {
-                    if (GUILayout.Button("Up"))
-                    {
-                        NPCAction swapType = _npc.actions[i - 1];
-                        _npc.actions[i - 1] = _npc.actions[i];
-                        _npc.actions[i] = swapType;
-                    }
-                }
-                else
-                {
-                    PrintLabelInColor("Already First Action", true);
-                }
-
-                if (i < _npc.actions.Count - 1)
-                {
-                    if (GUILayout.Button("Down"))
-                    {
-                        NPCAction swapType = _npc.actions[i + 1];
-                        _npc.actions[i + 1] = _npc.actions[i];
-                        _npc.actions[i] = swapType;
-                    }
-                }
-                else
-                {
-                    PrintLabelInColor("Already Last Action", true);
-                }
-
-                GUILayout.EndVertical();
-
-                if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(40)))
-                {
-                    _npc.actions.RemoveAt(i);
                     i = 0;
                 }
 
@@ -199,7 +129,7 @@ public class NPCDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("NbType :", 45);
+        EditorHelp.PrintLabelInColor("NbType: ", baseColor, Color.green, 45);
 
         if (_npc.type.Count > 0)
         {
@@ -209,7 +139,7 @@ public class NPCDataBaseWindow : EditorWindow
             }
         }
 
-        PrintLabelInColor(_npc.type.Count.ToString(), 20);
+        EditorHelp.PrintLabelInColor(_npc.type.Count.ToString(), baseColor, Color.green, 20);
 
         if (_npc.type.Count < (int)NPCType.NBTYPE)
         {
@@ -224,44 +154,70 @@ public class NPCDataBaseWindow : EditorWindow
     }
 
 
-    private void AddRemoveAction(NPCData _npc)
+    private void DrawRoutine(NPCData _npc)
     {
         GUILayout.BeginHorizontal();
-
-        PrintLabelInColor("NbAction :", 45);
-
-        if (_npc.actions.Count > 0)
+        if (GUILayout.Button("New Routine"))
         {
-            if (GUILayout.Button("-", GUILayout.Width(20)))
-            {
-                _npc.actions.RemoveAt(_npc.actions.Count - 1);
-            }
+            RoutineSearchWindow.OpenWindow().RegisterCallback( AddRoutine, _npc, ref _npc.routines);
         }
-
-        PrintLabelInColor(_npc.actions.Count.ToString(), 20);
-
-        if (_npc.actions.Count < (int)NPCAction.NBACTION)
-        {
-            if (GUILayout.Button("+", GUILayout.Width(20)))
-            {
-                _npc.actions.Add(NPCAction.IDLE);
-
-            }
-        }
-
         GUILayout.EndHorizontal();
+
+        if (routineDatas.routines.Count == 0)
+        {
+            _npc.routines.Clear();
+        }
+        for (int i = 0; i < _npc.routines.Count; i++)
+        {
+            Routine routine = routineDatas.routines[_npc.routines[i].idRoutine];
+            
+            GUILayout.BeginHorizontal();
+            EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 30);
+
+            EditorHelp.PrintLabelInColor(routine.idRoutine.ToString(), baseColor, Color.green);
+
+            EditorHelp.PrintLabelInColor("Name: ", baseColor, Color.green, 40);
+            EditorHelp.PrintLabelInColor(routine.name, baseColor, Color.green);
+
+            if (GUILayout.Button("X" , GUILayout.Width(20), GUILayout.Height(20)))
+            {
+                _npc.routines.Remove(routine);
+            }
+            GUILayout.EndHorizontal();
+        }
     }
 
+    public static void DeleteARoutine(int _index)
+    {
+        NPCDatas = Resources.Load<NPCDataBase>("Databases/NPCDataBase/NPCDataBase");
+
+        List<NPCData> NPCs = NPCDatas.NPCDatas.Where(x => x.routines.Where(y => y.idRoutine == _index) != null).ToList();
+        for (int i = 0; i < NPCs.Count; i++)
+        {
+            for (int j = 0; j < NPCs[i].routines.Count; j++)
+            {
+                if (NPCs[i].routines[j].idRoutine == _index)
+                {
+                    NPCs[i].routines.RemoveAt(j);
+                }
+            }
+        }
+    }
+
+    public void AddRoutine(NPCData _npc, int _routineIndex)
+    {
+        if (_routineIndex >= 0)
+        {
+            NPCDatas.NPCDatas.Where(x => x == _npc).First()?.routines.Add(routineDatas.routines[_routineIndex]);
+        }
+    }
 
     private void OnGUI()
     {
         GUILayout.BeginHorizontal();
-        PrintLabelInColor("FilterName : ", 70);
+        EditorHelp.PrintLabelInColor("FilterName: ", baseColor, Color.green, 70);
         search = EditorGUILayout.TextField(search);
         GUILayout.EndHorizontal();
-
-
-        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
         GUILayout.BeginHorizontal();
 
@@ -279,11 +235,13 @@ public class NPCDataBaseWindow : EditorWindow
 
         GUILayout.EndHorizontal();
 
+        FilterNPC();
 
+        scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 
-        for (int i = 0; i < NPCDatas.NPCDatas.Count; i++)
+        for (int i = 0; i < filteredData.Count; i++)
         {
-            NPCData npc = NPCDatas.NPCDatas[i];
+            NPCData npc = filteredData[i];
 
             DrawCommonVariable(npc);
 
@@ -291,9 +249,7 @@ public class NPCDataBaseWindow : EditorWindow
 
             DrawTypeNPC(npc);
 
-            AddRemoveAction(npc);
-
-            DrawActionNPC(npc);
+            DrawRoutine(npc);
 
             GUILayout.BeginHorizontal();
             GUI.color = Color.red;

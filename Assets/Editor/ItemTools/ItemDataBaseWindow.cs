@@ -41,45 +41,18 @@ public class ItemDataBaseWindow : EditorWindow
         FilterItems();
     }
 
-
-    private void PrintLabelInColor(string _text, bool _center = false)
-    {
-        GUI.contentColor = baseColor;
-
-        if (_center)
-        {
-            GUIStyle centeredStyle = new GUIStyle(GUI.skin.label);
-            centeredStyle.alignment = TextAnchor.MiddleCenter;
-
-            EditorGUILayout.LabelField(_text, centeredStyle, GUILayout.ExpandWidth(true));
-        }
-        else
-        {
-            EditorGUILayout.LabelField(_text);
-        }
-        GUI.contentColor = Color.green;
-    }
-
-    private void PrintLabelInColor(string _text, int _widthLayout)
-    {
-        GUI.contentColor = baseColor;
-
-        EditorGUILayout.LabelField(_text, GUILayout.Width(_widthLayout));
-        GUI.contentColor = Color.green;
-    }
-
     private void DisplayArmor(Item _item)
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Typ :", 40);
+        EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
         _item.armorType = (ArmorType)EditorGUILayout.EnumPopup(_item.armorType);
 
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Def :", 40);
+        EditorHelp.PrintLabelInColor("Def: ", baseColor, Color.green, 40);
 
         _item.defense = (int)EditorGUILayout.IntField(_item.defense);
 
@@ -90,7 +63,7 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Typ :", 40);
+        EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
         _item.toolType = (ToolType)EditorGUILayout.EnumPopup(_item.toolType);
 
         //GUILayout.EndHorizontal();
@@ -100,7 +73,7 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Typ :", 40);
+        EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
         _item.weaponType = (WeaponType)EditorGUILayout.EnumPopup(_item.weaponType);
 
         GUILayout.EndHorizontal();
@@ -108,7 +81,7 @@ public class ItemDataBaseWindow : EditorWindow
 
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Dam :", 40);
+        EditorHelp.PrintLabelInColor("Dam: ", baseColor, Color.green, 40);
         _item.damage = EditorGUILayout.IntField(_item.damage);
     }
 
@@ -116,21 +89,21 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Typ :", 40);
+        EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
         _item.seedType = (SeedType)EditorGUILayout.EnumPopup(_item.seedType);
 
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Sea :", 40);
+        EditorHelp.PrintLabelInColor("Sea: ", baseColor, Color.green, 40);
         _item.seedSeason = (TimeGame.Season)EditorGUILayout.EnumPopup(_item.seedSeason);
 
         GUILayout.EndHorizontal();
 
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Col :", 40);
+        EditorHelp.PrintLabelInColor("Col: ", baseColor, Color.green, 40);
         _item.collision = EditorGUILayout.Toggle(_item.collision);
 
         GUILayout.EndHorizontal();
@@ -157,9 +130,10 @@ public class ItemDataBaseWindow : EditorWindow
 
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Tim :", 40);
+        EditorHelp.PrintLabelInColor("Tim: ", baseColor, Color.green, 40);
         _item.timeGrowth = EditorGUILayout.IntField(_item.timeGrowth);
-        PrintLabelInColor("Num :", 40);
+
+        EditorHelp.PrintLabelInColor("Num: ", baseColor, Color.green, 40);
         _item.numberGive = EditorGUILayout.IntField(_item.numberGive);
 
         //GUILayout.EndHorizontal();
@@ -169,7 +143,7 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Typ :", 40);
+        EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
         _item.foodType = (FoodType)EditorGUILayout.EnumPopup(_item.foodType);
 
         GUILayout.EndHorizontal();
@@ -177,9 +151,10 @@ public class ItemDataBaseWindow : EditorWindow
 
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Lif :", 40);
+        EditorHelp.PrintLabelInColor("Lif: ", baseColor, Color.green, 40);
         _item.lifeRestore = EditorGUILayout.IntField(_item.lifeRestore);
-        PrintLabelInColor("Sta :", 40);
+
+        EditorHelp.PrintLabelInColor("Sta: ", baseColor, Color.green, 40);
         _item.energyRestore = EditorGUILayout.IntField(_item.energyRestore);
 
         //GUILayout.EndHorizontal();
@@ -189,7 +164,7 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Typ :", 40);
+        EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
         _item.resourceType = (ResourceType)EditorGUILayout.EnumPopup(_item.resourceType);
 
         //GUILayout.EndHorizontal();
@@ -199,7 +174,7 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("Typ :", 40);
+        EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
         _item.buildType = (BuildType)EditorGUILayout.EnumPopup(_item.buildType);
 
         //GUILayout.EndHorizontal();
@@ -209,7 +184,7 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("NbTile :", 45);
+        EditorHelp.PrintLabelInColor("NbTile: ", baseColor, Color.green, 45);
 
         if (GUILayout.Button("-", GUILayout.Width(20)))
         {
@@ -225,7 +200,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
         }
 
-        PrintLabelInColor(_item.nbOfTile.ToString(), 20);
+        EditorHelp.PrintLabelInColor(_item.nbOfTile.ToString(), baseColor, Color.green, 20);
 
         if (GUILayout.Button("+", GUILayout.Width(20)))
         {
@@ -241,7 +216,7 @@ public class ItemDataBaseWindow : EditorWindow
     {
         GUILayout.BeginHorizontal();
 
-        PrintLabelInColor("NbTex :", 45);
+        EditorHelp.PrintLabelInColor("NbTex: ", baseColor, Color.green, 45);
 
         if (GUILayout.Button("-", GUILayout.Width(20)))
         {
@@ -256,7 +231,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
         }
 
-        PrintLabelInColor(_item.nbOfTex.ToString(), 20);
+        EditorHelp.PrintLabelInColor(_item.nbOfTex.ToString(), baseColor, Color.green, 20);
 
         if (GUILayout.Button("+", GUILayout.Width(20)))
         {
@@ -279,7 +254,8 @@ public class ItemDataBaseWindow : EditorWindow
             {
                 AssetsSearchTexture.OpenWindow().RegisterCallback(ChangeText, _item, j);
             }
-            PrintLabelInColor(_item.texItem[j].name);
+
+            EditorHelp.PrintLabelInColor(_item.texItem[j].name, baseColor, Color.green);
             //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
 
             GUILayout.BeginVertical();
@@ -294,7 +270,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already First Item", true);
+                EditorHelp.PrintLabelInColor("Already First Item", baseColor, Color.green, true);
             }
             if (j < _item.nbOfTex - 1)
             {
@@ -307,7 +283,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already Last Item", true);
+                EditorHelp.PrintLabelInColor("Already Last Item", baseColor, Color.green, true);
             }
 
             GUILayout.EndVertical();
@@ -334,7 +310,8 @@ public class ItemDataBaseWindow : EditorWindow
             {
                 AssetsSearchTile.OpenWindow().RegisterCallback(ChangeTile, _item, j);
             }
-            PrintLabelInColor(_item.tileItem[j].name);
+
+            EditorHelp.PrintLabelInColor(_item.tileItem[j].name, baseColor, Color.green);
             //GUILayout.Label(item.texItem[j], GUILayout.MaxWidth(32f), GUILayout.MaxHeight(32f));
 
             GUILayout.BeginVertical();
@@ -352,7 +329,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already First Item", true);
+                EditorHelp.PrintLabelInColor("Already First Item", baseColor, Color.green, true);
             }
             if (j < _item.nbOfTile - 1)
             {
@@ -368,7 +345,7 @@ public class ItemDataBaseWindow : EditorWindow
             }
             else
             {
-                PrintLabelInColor("Already Last Item", true);
+                EditorHelp.PrintLabelInColor("Already Last Item", baseColor, Color.green, true);
             }
 
             GUILayout.EndVertical();
@@ -390,7 +367,8 @@ public class ItemDataBaseWindow : EditorWindow
         baseColor = GUI.color;
 
         GUILayout.BeginHorizontal();
-        PrintLabelInColor("Filter : ", 40);
+
+        EditorHelp.PrintLabelInColor("Filter: ", baseColor, Color.green, 40);
         filter = (TypeItem)EditorGUILayout.EnumFlagsField(filter);
         GUILayout.EndHorizontal();
 
@@ -428,13 +406,13 @@ public class ItemDataBaseWindow : EditorWindow
 
             Item item = filteredItems[i];
 
-            PrintLabelInColor("Id : ", 30);
+            EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 30);
             EditorGUILayout.LabelField(item.itemId.ToString(), GUILayout.Width(100));
 
-            PrintLabelInColor("Nam :", 40);
+            EditorHelp.PrintLabelInColor("Nam: ", baseColor, Color.green, 40);
             item.itemName = EditorGUILayout.TextField(item.itemName);
 
-            PrintLabelInColor("Typ :", 40);
+            EditorHelp.PrintLabelInColor("Typ: ", baseColor, Color.green, 40);
             item.itemType = (TypeItem)EditorGUILayout.EnumPopup(item.itemType);
 
             GUILayout.EndHorizontal();
@@ -442,7 +420,7 @@ public class ItemDataBaseWindow : EditorWindow
 
             GUILayout.BeginHorizontal();
 
-            PrintLabelInColor("Desc :", 40);
+            EditorHelp.PrintLabelInColor("Desc: ", baseColor, Color.green, 40);
             item.itemDescription = EditorGUILayout.TextField(item.itemDescription);
 
             GUILayout.EndHorizontal();
@@ -450,10 +428,10 @@ public class ItemDataBaseWindow : EditorWindow
 
             GUILayout.BeginHorizontal();
 
-            PrintLabelInColor("Nb :", 40);
+            EditorHelp.PrintLabelInColor("Nb: ", baseColor, Color.green, 40);
             item.nbItem = EditorGUILayout.IntField(item.nbItem);
 
-            PrintLabelInColor("MaxNb :", 50);
+            EditorHelp.PrintLabelInColor("MaxNb: ", baseColor, Color.green, 50);
             item.maxNbItem = EditorGUILayout.IntField(item.maxNbItem);
 
 
@@ -462,7 +440,7 @@ public class ItemDataBaseWindow : EditorWindow
 
             GUILayout.BeginHorizontal();
 
-            PrintLabelInColor("InvSpri :", 40);
+            EditorHelp.PrintLabelInColor("InvSpri: ", baseColor, Color.green, 40);
             GUI.contentColor = baseColor;
             if (GUILayout.Button(item.inventorySprite, GUILayout.Width(32), GUILayout.Height(32)))
             {
