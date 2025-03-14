@@ -61,7 +61,6 @@ public class CustomSceneContextMenu
     private static void OpenCodeEditor()
     {
         //CustomCodeEditor.ShowWindow();
-        ExecuteCode(pos);
         RoutineSearchWindow.OpenWindow().RegisterCallbackPos(pos);
     }
 

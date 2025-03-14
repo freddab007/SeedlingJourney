@@ -156,8 +156,8 @@ public class MapTileManager : MonoBehaviour
         if (_item != null)
         {
             Vector3Int pos = new Vector3Int(_pos.x, _pos.y, 0);
-
-            if (GetTileOnMap(pos, TileMapType.PLANT) != null || GetTileOnMap(pos, TileMapType.PLANT) != null)
+            bool platHarvest = false;
+            if (GetTileOnMap(pos, TileMapType.PLANT) != null || GetTileOnMap(pos, TileMapType.PLANTCOL) != null)
             {
                 Seed tempSeed = PlantManager.Instance.GetSeedByPos(_pos);
                 if (tempSeed != null)
@@ -165,6 +165,7 @@ public class MapTileManager : MonoBehaviour
                     Item itemPlant = tempSeed.GetPlant();
                     if (itemPlant != null && itemPlant.itemGiver != -1)
                     {
+                        platHarvest = true;
                         PlantManager.Instance.SubSeed(tempSeed);
                         Item itemGive = new Item(Inventory.data.items[itemPlant.itemGiver]);
                         itemGive.nbItem = itemPlant.numberGive;
@@ -175,15 +176,19 @@ public class MapTileManager : MonoBehaviour
 
                 }
             }
-            else if (_item.itemType == TypeItem.TOOL)
+
+            if (!platHarvest)
             {
-                ChangeGroundTile(pos, _item.toolType);
-            }
-            else if (_item.itemType == TypeItem.SEED)
-            {
-                if (NothingOnGround(pos) && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].canBeSpray)
+                if (_item.itemType == TypeItem.TOOL)
                 {
-                    AddPlant(_item, _pos);
+                    ChangeGroundTile(pos, _item.toolType);
+                }
+                else if (_item.itemType == TypeItem.SEED)
+                {
+                    if (NothingOnGround(pos) && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].canBeSpray)
+                    {
+                        AddPlant(_item, _pos);
+                    }
                 }
             }
         }

@@ -80,7 +80,7 @@ public class TimeGame : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.M))
             {
                 //NewDay();
-                AddMinute();
+                NewDay();
             }
             UpdateTime();
         }
