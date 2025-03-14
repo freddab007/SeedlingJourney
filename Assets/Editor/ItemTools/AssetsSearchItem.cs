@@ -17,7 +17,7 @@ public class AssetsSearchItem : EditorWindow
 
     public static AssetsSearchItem OpenWindow()
     {
-        return GetWindow<AssetsSearchItem>("Searcher");
+        return GetWindow<AssetsSearchItem>("Item Searcher");
     }
     public void RegisterCallback(DelegateItemSeed _callback)
     {

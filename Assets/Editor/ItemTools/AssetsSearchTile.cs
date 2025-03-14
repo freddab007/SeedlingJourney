@@ -27,7 +27,7 @@ public class AssetsSearchTile : EditorWindow
     {
         buttonStyleTile.alignment = TextAnchor.MiddleLeft; // Alignement à gauche
         buttonStyleTile.imagePosition = ImagePosition.ImageLeft;
-        return GetWindow<AssetsSearchTile>("Searcher");
+        return GetWindow<AssetsSearchTile>("Tile Searcher");
     }
     public void RegisterCallback(DelegateItemPicker _callback, Item _callBackVariable, int _index)
     {

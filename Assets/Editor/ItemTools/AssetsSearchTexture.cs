@@ -27,7 +27,7 @@ public class AssetsSearchTexture : EditorWindow
     {
         buttonStyle.alignment = TextAnchor.MiddleLeft; // Alignement à gauche
         buttonStyle.imagePosition = ImagePosition.ImageLeft;
-        return GetWindow<AssetsSearchTexture>("Searcher");
+        return GetWindow<AssetsSearchTexture>("Texture Searcher");
     }
     public void RegisterCallback(DelegateItemPicker _callback, Item _callBackVariable, int _index)
     {

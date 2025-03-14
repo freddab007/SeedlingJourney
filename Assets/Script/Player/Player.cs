@@ -297,7 +297,7 @@ public class Player : MonoBehaviour
 
     public void OpenInventory(InputAction.CallbackContext callbackContext)
     {
-        if (IsGamePlaying() && callbackContext.phase == InputActionPhase.Performed)
+        if (callbackContext.phase == InputActionPhase.Performed)
         {
             if (!chestOpen)
             {
