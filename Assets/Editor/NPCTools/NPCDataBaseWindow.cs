@@ -208,10 +208,14 @@ public class NPCDataBaseWindow : EditorWindow
             {
                 _npc.routines.Remove(routine);
                 _npc.dialog.Remove(routine);
+                routine = null;
             }
             GUILayout.EndHorizontal();
 
-            DrawDialog( _npc, routine);
+            if (routine != null)
+            {
+                DrawDialog(_npc, routine);
+            }
         }
 
     }
