@@ -1,3 +1,4 @@
+using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
@@ -64,7 +65,7 @@ public class NPCDataBaseWindow : EditorWindow
 
                 //_npc.type[i] = (NPCType)EditorGUILayout.EnumPopup(_npc.type[i]);
                 NPCType nPCType = _npc.type[i];
-                EditorHelp.ShowFilteredEnum( new NPCType[]{ NPCType.NBTYPE}, ref nPCType);
+                EditorHelp.ShowFilteredEnum(new NPCType[] { NPCType.NBTYPE }, ref nPCType);
                 _npc.type[i] = nPCType;
 
                 GUILayout.BeginVertical();
@@ -111,16 +112,41 @@ public class NPCDataBaseWindow : EditorWindow
     }
 
 
-    void DrawDialog(NPCData _npc)
+    void AddRemTextToDialog(List<string> _dialog)
     {
-        GUILayout.BeginHorizontal();
-
-        for (int i = 0; i < _npc.dialog.Count; i++)
+        if (_dialog.Count > 0 && GUILayout.Button("-", GUILayout.Width(20)))
         {
-            //PrintLabelInColor("Dialog Action : " + _npc.dialog.);
+            _dialog.RemoveAt(_dialog.Count - 1);
         }
 
+        EditorHelp.PrintLabelInColor(_dialog.Count.ToString(), baseColor, Color.green, 10);
+
+        if (GUILayout.Button("+", GUILayout.Width(20)))
+        {
+            _dialog.Add("");
+        }
+    }
+
+    void DrawDialog(NPCData _npc, Routine _routine)
+    {
+        GUILayout.BeginHorizontal();
+        EditorHelp.PrintLabelInColor(_routine.name + ": ", baseColor, Color.green);
+        AddRemTextToDialog(_npc.dialog[_routine]);
         GUILayout.EndHorizontal();
+
+        for (int j = 0; j < _npc.dialog[_routine].Count; j++)
+        {
+            GUILayout.BeginHorizontal();
+            string dialog = _npc.dialog[_routine][j];
+            EditorHelp.PrintLabelInColor(j.ToString() + ": ", baseColor, Color.green, 15);
+            dialog = EditorGUILayout.TextField(dialog);
+            if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(20)))
+            {
+                _npc.dialog[_routine].RemoveAt(j);
+            }
+            GUILayout.EndHorizontal();
+        }
+
     }
 
 
@@ -158,7 +184,7 @@ public class NPCDataBaseWindow : EditorWindow
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("New Routine"))
         {
-            RoutineSearchWindow.OpenWindow().RegisterCallback( AddRoutine, _npc, ref _npc.routines);
+            RoutineSearchWindow.OpenWindow().RegisterCallback(AddRoutine, _npc, ref _npc.routines);
         }
         GUILayout.EndHorizontal();
 
@@ -169,7 +195,7 @@ public class NPCDataBaseWindow : EditorWindow
         for (int i = 0; i < _npc.routines.Count; i++)
         {
             Routine routine = routineDatas.routines[_npc.routines[i].idRoutine];
-            
+
             GUILayout.BeginHorizontal();
             EditorHelp.PrintLabelInColor("Id: ", baseColor, Color.green, 30);
 
@@ -178,12 +204,16 @@ public class NPCDataBaseWindow : EditorWindow
             EditorHelp.PrintLabelInColor("Name: ", baseColor, Color.green, 40);
             EditorHelp.PrintLabelInColor(routine.name, baseColor, Color.green);
 
-            if (GUILayout.Button("X" , GUILayout.Width(20), GUILayout.Height(20)))
+            if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(20)))
             {
                 _npc.routines.Remove(routine);
+                _npc.dialog.Remove(routine);
             }
             GUILayout.EndHorizontal();
+
+            DrawDialog( _npc, routine);
         }
+
     }
 
     public static void DeleteARoutine(int _index)
@@ -208,6 +238,7 @@ public class NPCDataBaseWindow : EditorWindow
         if (_routineIndex >= 0)
         {
             NPCDatas.NPCDatas.Where(x => x == _npc).First()?.routines.Add(routineDatas.routines[_routineIndex]);
+            NPCDatas.NPCDatas.Where(x => x == _npc).First()?.dialog.Add(routineDatas.routines[_routineIndex], new List<string>());
         }
     }
 

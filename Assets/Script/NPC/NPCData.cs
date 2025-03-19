@@ -26,5 +26,5 @@ public class NPCData
 
     public List<Routine> routines = new List<Routine>();
 
-    public Dictionary<Routine, List<string>> dialog;
+    public Dictionary<Routine, List<string>> dialog = new Dictionary<Routine, List<string>>();
 }
