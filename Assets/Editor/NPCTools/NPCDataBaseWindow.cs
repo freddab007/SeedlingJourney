@@ -127,7 +127,7 @@ public class NPCDataBaseWindow : EditorWindow
         }
     }
 
-    void DrawDialog(NPCData _npc, Routine _routine)
+    void DrawDialog(ref NPCData _npc, Routine _routine)
     {
         GUILayout.BeginHorizontal();
         EditorHelp.PrintLabelInColor(_routine.name + ": ", baseColor, Color.green);
@@ -140,6 +140,7 @@ public class NPCDataBaseWindow : EditorWindow
             string dialog = _npc.dialog[_routine][j];
             EditorHelp.PrintLabelInColor(j.ToString() + ": ", baseColor, Color.green, 15);
             dialog = EditorGUILayout.TextField(dialog);
+            _npc.dialog[_routine][j] = dialog;
             if (GUILayout.Button("X", GUILayout.Width(20), GUILayout.Height(20)))
             {
                 _npc.dialog[_routine].RemoveAt(j);
@@ -179,7 +180,7 @@ public class NPCDataBaseWindow : EditorWindow
     }
 
 
-    private void DrawRoutine(NPCData _npc)
+    private void DrawRoutine(ref NPCData _npc)
     {
         GUILayout.BeginHorizontal();
         if (GUILayout.Button("New Routine"))
@@ -214,7 +215,7 @@ public class NPCDataBaseWindow : EditorWindow
 
             if (routine != null)
             {
-                DrawDialog(_npc, routine);
+                DrawDialog(ref _npc, routine);
             }
         }
 
@@ -283,7 +284,7 @@ public class NPCDataBaseWindow : EditorWindow
 
             DrawTypeNPC(npc);
 
-            DrawRoutine(npc);
+            DrawRoutine(ref npc);
 
             GUILayout.BeginHorizontal();
             GUI.color = Color.red;

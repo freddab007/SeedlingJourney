@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.PlayerSettings;
+using static UnityEditor.Progress;
 
 public class MapTileManager : MonoBehaviour
 {
@@ -112,7 +114,7 @@ public class MapTileManager : MonoBehaviour
         {
             if (_ignore != null)
             {
-                if (_ignore.Where(x => x == (TileMapType)i) != null)
+                if (_ignore.Where(x => x == (TileMapType)i).Count() != 0)
                 {
                     continue;
                 }
@@ -128,7 +130,6 @@ public class MapTileManager : MonoBehaviour
 
     void ChangeGroundTile(Vector3Int _pos, ToolType _toolType)
     {
-        //if (GetTileOnMap( _pos, TileMapType.GROUND) != null && GetTileOnMap(_pos, TileMapType.MAPCOL) == null && GetTileOnMap(_pos, TileMapType.MAPEXTERIOR) == null)
         if (NothingOnGround(_pos, new TileMapType[] { TileMapType.PLANT, TileMapType.PLANTCOL }))
         {
             if (_toolType == ToolType.HOE && dataFromTiles[GetTileOnMap(_pos, TileMapType.GROUND)].havertable)
@@ -146,6 +147,50 @@ public class MapTileManager : MonoBehaviour
     }
 
 
+    public bool CanActionOnTile(Item _item, Vector2Int _pos)
+    {
+        Vector3Int pos = new Vector3Int(_pos.x, _pos.y, 0);
+        if (GetTileOnMap(pos, TileMapType.PLANT) != null || GetTileOnMap(pos, TileMapType.PLANTCOL) != null)
+        {
+            Seed tempSeed = PlantManager.Instance.GetSeedByPos(_pos);
+            if (tempSeed != null)
+            {
+                Item itemPlant = tempSeed.GetPlant();
+                if (itemPlant != null && itemPlant.itemGiver != -1)
+                {
+                    return true;
+                }
+            }
+        }
+
+        if (_item.itemType == TypeItem.TOOL)
+        {
+            if (NothingOnGround(pos, new TileMapType[] { TileMapType.PLANT, TileMapType.PLANTCOL }))
+            {
+                if (_item.toolType == ToolType.HOE && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].havertable)
+                {
+                    return true;
+                }
+
+                if (_item.toolType == ToolType.WATERINGCAN && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].canBeSpray && !dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].isWet)
+                {
+                    return true;
+                }
+            }
+        }
+        else if (_item.itemType == TypeItem.SEED)
+        {
+            if (NothingOnGround(pos) && dataFromTiles[GetTileOnMap(pos, TileMapType.GROUND)].canBeSpray)
+            {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+
     public AsyncOperation StartNavMeshBake()
     {
         return navMesh.BuildNavMeshAsync();
@@ -156,7 +201,7 @@ public class MapTileManager : MonoBehaviour
         if (_item != null)
         {
             Vector3Int pos = new Vector3Int(_pos.x, _pos.y, 0);
-            bool platHarvest = false;
+            bool plantHarvest = false;
             if (GetTileOnMap(pos, TileMapType.PLANT) != null || GetTileOnMap(pos, TileMapType.PLANTCOL) != null)
             {
                 Seed tempSeed = PlantManager.Instance.GetSeedByPos(_pos);
@@ -165,7 +210,7 @@ public class MapTileManager : MonoBehaviour
                     Item itemPlant = tempSeed.GetPlant();
                     if (itemPlant != null && itemPlant.itemGiver != -1)
                     {
-                        platHarvest = true;
+                        plantHarvest = true;
                         PlantManager.Instance.SubSeed(tempSeed);
                         Item itemGive = new Item(Inventory.data.items[itemPlant.itemGiver]);
                         itemGive.nbItem = itemPlant.numberGive;
@@ -177,7 +222,7 @@ public class MapTileManager : MonoBehaviour
                 }
             }
 
-            if (!platHarvest)
+            if (!plantHarvest)
             {
                 if (_item.itemType == TypeItem.TOOL)
                 {

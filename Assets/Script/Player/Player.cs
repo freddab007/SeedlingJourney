@@ -25,7 +25,7 @@ public class Player : MonoBehaviour
     [SerializeField][Range(1.0f, 20.0f)] float speed = 2;
     [SerializeField] GameObject playerPos;
     [SerializeField] GameObject SelectedTest;
-    [SerializeField] MapManager mapManager;
+    [SerializeField] Sprite[] SelectedText;
 
     Vector2Int movementMap;
     Vector2 pos;
@@ -126,6 +126,19 @@ public class Player : MonoBehaviour
     }
 
 
+    void ChangeCaseSelectText(Vector2Int _pos)
+    {
+        if (MapTileManager.instance.CanActionOnTile(GetItemEquiped(), _pos))
+        {
+            SelectedTest.GetComponent<SpriteRenderer>().sprite = SelectedText[1];
+        }
+        else
+        {
+            SelectedTest.GetComponent<SpriteRenderer>().sprite = SelectedText[0];
+        }
+    }
+
+
     // Update is called once per frame
     void Update()
     {
@@ -153,6 +166,7 @@ public class Player : MonoBehaviour
                 {
                     SelectedTest.SetActive(true);
                     SelectedTest.transform.position = new Vector3(mouseMapPosition.x + 0.5f, mouseMapPosition.y + 0.5f, -1);
+                    ChangeCaseSelectText(mouseMapPosition);
                     if (mouseActive > 0)
                     {
                         //mapManager.ChangeTile(mouseMapPosition, GetItemEquiped(), objectOnMap);
